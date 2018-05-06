@@ -24,7 +24,7 @@ public enum KfCodingExceptionEnum implements ServiceExceptionEnum {
     REQUEST_NULL(400, "请求有错误"),
     SERVER_ERROR(500, "服务器异常");
 
-    KfCodingExceptionEnum(int code, String message) {
+    KfCodingExceptionEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
