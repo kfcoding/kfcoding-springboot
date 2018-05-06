@@ -13,6 +13,8 @@
 
     <modules>
         <module>../kfcoding-core</module>
+        <module>../kfcoding-rest</module>
+
     </modules>
 
     <parent>
@@ -28,7 +30,7 @@
         <!--java版本 -->
         <java.version>1.8</java.version>
         <!--kfcoding版本-->
-        <kfcoding.version>1.0.0-SNAPSHOT</kfcoding.version>
+        <kfcoding.version>1.0-SNAPSHOT</kfcoding.version>
         <!--shiro权限版本-->
         <shiro.version>1.4.0</shiro.version>
 
