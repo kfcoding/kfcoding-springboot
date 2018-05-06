@@ -19,6 +19,8 @@ public class RestProperties {
 
     private boolean signOpen = true;
 
+
+
     public boolean isAuthOpen() {
         return authOpen;
     }

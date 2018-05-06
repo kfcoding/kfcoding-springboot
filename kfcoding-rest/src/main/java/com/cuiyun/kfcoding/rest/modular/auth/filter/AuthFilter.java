@@ -4,6 +4,7 @@ import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.util.RenderUtil;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.config.properties.JwtProperties;
+import com.cuiyun.kfcoding.rest.config.properties.RestProperties;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import io.jsonwebtoken.JwtException;
 import org.apache.commons.logging.Log;
@@ -33,8 +34,16 @@ public class AuthFilter extends OncePerRequestFilter {
     @Autowired
     private JwtProperties jwtProperties;
 
+    @Autowired
+    private RestProperties restProperties;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        //跳过验证
+        if (!restProperties.isAuthOpen()){
+            return;
+        }
+
         if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())) {
             chain.doFilter(request, response);
             return;
