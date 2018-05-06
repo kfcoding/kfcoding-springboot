@@ -16,7 +16,7 @@ public class DecryptTest {
 
     public static void main(String[] args) {
 
-        String salt = "0iqwhi";
+        String salt = "s2j1d6";
 
         SimpleObject simpleObject = new SimpleObject();
         simpleObject.setUser("maple");
