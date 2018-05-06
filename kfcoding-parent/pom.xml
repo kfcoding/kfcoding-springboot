@@ -29,10 +29,12 @@
         <java.version>1.8</java.version>
         <!--kfcoding版本-->
         <kfcoding.version>1.0.0-SNAPSHOT</kfcoding.version>
-        <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
         <!--shiro权限版本-->
         <shiro.version>1.4.0</shiro.version>
+
+        <mybatis-plus-boot-starter.version>2.1.9</mybatis-plus-boot-starter.version>
         <mybatis-plus.version>2.1.8</mybatis-plus.version>
+
         <fastjson.version>1.2.44</fastjson.version>
         <commons.io.version>2.5</commons.io.version>
         <velocity.version>1.7</velocity.version>
@@ -88,11 +90,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatisplus-spring-boot-starter</artifactId>
-                <version>${mybatisplus-spring-boot-starter.version}</version>
-            </dependency>
+
             <!--shiro依赖-->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
@@ -116,9 +114,16 @@
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>tomcat-jdbc</artifactId>
+                        <groupId>org.apache.tomcat</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
