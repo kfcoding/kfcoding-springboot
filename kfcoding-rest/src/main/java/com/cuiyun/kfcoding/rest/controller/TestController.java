@@ -1,10 +1,8 @@
 package com.cuiyun.kfcoding.rest.controller;
 
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @program: kfcoding
@@ -18,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET)
+    @ResponseBody
+    @ApiOperation(value = "测试hello接口", notes="返回输入的内容")
     public String hello(@RequestParam String name){
         return name;
     }

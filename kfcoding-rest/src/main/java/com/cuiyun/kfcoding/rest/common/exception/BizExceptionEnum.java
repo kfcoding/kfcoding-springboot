@@ -7,7 +7,6 @@ import com.cuiyun.kfcoding.core.exception.ServiceExceptionEnum;
  * 所有业务异常的枚举
  *
  * @author maple
- * @date 2016年11月12日 下午5:04:51
  */
 public enum BizExceptionEnum implements ServiceExceptionEnum {
 
@@ -25,9 +24,18 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     /**
      * 其他
      */
-    AUTH_REQUEST_ERROR(400, "账号密码错误");
+    AUTH_REQUEST_ERROR(400, "账号密码错误"),
 
-    BizExceptionEnum(int code, String message) {
+    /**
+     * github模块异常
+     */
+    GITHUB_CANCAL_OAUTH(002,"取消授权"),
+    GITHUB_ERROR_URL(001, "url获取失败")
+
+    ;
+
+
+    BizExceptionEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

@@ -8,7 +8,7 @@ package com.cuiyun.kfcoding.core.exception;
  **/
 public class KfCodingException extends RuntimeException {
 
-    private Integer code;
+    private int code;
     private String message;
 
     public KfCodingException(ServiceExceptionEnum serviceExceptionEnum){
