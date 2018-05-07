@@ -16,6 +16,7 @@ public class KfCodingException extends RuntimeException {
         this.message = serviceExceptionEnum.getMessage();
     }
 
+
     public Integer getCode() {
         return code;
     }

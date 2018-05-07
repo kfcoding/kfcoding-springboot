@@ -3,7 +3,6 @@ package com.cuiyun.kfcoding.core.base.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.warpper.BaseControllerWarpper;
-import com.cuiyun.kfcoding.core.base.web.ResponseResult;
 import com.cuiyun.kfcoding.core.page.PageInfoBT;
 import com.cuiyun.kfcoding.core.support.HttpKit;
 import com.cuiyun.kfcoding.core.util.FileUtil;
@@ -32,7 +31,7 @@ public class BaseController {
     protected static String REDIRECT = "redirect:";
     protected static String FORWARD = "forward:";
 
-    protected static ResponseResult responseResult = new ResponseResult();
+    protected static SuccessTip SUCCESSTIP = new SuccessTip();
 
     protected HttpServletRequest getHttpServletRequest() {
         return HttpKit.getRequest();
