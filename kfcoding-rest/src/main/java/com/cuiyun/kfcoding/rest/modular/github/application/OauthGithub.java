@@ -2,7 +2,7 @@ package com.cuiyun.kfcoding.rest.modular.github.application;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cuiyun.kfcoding.rest.config.OathConfig;
+import com.cuiyun.kfcoding.rest.config.OauthConfig;
 import com.cuiyun.kfcoding.rest.modular.base.Oauth;
 import com.cuiyun.kfcoding.rest.util.TokenUtil;
 import org.apache.commons.lang.StringUtils;
@@ -18,9 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * github 登录
- * @Author: maple
- */
+ * @program: kfcoding
+ * @description: guthub授权
+ * @author: maple
+ * @create: 2018-05-07 10:46
+ **/
 public class OauthGithub extends Oauth {
     private static Logger log = LoggerFactory.getLogger(OauthGithub.class);
     private static final String AUTH_URL = "https://github.com/login/oauth/authorize";
@@ -37,9 +39,9 @@ public class OauthGithub extends Oauth {
     }
 
     public OauthGithub() {
-        setClientId(OathConfig.getValue("openid_github"));
-        setClientSecret(OathConfig.getValue("openkey_github"));
-        setRedirectUri(OathConfig.getValue("redirect_github"));
+        setClientId(OauthConfig.getValue("openid_github"));
+        setClientSecret(OauthConfig.getValue("openkey_github"));
+        setRedirectUri(OauthConfig.getValue("redirect_github"));
     }
 
     /**

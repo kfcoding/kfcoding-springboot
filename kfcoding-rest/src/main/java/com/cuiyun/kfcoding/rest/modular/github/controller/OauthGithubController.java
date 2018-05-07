@@ -19,6 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
+
+/**
+ * @program: kfcoding
+ * @description: github第三方登录控制类
+ * @author: maple
+ * @create: 2018-05-07 10:37
+ **/
 @RestController
 @RequestMapping("/api/github")
 public class OauthGithubController extends BaseController{
@@ -74,3 +81,4 @@ public class OauthGithubController extends BaseController{
         throw new KfCodingException(BizExceptionEnum.GITHUB_ERROR_URL);
     }
 }
+
