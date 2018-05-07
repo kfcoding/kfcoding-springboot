@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * @Author: maple
- */
+ * @program: kfcoding
+ * @description: 权限接口基础类
+ * @author: maple
+ * @create: 2018-05-07 10:40
+ **/
 public class OathConfig {
 
     private static Properties props = new Properties();
