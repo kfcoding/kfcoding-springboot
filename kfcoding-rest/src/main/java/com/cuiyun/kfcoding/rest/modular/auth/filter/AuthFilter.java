@@ -1,7 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.auth.filter;
 
-import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
-import com.cuiyun.kfcoding.core.base.web.exception.DataException;
+import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.core.util.RenderUtil;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.config.properties.JwtProperties;
@@ -58,17 +57,17 @@ public class AuthFilter extends OncePerRequestFilter {
             try {
                 boolean flag = jwtTokenUtil.isTokenExpired(authToken);
                 if (flag) {
-                    RenderUtil.renderJson(response, new DataException(BizExceptionEnum.TOKEN_EXPIRED.getCode(), BizExceptionEnum.TOKEN_EXPIRED.getMessage()));
+                    RenderUtil.renderJson(response, new KfCodingException(BizExceptionEnum.TOKEN_EXPIRED));
                     return;
                 }
             } catch (JwtException e) {
                 //有异常就是token解析失败
-                RenderUtil.renderJson(response, new DataException(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage()));
+                RenderUtil.renderJson(response, new KfCodingException(BizExceptionEnum.TOKEN_ERROR));
                 return;
             }
         } else {
             //header没有带Bearer字段
-            RenderUtil.renderJson(response, new DataException(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage()));
+            RenderUtil.renderJson(response, new KfCodingException(BizExceptionEnum.TOKEN_ERROR));
             return;
         }
         chain.doFilter(request, response);

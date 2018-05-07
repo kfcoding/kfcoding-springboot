@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
  */
 @Aspect
 @Component
-@ConditionalOnProperty(prefix = "guns", name = "muti-datasource-open", havingValue = "true")
+@ConditionalOnProperty(prefix = "kfcoding", name = "muti-datasource-open", havingValue = "true")
 public class MultiSourceExAop implements Ordered {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -34,7 +34,7 @@ public class MultiSourceExAop implements Ordered {
     @Autowired
     MutiDataSourceProperties mutiDataSourceProperties;
 
-    @Pointcut(value = "@annotation(com.maple.guns.core.mutidatasource.annotion.DataSource)")
+    @Pointcut(value = "@annotation(com.cuiyun.kfcoding.core.mutidatasource.annotion.DataSource)")
     private void cut() {
 
     }
