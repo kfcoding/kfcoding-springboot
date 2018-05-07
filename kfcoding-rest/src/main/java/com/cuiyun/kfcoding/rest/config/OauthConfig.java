@@ -6,11 +6,11 @@ import java.util.Properties;
 
 /**
  * @program: kfcoding
- * @description: 权限接口基础类
+ * @description: 权限接口配置类
  * @author: maple
  * @create: 2018-05-07 10:40
  **/
-public class OathConfig {
+public class OauthConfig {
 
     private static Properties props = new Properties();
 
