@@ -9,6 +9,7 @@ import com.cuiyun.kfcoding.rest.modular.auth.validator.IReqValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -28,7 +29,7 @@ public class AuthController {
     @Resource(name = "simpleValidator")
     private IReqValidator reqValidator;
 
-    @RequestMapping(value = "${jwt.auth-path}")
+    @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(AuthRequest authRequest) {
 
         boolean validate = reqValidator.validate(authRequest);

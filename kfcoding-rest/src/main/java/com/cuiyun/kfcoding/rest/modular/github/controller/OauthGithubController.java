@@ -7,11 +7,14 @@ import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.github.application.OauthGithub;
 import com.cuiyun.kfcoding.rest.util.TokenUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,13 +31,15 @@ import java.io.UnsupportedEncodingException;
  **/
 @RestController
 @RequestMapping("/api/github")
+@Api(description = "gitHub权限相关接口")
 public class OauthGithubController extends BaseController{
     //OAuth2.0标准协议建议，利用state参数来防止CSRF攻击。可存储于session或其他cache中
     private static final String SESSION_STATE = "GITHUB";
     private static Logger log = LoggerFactory.getLogger(OauthGithubController.class);
 
     @ResponseBody
-    @RequestMapping("/callback")
+    @RequestMapping(path = "/callback", method = RequestMethod.POST)
+    @ApiOperation(value = "回调接口", notes="")
     public ResponseEntity<SuccessTip> callback(HttpServletRequest request){
         String code = request.getParameter("code");
         String state = request.getParameter("state");
@@ -66,7 +71,8 @@ public class OauthGithubController extends BaseController{
      * @throws
      */
     @ResponseBody
-    @RequestMapping("/login")
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "构造授权请求url", notes="")
     public ResponseEntity<SuccessTip> index(HttpServletRequest request, HttpServletResponse response){
 
         String state = TokenUtil.randomState();

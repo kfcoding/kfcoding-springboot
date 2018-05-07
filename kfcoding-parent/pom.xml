@@ -51,7 +51,7 @@
         <!--模版引擎-->
         <beetl.version>2.7.15</beetl.version>
         <!--swagger-->
-        <swagger.version>2.2.2</swagger.version>
+        <swagger.version>2.4.0</swagger.version>
         <!--常用工具-->
         <commons-lang3.version>3.6</commons-lang3.version>
         <ehcache.core.version>2.6.11</ehcache.core.version>

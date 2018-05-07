@@ -5,7 +5,7 @@
 target/
 logs/
 # 防止私密信息上传
-application.yml
+#application.yml
 oauth.properties
 
 
