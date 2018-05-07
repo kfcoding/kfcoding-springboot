@@ -9,11 +9,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Map;
 
-
 /**
- * Oauth 授权
- * @author maple
- */
+ * @program: kfcoding
+ * @description: Oath基础类
+ * @author: maple
+ * @create: 2018-05-07 10:41
+ **/
 public class Oauth {
 
     private String clientId;
@@ -22,7 +23,7 @@ public class Oauth {
 
     public Oauth() {}
 
-    protected String getAuthorizeUrl(String authorize, Map<String, String> params) throws UnsupportedEncodingException{
+    protected String getAuthorizeUrl(String authorize, Map<String, String> params) throws UnsupportedEncodingException {
         return HttpKit.initParams(authorize, params);
     }
 
