@@ -3,10 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.cuiyun</groupId>
     <artifactId>kfcoding-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>kfcoding-parent</name>
     <packaging>pom</packaging>
@@ -14,7 +13,7 @@
     <modules>
         <module>../kfcoding-core</module>
         <module>../kfcoding-rest</module>
-
+        <module>../kfcoding-generator</module>
     </modules>
 
     <parent>
@@ -24,55 +23,37 @@
     </parent>
 
     <properties>
-        <!--项目编码-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!--java版本 -->
         <java.version>1.8</java.version>
-        <!--kfcoding版本-->
-        <kfcoding.version>1.0-SNAPSHOT</kfcoding.version>
-        <!--shiro权限版本-->
+        <kfcoding.version>1.0.0-SNAPSHOT</kfcoding.version>
+        <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
         <shiro.version>1.4.0</shiro.version>
-
-        <mybatis-plus-boot-starter.version>2.1.9</mybatis-plus-boot-starter.version>
         <mybatis-plus.version>2.1.8</mybatis-plus.version>
-
         <fastjson.version>1.2.44</fastjson.version>
         <commons.io.version>2.5</commons.io.version>
         <velocity.version>1.7</velocity.version>
-        <!--kaptcha验证码-->
         <kaptcha.version>2.3.2</kaptcha.version>
-        <!--缓存-->
         <ehcache.version>3.3.1</ehcache.version>
-        <!--二维码-->
         <zxing.version>3.2.1</zxing.version>
-        <!--Druid数据库连接池-->
         <druid.version>1.1.6</druid.version>
-        <!--模版引擎-->
         <beetl.version>2.7.15</beetl.version>
-        <!--swagger-->
-        <swagger.version>2.4.0</swagger.version>
-        <!--常用工具-->
+        <swagger.version>2.2.2</swagger.version>
         <commons-lang3.version>3.6</commons-lang3.version>
         <ehcache.core.version>2.6.11</ehcache.core.version>
-        <!--数据库-->
         <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
-        <!--JWT安全通信-->
         <jwt.version>0.7.0</jwt.version>
-        <!--工作流引擎-->
         <flowable.version>6.2.0</flowable.version>
-        <!--java工具架包-->
         <hutool.version>4.0.0</hutool.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!--自动代码生成工具-->
-            <!--<dependency>-->
-                <!--<groupId>com.cuiyun</groupId>-->
-                <!--<artifactId>kfcoding-generator</artifactId>-->
-                <!--<version>${kfcoding.version}</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>com.cuiyun</groupId>
+                <artifactId>kfcoding-generator</artifactId>
+                <version>${kfcoding.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter-basic</artifactId>
@@ -92,7 +73,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatisplus-spring-boot-starter</artifactId>
+                <version>${mybatisplus-spring-boot-starter.version}</version>
+            </dependency>
             <!--shiro依赖-->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
@@ -116,16 +101,9 @@
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>tomcat-jdbc</artifactId>
-                        <groupId>org.apache.tomcat</groupId>
-                    </exclusion>
-                </exclusions>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
@@ -204,5 +182,26 @@
         </dependencies>
     </dependencyManagement>
 
-    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>1.5.9.RELEASE</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+
 </project>

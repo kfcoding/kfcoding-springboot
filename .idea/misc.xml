@@ -5,6 +5,7 @@
       <list>
         <option value="$PROJECT_DIR$/kfcoding-parent/pom.xml" />
         <option value="$PROJECT_DIR$/kfcoding-core/pom.xml" />
+        <option value="$PROJECT_DIR$/kfcoding-generator/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
