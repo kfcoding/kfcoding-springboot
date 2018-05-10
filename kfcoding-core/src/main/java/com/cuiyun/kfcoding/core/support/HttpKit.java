@@ -22,6 +22,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.net.ssl.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.spi.http.HttpExchange;
+import javax.xml.ws.spi.http.HttpHandler;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -373,7 +375,9 @@ public class HttpKit {
      * @throws UnsupportedEncodingException
      */
     public static String post(String url, Map<String, String> params) throws UnsupportedEncodingException {
-        return post(url, map2Url(params), null);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        return post(url, map2Url(params), headers);
     }
 
     /**
