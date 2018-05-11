@@ -32,7 +32,12 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     GITHUB_CANCAL_OAUTH(002,"取消授权"),
     GITHUB_ERROR_URL(001, "url获取失败")
 
-    ;
+    ,
+
+    /**
+     * user模块异常
+     */
+    USER_ERROR(100, "用户不存在");
 
 
     BizExceptionEnum(Integer code, String message) {
