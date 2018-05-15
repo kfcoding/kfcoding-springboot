@@ -78,7 +78,7 @@ public class OauthGithubController extends BaseController{
             userService.insertOrUpdate(user);
 
             log.debug(userInfo.toString());
-            String token  =jwtTokenUtil.generateToken(user.getId().toString(), state);
+            String token = jwtTokenUtil.generateToken(user.getId().toString(), state);
 
             URI uri = new URI(url);
 

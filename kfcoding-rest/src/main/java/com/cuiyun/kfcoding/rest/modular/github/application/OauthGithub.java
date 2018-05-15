@@ -27,7 +27,7 @@ public class OauthGithub extends Oauth {
     private static Logger log = LoggerFactory.getLogger(OauthGithub.class);
     private static final String AUTH_URL = "https://github.com/login/oauth/authorize";
     private static final String TOKEN_URL = "https://github.com/login/oauth/access_token";
-    private static final String USER_INFO_URL = "https://api.github.com/user";
+    private static final String USER_INFO_URL = "https://api.github.com/Tutorial";
     private static OauthGithub oauthGithub = new OauthGithub();
 
     /**

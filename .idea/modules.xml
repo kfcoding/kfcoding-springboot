@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/kfcoding.iml" filepath="$PROJECT_DIR$/.idea/kfcoding.iml" />
       <module fileurl="file://$PROJECT_DIR$/kfcoding-core/kfcoding-core.iml" filepath="$PROJECT_DIR$/kfcoding-core/kfcoding-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/kfcoding-generator/kfcoding-generator.iml" filepath="$PROJECT_DIR$/kfcoding-generator/kfcoding-generator.iml" />
       <module fileurl="file://$PROJECT_DIR$/kfcoding-parent/kfcoding-parent.iml" filepath="$PROJECT_DIR$/kfcoding-parent/kfcoding-parent.iml" />
