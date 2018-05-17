@@ -27,37 +27,55 @@ import java.util.Map;
 public class TutorialController extends BaseController{
     @Autowired
     ITutorialService tutorialService;
+    Map<String,Object> map = new HashMap<String, Object>();
+
+    @ResponseBody
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @ApiOperation(value = "创建课程", notes="")
+    public SuccessTip create(@RequestParam Tutorial tutorial){
+        boolean flag = tutorialService.insert(tutorial);
+        if(flag){
+            return SUCCESSTIP;
+        }else{
+            throw new KfCodingException(BizExceptionEnum.COURSE_CREAT_ERROR);
+        }
+
+    }
 
     @ResponseBody
     @RequestMapping(path = "/findByPage", method = RequestMethod.GET)
     @ApiOperation(value = "课程列表", notes="")
     public SuccessTip findByPage(@RequestParam Integer current,@RequestParam Integer size){
-        Page<Tutorial> page = new Page<Tutorial>(current,size);
+        /*Page<Tutorial> page = new Page<Tutorial>(current,size);
         Map<String,Object> map = tutorialService.findByPage(page);
-        if(!(map.isEmpty())){
+        */
+        Page<Tutorial> tutorialPage = tutorialService.selectPage(new Page<>(current,size),new EntityWrapper<Tutorial>());
+        if (tutorialPage.getTotal()!=0){
+            map.put("tutorialPage",tutorialPage);
             SUCCESSTIP.setResult(map);
             return SUCCESSTIP;
         }else{
             throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
         }
-
     }
 
     @ResponseBody
     @RequestMapping(path = "/findByUserId", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
     public SuccessTip findByUserId(@RequestParam Integer current, @RequestParam Integer size, @RequestParam Integer userId){
-        Page<Tutorial> page = new Page<Tutorial>(current,size);
+        /*Page<Tutorial> page = new Page<Tutorial>(current,size);
         Map<String,Object> condition = new HashMap<String,Object>();
         condition.put("user_id",userId);
         page.setCondition(condition);
         Map<String,Object> map = tutorialService.findByPage(page);
-        if(!(map.isEmpty())){
+        */
+        Page<Tutorial> tutorialPage = tutorialService.selectPage(new Page<>(current,size),new EntityWrapper<Tutorial>().eq("user_id",userId));
+        if (tutorialPage.getTotal()!=0){
+            map.put("tutorialPage",tutorialPage);
             SUCCESSTIP.setResult(map);
             return SUCCESSTIP;
         }else{
             throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
         }
-
     }
 }

@@ -41,7 +41,8 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     /**
      * course模块异常
      */
-    COURSE_ERROR(200, "没有课程");
+    COURSE_ERROR(200, "没有课程"),
+    COURSE_CREAT_ERROR(200, "创建课程失败");
 
     BizExceptionEnum(Integer code, String message) {
         this.code = code;

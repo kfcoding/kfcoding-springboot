@@ -19,7 +19,7 @@ import java.util.Map;
 @Service
 public class TutorialServiceImpl extends ServiceImpl<TutorialMapper, Tutorial> implements ITutorialService{
 
-    //将结果存入缓存
+    /*//将结果存入缓存
     @CachePut(value = "tutorials")
     //获取课程列表
     public Map<String,Object> findByPage(Page<Tutorial> page){
@@ -34,5 +34,5 @@ public class TutorialServiceImpl extends ServiceImpl<TutorialMapper, Tutorial> i
         }
         map.put("tutorialList",tutorialList);
         return map;
-    }
+    }*/
 }
