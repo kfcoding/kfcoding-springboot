@@ -46,9 +46,6 @@ public class TutorialController extends BaseController{
     @RequestMapping(path = "/findByPage", method = RequestMethod.GET)
     @ApiOperation(value = "课程列表", notes="")
     public SuccessTip findByPage(@RequestParam Integer current,@RequestParam Integer size){
-        /*Page<Tutorial> page = new Page<Tutorial>(current,size);
-        Map<String,Object> map = tutorialService.findByPage(page);
-        */
         Page<Tutorial> tutorialPage = tutorialService.selectPage(new Page<>(current,size),new EntityWrapper<Tutorial>());
         if (tutorialPage.getTotal()!=0){
             map.put("tutorialPage",tutorialPage);
