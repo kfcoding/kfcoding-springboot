@@ -11,6 +11,7 @@ import java.util.Map;
  * Created by carrie on 2018/5/12.
  */
 public interface ITutorialService extends IService<Tutorial> {
+
     //获取课程列表
-    public Map<String,Object> findByPage(Page<Tutorial> page);
+    //public Map<String,Object> findByPage(Page<Tutorial> page);
 }
