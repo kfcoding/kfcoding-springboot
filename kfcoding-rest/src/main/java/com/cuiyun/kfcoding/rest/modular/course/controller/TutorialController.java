@@ -33,7 +33,7 @@ public class TutorialController extends BaseController{
     @ResponseBody
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     @ApiOperation(value = "创建课程", notes="")
-    public SuccessTip create(@RequestParam Tutorial tutorial){
+    public SuccessTip create(@RequestBody Tutorial tutorial){
         boolean flag = tutorialService.insert(tutorial);
         if(flag){
             return SUCCESSTIP;
