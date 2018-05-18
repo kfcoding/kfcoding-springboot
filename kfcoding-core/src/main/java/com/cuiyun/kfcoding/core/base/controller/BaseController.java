@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: kfcoding
@@ -32,6 +34,7 @@ public class BaseController {
     protected static String FORWARD = "forward:";
 
     protected static SuccessTip SUCCESSTIP = new SuccessTip();
+    protected static Map<String, Object> map = new HashMap<>();
 
     protected HttpServletRequest getHttpServletRequest() {
         return HttpKit.getRequest();
