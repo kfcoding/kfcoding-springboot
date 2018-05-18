@@ -58,46 +58,65 @@ public class OauthGithubController extends BaseController{
     @ApiOperation(value = "回调接口", notes="")
     public ResponseEntity<SuccessTip> callback(HttpServletRequest request) throws URISyntaxException {
         String code = request.getParameter("code");
-        String state = request.getParameter("state");
-        String url = request.getParameter("redirect");
+        // String state = request.getParameter("state");
+        // String url = request.getParameter("redirect");
 
-        System.err.println("回调函数测试："+code+state);
+        System.err.println("回调函数测试：" + code);
         // 取消了授权
-        if (StringUtils.isBlank(state)|| StringUtils.isBlank(code)){
+        if (StringUtils.isBlank(code)) {
             throw new KfCodingException(BizExceptionEnum.GITHUB_CANCAL_OAUTH);
         }
         // 清除state以防下次登录授权失败
         // session.removeAttribute(SESSION_STATE);
         // 获取用户信息
-        try{
+        try {
             JSONObject userInfo = OauthGithub.me().getUserInfoByCode(code);
             // 将user信息保存进数据库
             // 转为user类
-            User user = JSON.parseObject(userInfo.toJSONString(), new TypeReference<User>(){});
+            User user = JSON.parseObject(userInfo.toJSONString(), new TypeReference<User>() {
+            });
             // 保存user
             userService.insertOrUpdate(user);
 
             log.debug(userInfo.toString());
-            String token = jwtTokenUtil.generateToken(user.getId().toString(), state);
+            final String randomKey = jwtTokenUtil.getRandomKey();
+            final String token = jwtTokenUtil.generateToken(user.getId().toString(), randomKey);
 
-            URI uri = new URI(url);
-
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setLocation(uri);
-            ResponseEntity responseEntity = new ResponseEntity(token, httpHeaders, HttpStatus.SEE_OTHER);
+//            URI uri = new URI(url);
+//            HttpHeaders httpHeaders = new HttpHeaders();
+//            httpHeaders.setLocation(uri);
+//            ResponseEntity responseEntity = new ResponseEntity(token, httpHeaders, HttpStatus.SEE_OTHER);
 
             // 请求重定向
-            return responseEntity;
+            return ResponseEntity.ok(SUCCESSTIP);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(SUCCESSTIP);
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/getTokenByCode", method = {RequestMethod.POST, RequestMethod.GET})
+    @ApiOperation(value = "通过code获取Token", notes="")
+    public ResponseEntity<SuccessTip> getTokenByCode(HttpServletRequest request) throws URISyntaxException {
+        String code = request.getParameter("code");
+
+        System.err.println("getTokenByCode："+code);
+        // 取消了授权
+        if (StringUtils.isBlank(code)){
+            throw new KfCodingException(BizExceptionEnum.GITHUB_CANCAL_OAUTH);
+        }
+        try{
+            //获取token
+            String token = OauthGithub.me().getTokenByCode(code);
+            map.put("token", token);
+            SUCCESSTIP.setResult(map);
+            return ResponseEntity.ok(SUCCESSTIP);
         }catch(Exception e){
             e.printStackTrace();
         }
-        URI uri = new URI(url);
 
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(uri);
-        // 请求重定向
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+        return ResponseEntity.ok(SUCCESSTIP);
         //return ResponseEntity.ok(SUCCESSTIP);
     }
 

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,7 +33,7 @@ public class TutorialController extends BaseController{
     @ResponseBody
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     @ApiOperation(value = "创建课程", notes="")
-    public SuccessTip create(@RequestParam Tutorial tutorial){
+    public SuccessTip create(@RequestBody Tutorial tutorial){
         boolean flag = tutorialService.insert(tutorial);
         if(flag){
             return SUCCESSTIP;
@@ -74,5 +75,22 @@ public class TutorialController extends BaseController{
         }else{
             throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/findAllByUserId", method = RequestMethod.GET)
+    @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
+    public SuccessTip findAllByUserId(@RequestParam Integer userId){
+        List list = tutorialService.selectList(new EntityWrapper<Tutorial>().eq("user_id", userId));
+        Map map = new HashMap();
+        map.put("courses", list);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
+//        if(!(map.isEmpty())){
+//            SUCCESSTIP.setResult(map);
+//            return SUCCESSTIP;
+//        }else{
+//            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+//        }
     }
 }
