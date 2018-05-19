@@ -10,6 +10,25 @@ import com.cuiyun.kfcoding.rest.modular.auth.validator.dto.Credence;
  */
 public class AuthRequest implements Credence {
 
+    private String authType;
+    private String code;
+
+    public String getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(String authType) {
+        this.authType = authType;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     private String userName;
     private String password;
 

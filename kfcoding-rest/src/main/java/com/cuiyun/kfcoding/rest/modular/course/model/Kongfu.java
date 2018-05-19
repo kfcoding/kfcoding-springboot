@@ -15,11 +15,11 @@ import java.io.Serializable;
  * 
  * </p>
  *
- * @author carrie123
- * @since 2018-05-12
+ * @author maple123
+ * @since 2018-05-19
  */
-@TableName("course_tutorial")
-public class Tutorial extends Model<Tutorial> {
+@TableName("course_kongfu")
+public class Kongfu extends Model<Kongfu> {
 
     private static final long serialVersionUID = 1L;
 
@@ -98,7 +98,7 @@ public class Tutorial extends Model<Tutorial> {
 
     @Override
     public String toString() {
-        return "Tutorial{" +
+        return "Kongfu{" +
         "id=" + id +
         ", title=" + title +
         ", author=" + author +

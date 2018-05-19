@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.common.dao.ThirdpartMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.common.model.Thirdpart">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="thirdpart_id" property="thirdpartId" />
+        <result column="gists_url" property="gistsUrl" />
+        <result column="repos_url" property="reposUrl" />
+        <result column="following_url" property="followingUrl" />
+        <result column="bio" property="bio" />
+        <result column="created_at" property="createdAt" />
+        <result column="login" property="login" />
+        <result column="type" property="type" />
+        <result column="blog" property="blog" />
+        <result column="subscriptions_url" property="subscriptionsUrl" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="site_admin" property="siteAdmin" />
+        <result column="company" property="company" />
+        <result column="public_repos" property="publicRepos" />
+        <result column="gravatar_id" property="gravatarId" />
+        <result column="email" property="email" />
+        <result column="organizations_url" property="organizationsUrl" />
+        <result column="hireable" property="hireable" />
+        <result column="starred_url" property="starredUrl" />
+        <result column="followers_url" property="followersUrl" />
+        <result column="public_gists" property="publicGists" />
+        <result column="url" property="url" />
+        <result column="access_token" property="accessToken" />
+        <result column="received_events_url" property="receivedEventsUrl" />
+        <result column="followers" property="followers" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="events_url" property="eventsUrl" />
+        <result column="html_url" property="htmlUrl" />
+        <result column="following" property="following" />
+        <result column="name" property="name" />
+        <result column="location" property="location" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id AS userId, thirdpart_id AS thirdpartId, gists_url AS gistsUrl, repos_url AS reposUrl, following_url AS followingUrl, bio, created_at AS createdAt, login, type, blog, subscriptions_url AS subscriptionsUrl, updated_at AS updatedAt, site_admin AS siteAdmin, company, public_repos AS publicRepos, gravatar_id AS gravatarId, email, organizations_url AS organizationsUrl, hireable, starred_url AS starredUrl, followers_url AS followersUrl, public_gists AS publicGists, url, access_token AS accessToken, received_events_url AS receivedEventsUrl, followers, avatar_url AS avatarUrl, events_url AS eventsUrl, html_url AS htmlUrl, following, name, location
+    </sql>
+
+</mapper>

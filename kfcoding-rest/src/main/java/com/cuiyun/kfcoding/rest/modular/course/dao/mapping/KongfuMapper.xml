@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cuiyun.kfcoding.rest.modular.course.dao.TutorialMapper">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.common.dao.KongfuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.Tutorial">
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.common.model.Kongfu">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="author" property="author" />

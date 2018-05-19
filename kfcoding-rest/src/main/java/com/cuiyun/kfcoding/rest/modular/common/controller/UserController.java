@@ -1,16 +1,24 @@
 package com.cuiyun.kfcoding.rest.modular.common.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.cuiyun.kfcoding.core.base.controller.BaseController;
+import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
+import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
+import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,22 +28,28 @@ import java.util.Map;
  * @create: 2018-05-10 16:57
  **/
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*")
-public class UserController {
+@Api(description = "用户相关接口")
+public class UserController extends BaseController{
 
     @Autowired
     IUserService userService;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    IKongfuService kongfuService;
+
     @ResponseBody
-    @RequestMapping(path = "/getinfobytoken", method = {RequestMethod.POST, RequestMethod.GET})
-    @ApiOperation(value = "回调接口", notes="")
-    public ResponseEntity<User> getInfoByToken(@RequestBody String token){
-        User user = userService.selectOne(new EntityWrapper<User>().eq("token",token));
-        if(user != null){
-            return ResponseEntity.ok(user);
-        }else {
-            throw new KfCodingException(BizExceptionEnum.USER_ERROR);
-        }
+    @RequestMapping(path = "/{userid}/kongfu", method = RequestMethod.GET)
+    @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
+    public SuccessTip findAllByUserId(@PathVariable(value = "userid") Integer userId){
+        List list = kongfuService.selectList(new EntityWrapper<Kongfu>().eq("user_id", userId));
+        Map map = new HashMap();
+        map.put("courses", list);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
     }
 }

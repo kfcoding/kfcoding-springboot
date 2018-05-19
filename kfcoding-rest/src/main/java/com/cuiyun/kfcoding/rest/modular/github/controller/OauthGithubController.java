@@ -73,8 +73,7 @@ public class OauthGithubController extends BaseController{
             JSONObject userInfo = OauthGithub.me().getUserInfoByCode(code);
             // 将user信息保存进数据库
             // 转为user类
-            User user = JSON.parseObject(userInfo.toJSONString(), new TypeReference<User>() {
-            });
+            User user = JSON.parseObject(userInfo.toJSONString(), new TypeReference<User>() {});
             // 保存user
             userService.insertOrUpdate(user);
 
@@ -108,7 +107,10 @@ public class OauthGithubController extends BaseController{
         }
         try{
             //获取token
-            String token = OauthGithub.me().getTokenByCode(code);
+            String gitHubToken = OauthGithub.me().getTokenByCode(code);
+            JSONObject userInfo = OauthGithub.me().getUserInfo(gitHubToken);
+            User user = JSON.parseObject(userInfo.toJSONString(), new TypeReference<User>() {});
+            String token = jwtTokenUtil.generateToken(user.getId().toString(), jwtTokenUtil.getRandomKey());
             map.put("token", token);
             SUCCESSTIP.setResult(map);
             return ResponseEntity.ok(SUCCESSTIP);

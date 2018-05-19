@@ -1,19 +1,32 @@
 package com.cuiyun.kfcoding.rest.modular.auth.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.cuiyun.kfcoding.core.base.controller.BaseController;
+import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.controller.dto.AuthRequest;
-import com.cuiyun.kfcoding.rest.modular.auth.controller.dto.AuthResponse;
+import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.auth.validator.IReqValidator;
+import com.cuiyun.kfcoding.rest.modular.common.model.Thirdpart;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.service.IThirdpartService;
+import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import com.cuiyun.kfcoding.rest.modular.github.application.OauthGithub;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 
 /**
  * 请求验证的
@@ -23,25 +36,90 @@ import javax.annotation.Resource;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-public class AuthController {
+@Api(description = "权限相关接口")
+public class AuthController extends BaseController{
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Resource(name = "simpleValidator")
-    private IReqValidator reqValidator;
+    @Autowired
+    private IUserService userService;
 
-    @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(AuthRequest authRequest) {
+    @Autowired
+    private IThirdpartService thirdpartService;
 
-        boolean validate = reqValidator.validate(authRequest);
+//    @Resource(name = "simpleValidator")
+//    private IReqValidator reqValidator;
 
-        if (validate) {
-            final String randomKey = jwtTokenUtil.getRandomKey();
-            final String token = jwtTokenUtil.generateToken(authRequest.getUserName(), randomKey);
-            return ResponseEntity.ok(new AuthResponse(token, randomKey));
-        } else {
-            throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);
+    @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取token", notes="")
+    public ResponseEntity<?> createAuthenticationToken(@RequestParam String authType ,@RequestParam String code) {
+//        String authType = authRequest.getAuthType();
+//        String code = authRequest.getCode();
+        //若是github登陆
+        if (authType.equals(AuthTypeEnum.GITHUB.getType())) {
+
+            System.err.println("getTokenByCode：" + code);
+            // 取消了授权
+            if (StringUtils.isBlank(code)) {
+                throw new KfCodingException(BizExceptionEnum.GITHUB_CANCAL_OAUTH);
+            }
+            try {
+                //获取token
+                String gitHubToken = OauthGithub.me().getTokenByCode(code);
+                if (StringUtils.isBlank(gitHubToken))
+                    throw new KfCodingException(BizExceptionEnum.GITHUB_CANCAL_OAUTH);
+                JSONObject userInfo = OauthGithub.me().getUserInfo(gitHubToken);
+                Thirdpart thirdpart = JSON.parseObject(userInfo.toJSONString(), new TypeReference<Thirdpart>() {
+                });
+                Thirdpart tempThirdPart = new Thirdpart();
+                tempThirdPart.setThirdpartId(thirdpart.getId());
+                // 如果信息不存在则添加用户
+                User user;
+                tempThirdPart = thirdpartService.selectOne(new EntityWrapper<>(tempThirdPart));
+                if(tempThirdPart == null){
+                    user = new User();
+                    // TODO: 2018/5/19  密码生成策略
+                    user.setPassword(RandomStringUtils.random(10, "1234567890"));
+                    user.setAvatarUrl(thirdpart.getAvatarUrl());
+                    user.setName(thirdpart.getLogin());
+                    userService.insert(user);
+                    tempThirdPart = changeThirdPart(thirdpart, tempThirdPart);
+                    tempThirdPart.setUserId(user.getId());
+                    thirdpartService.insert(tempThirdPart);
+                } else { // 存在就更新用户信息
+                    tempThirdPart = changeThirdPart(thirdpart, tempThirdPart);
+                    thirdpartService.updateById(tempThirdPart);
+                }
+                String token = jwtTokenUtil.generateToken(tempThirdPart.getUserId().toString(), jwtTokenUtil.getRandomKey());
+                map.put("token", token);
+                SUCCESSTIP.setResult(map);
+                return ResponseEntity.ok(SUCCESSTIP);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        ErrorTip errorTip = new ErrorTip(BizExceptionEnum.AUTH_REQUEST_ERROR.getCode(), BizExceptionEnum.AUTH_REQUEST_ERROR.getMessage());
+        return ResponseEntity.ok(errorTip);
     }
+
+    /**
+     *  构造信息
+     */
+    private Thirdpart changeThirdPart(Thirdpart thirdpart, Thirdpart tempThirdPart){
+
+        if (thirdpart.getThirdpartId() == null){
+            Integer tempId = thirdpart.getId();
+            thirdpart.setThirdpartId(tempId);
+            thirdpart.setId(null);
+            return thirdpart;
+        } else {
+            Integer tempId = tempThirdPart.getId();
+            BeanUtils.copyProperties(tempThirdPart , thirdpart);
+            thirdpart.setId(tempId);
+        }
+        return thirdpart;
+    }
+
 }

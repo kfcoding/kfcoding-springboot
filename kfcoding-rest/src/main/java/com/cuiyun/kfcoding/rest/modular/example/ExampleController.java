@@ -1,10 +1,13 @@
 package com.cuiyun.kfcoding.rest.modular.example;
 
 import com.cuiyun.kfcoding.rest.common.SimpleObject;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 常规控制器
@@ -17,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ExampleController {
 
     @RequestMapping("")
-    public ResponseEntity hello(@RequestBody SimpleObject simpleObject) {
+    public ResponseEntity hello(SimpleObject simpleObject, HttpServletRequest request) {
+        System.err.println(request.getParameter("user"));
         System.out.println(simpleObject.getUser());
         return ResponseEntity.ok("请求成功!");
     }

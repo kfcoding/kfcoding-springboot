@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.common.dao.CourseKongfuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.common.model.CourseKongfu">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="type" property="type" />
+        <result column="brief" property="brief" />
+        <result column="created_at" property="createdAt" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, author, type, brief, created_at AS createdAt, user_id AS userId
+    </sql>
+
+</mapper>

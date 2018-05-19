@@ -1,6 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.common.service;
 
-import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.model.Thirdpart;
 import com.baomidou.mybatisplus.service.IService;
 
 /**
@@ -11,6 +11,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @author maple123
  * @since 2018-05-19
  */
-public interface IUserService extends IService<User> {
-
+public interface IThirdpartService extends IService<Thirdpart> {
 }

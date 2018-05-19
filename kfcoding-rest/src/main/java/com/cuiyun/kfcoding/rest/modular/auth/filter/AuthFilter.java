@@ -6,10 +6,12 @@ import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.config.properties.JwtProperties;
 import com.cuiyun.kfcoding.rest.config.properties.RestProperties;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
+import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.JwtException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -24,6 +26,7 @@ import java.io.IOException;
  * @author maple
  * @Date 2017/8/24 14:04
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthFilter extends OncePerRequestFilter {
 
     private final Log logger = LogFactory.getLog(this.getClass());
@@ -38,7 +41,9 @@ public class AuthFilter extends OncePerRequestFilter {
     private RestProperties restProperties;
 
     @Override
+    @CrossOrigin(origins = "*", maxAge = 3600)
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         //跳过验证
         if (!restProperties.isAuthOpen()){
             return;
@@ -70,6 +75,11 @@ public class AuthFilter extends OncePerRequestFilter {
             RenderUtil.renderJson(response, new KfCodingException(BizExceptionEnum.TOKEN_ERROR));
             return;
         }
+        request.setAttribute("token", authToken);
         chain.doFilter(request, response);
+    }
+
+    public static boolean isCorsRequest(HttpServletRequest request) {
+        return (request.getHeader(HttpHeaders.ORIGIN) != null);
     }
 }

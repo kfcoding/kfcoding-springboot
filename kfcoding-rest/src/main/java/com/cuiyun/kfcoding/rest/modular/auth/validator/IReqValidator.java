@@ -3,6 +3,11 @@ package com.cuiyun.kfcoding.rest.modular.auth.validator;
 
 import com.cuiyun.kfcoding.rest.modular.auth.validator.dto.Credence;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+
 /**
  * <p>验证请求/auth接口时,请求参数的正确性</p>
  * <p>
@@ -19,5 +24,5 @@ public interface IReqValidator {
      * @author maple
      * @Date 2017/8/23 11:49
      */
-    boolean validate(Credence credence);
+    boolean validate(Credence credence) throws KeyManagementException, NoSuchAlgorithmException, NoSuchProviderException, IOException;
 }
