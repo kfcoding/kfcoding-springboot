@@ -1,9 +1,9 @@
 package com.cuiyun.kfcoding.rest.modular.common.service.impl;
 
-import com.cuiyun.kfcoding.rest.modular.common.model.User;
-import com.cuiyun.kfcoding.rest.modular.common.dao.UserMapper;
-import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.cuiyun.kfcoding.rest.modular.common.dao.UserMapper;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import org.springframework.stereotype.Service;
 
 /**
