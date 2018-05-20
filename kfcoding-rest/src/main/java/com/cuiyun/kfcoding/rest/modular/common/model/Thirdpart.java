@@ -3,10 +3,15 @@ package com.cuiyun.kfcoding.rest.modular.common.model;
 import java.io.Serializable;
 
 import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.enums.IdType;
+import com.cuiyun.kfcoding.rest.modular.base.enums.ThirdpartAuthTypeEnum;
 
 /**
  * <p>
@@ -21,9 +26,13 @@ public class Thirdpart extends Model<Thirdpart> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.UUID)
     private Integer id;
     @TableField("user_id")
     private Integer userId;
+    @JSONField(serialzeFeatures= SerializerFeature.WriteEnumUsingToString)
+    @TableField("auth_type")
+    private ThirdpartAuthTypeEnum authType;
     @TableField("thirdpart_id")
     private Integer thirdpartId;
     @TableField("gists_url")
@@ -90,6 +99,14 @@ public class Thirdpart extends Model<Thirdpart> {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public ThirdpartAuthTypeEnum getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(ThirdpartAuthTypeEnum authType) {
+        this.authType = authType;
     }
 
     public Integer getThirdpartId() {
