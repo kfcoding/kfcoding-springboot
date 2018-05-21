@@ -3,6 +3,8 @@ package com.cuiyun.kfcoding.rest.modular.auth.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.aliyuncs.auth.sts.AssumeRoleResponse;
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
@@ -15,6 +17,7 @@ import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IThirdpartService;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.cuiyun.kfcoding.rest.modular.github.application.OauthGithub;
+import com.cuiyun.kfcoding.rest.util.STSUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.RandomStringUtils;
@@ -23,6 +26,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -45,8 +50,6 @@ public class AuthController extends BaseController{
     @Autowired
     private IThirdpartService thirdpartService;
 
-//    @Resource(name = "simpleValidator")
-//    private IReqValidator reqValidator;
 
     @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.GET)
     @ApiOperation(value = "获取token", notes="")
@@ -127,4 +130,14 @@ public class AuthController extends BaseController{
         return thirdpart;
     }
 
+    @RequestMapping(value = "/auth/sts/{kongfuid}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取sts临时身份", notes="")
+    public ResponseEntity<?> getSts(HttpServletRequest request, @PathVariable String kongfuid) throws ClientException {
+//        String token = (String) request.getAttribute("token");
+//        String userId = jwtTokenUtil.getUsernameFromToken(token);
+        AssumeRoleResponse response = STSUtil.instance().getAssumeRoleResponse("kfcoding/" + kongfuid + "/*");
+        map.put("assumeRoleResponse", response);
+        SUCCESSTIP.setResult(map);
+        return ResponseEntity.ok(SUCCESSTIP);
+    }
 }
