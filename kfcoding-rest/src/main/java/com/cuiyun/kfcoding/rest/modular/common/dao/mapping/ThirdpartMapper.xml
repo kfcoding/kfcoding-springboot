@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.common.model.Thirdpart">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
+        <result column="auth_type" property="authType" />
         <result column="thirdpart_id" property="thirdpartId" />
         <result column="gists_url" property="gistsUrl" />
         <result column="repos_url" property="reposUrl" />
@@ -41,7 +42,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id AS userId, thirdpart_id AS thirdpartId, gists_url AS gistsUrl, repos_url AS reposUrl, following_url AS followingUrl, bio, created_at AS createdAt, login, type, blog, subscriptions_url AS subscriptionsUrl, updated_at AS updatedAt, site_admin AS siteAdmin, company, public_repos AS publicRepos, gravatar_id AS gravatarId, email, organizations_url AS organizationsUrl, hireable, starred_url AS starredUrl, followers_url AS followersUrl, public_gists AS publicGists, url, access_token AS accessToken, received_events_url AS receivedEventsUrl, followers, avatar_url AS avatarUrl, events_url AS eventsUrl, html_url AS htmlUrl, following, name, location
+        id, auth_type AS authType, user_id AS userId, thirdpart_id AS thirdpartId, gists_url AS gistsUrl, repos_url AS reposUrl, following_url AS followingUrl, bio, created_at AS createdAt, login, type, blog, subscriptions_url AS subscriptionsUrl, updated_at AS updatedAt, site_admin AS siteAdmin, company, public_repos AS publicRepos, gravatar_id AS gravatarId, email, organizations_url AS organizationsUrl, hireable, starred_url AS starredUrl, followers_url AS followersUrl, public_gists AS publicGists, url, access_token AS accessToken, received_events_url AS receivedEventsUrl, followers, avatar_url AS avatarUrl, events_url AS eventsUrl, html_url AS htmlUrl, following, name, location
     </sql>
 
 </mapper>

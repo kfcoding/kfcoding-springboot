@@ -45,11 +45,24 @@ public class UserController extends BaseController{
     @ResponseBody
     @RequestMapping(path = "/{userid}/kongfu", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
-    public SuccessTip findAllByUserId(@PathVariable(value = "userid") Integer userId){
+    public SuccessTip listKongfu(@PathVariable(value = "userid") Integer userId){
         List list = kongfuService.selectList(new EntityWrapper<Kongfu>().eq("user_id", userId));
         Map map = new HashMap();
         map.put("courses", list);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
     }
+
+    @ResponseBody
+    @RequestMapping(path = "/current", method = RequestMethod.GET)
+    @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
+    public SuccessTip current(HttpServletRequest request){
+        String token = (String) request.getAttribute("token");
+        String userId = jwtTokenUtil.getUsernameFromToken(token);
+        User user = userService.selectById(userId);
+        map.put("user", user);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
+    }
+
 }

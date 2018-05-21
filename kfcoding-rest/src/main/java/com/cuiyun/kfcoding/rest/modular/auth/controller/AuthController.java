@@ -3,29 +3,31 @@ package com.cuiyun.kfcoding.rest.modular.auth.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.aliyuncs.auth.sts.AssumeRoleResponse;
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
-import com.cuiyun.kfcoding.rest.modular.auth.controller.dto.AuthRequest;
-import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
-import com.cuiyun.kfcoding.rest.modular.auth.validator.IReqValidator;
+import com.cuiyun.kfcoding.rest.modular.base.enums.ThirdpartAuthTypeEnum;
 import com.cuiyun.kfcoding.rest.modular.common.model.Thirdpart;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IThirdpartService;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.cuiyun.kfcoding.rest.modular.github.application.OauthGithub;
+import com.cuiyun.kfcoding.rest.util.STSUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -48,8 +50,6 @@ public class AuthController extends BaseController{
     @Autowired
     private IThirdpartService thirdpartService;
 
-//    @Resource(name = "simpleValidator")
-//    private IReqValidator reqValidator;
 
     @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.GET)
     @ApiOperation(value = "获取token", notes="")
@@ -57,7 +57,7 @@ public class AuthController extends BaseController{
 //        String authType = authRequest.getAuthType();
 //        String code = authRequest.getCode();
         //若是github登陆
-        if (authType.equals(AuthTypeEnum.GITHUB.getType())) {
+        if (authType.equals(ThirdpartAuthTypeEnum.GITHUB.getValue())) {
 
             System.err.println("getTokenByCode：" + code);
             // 取消了授权
@@ -83,12 +83,18 @@ public class AuthController extends BaseController{
                     user.setPassword(RandomStringUtils.random(10, "1234567890"));
                     user.setAvatarUrl(thirdpart.getAvatarUrl());
                     user.setName(thirdpart.getLogin());
-                    userService.insert(user);
+                    userService.insertOrUpdate(user);
                     tempThirdPart = changeThirdPart(thirdpart, tempThirdPart);
                     tempThirdPart.setUserId(user.getId());
+                    tempThirdPart.setAuthType(ThirdpartAuthTypeEnum.GITHUB);
                     thirdpartService.insert(tempThirdPart);
                 } else { // 存在就更新用户信息
+                    user = userService.selectById(tempThirdPart.getUserId());
+                    user.setAvatarUrl(thirdpart.getAvatarUrl());
+                    user.setName(thirdpart.getLogin());
+                    userService.insertOrUpdate(user);
                     tempThirdPart = changeThirdPart(thirdpart, tempThirdPart);
+                    tempThirdPart.setAuthType(ThirdpartAuthTypeEnum.GITHUB);
                     thirdpartService.updateById(tempThirdPart);
                 }
                 String token = jwtTokenUtil.generateToken(tempThirdPart.getUserId().toString(), jwtTokenUtil.getRandomKey());
@@ -109,17 +115,29 @@ public class AuthController extends BaseController{
      */
     private Thirdpart changeThirdPart(Thirdpart thirdpart, Thirdpart tempThirdPart){
 
-        if (thirdpart.getThirdpartId() == null){
+        if (tempThirdPart.getThirdpartId() == null){
             Integer tempId = thirdpart.getId();
             thirdpart.setThirdpartId(tempId);
             thirdpart.setId(null);
             return thirdpart;
         } else {
             Integer tempId = tempThirdPart.getId();
+            Integer userId = tempThirdPart.getUserId();
             BeanUtils.copyProperties(tempThirdPart , thirdpart);
             thirdpart.setId(tempId);
+            thirdpart.setUserId(userId);
         }
         return thirdpart;
     }
 
+    @RequestMapping(value = "/auth/sts/{kongfuid}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取sts临时身份", notes="")
+    public ResponseEntity<?> getSts(HttpServletRequest request, @PathVariable String kongfuid) throws ClientException {
+//        String token = (String) request.getAttribute("token");
+//        String userId = jwtTokenUtil.getUsernameFromToken(token);
+        AssumeRoleResponse response = STSUtil.instance().getAssumeRoleResponse("kfcoding/" + kongfuid + "/*");
+        map.put("assumeRoleResponse", response);
+        SUCCESSTIP.setResult(map);
+        return ResponseEntity.ok(SUCCESSTIP);
+    }
 }
