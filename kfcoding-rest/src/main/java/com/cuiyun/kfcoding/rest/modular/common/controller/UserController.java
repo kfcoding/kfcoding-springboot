@@ -45,7 +45,7 @@ public class UserController extends BaseController{
     @ResponseBody
     @RequestMapping(path = "/{userid}/kongfu", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
-    public SuccessTip listKongfu(@PathVariable(value = "userid") Integer userId){
+    public SuccessTip listKongfu(@PathVariable(value = "userid") String userId){
         List list = kongfuService.selectList(new EntityWrapper<Kongfu>().eq("user_id", userId));
         Map map = new HashMap();
         map.put("courses", list);

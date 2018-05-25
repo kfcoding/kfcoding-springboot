@@ -115,14 +115,14 @@ public class AuthController extends BaseController{
      */
     private Thirdpart changeThirdPart(Thirdpart thirdpart, Thirdpart tempThirdPart){
 
-        if (tempThirdPart.getThirdpartId() == null){
-            Integer tempId = thirdpart.getId();
+        if (tempThirdPart == null){
+            String tempId = thirdpart.getId();
             thirdpart.setThirdpartId(tempId);
             thirdpart.setId(null);
             return thirdpart;
         } else {
-            Integer tempId = tempThirdPart.getId();
-            Integer userId = tempThirdPart.getUserId();
+            String tempId = tempThirdPart.getId();
+            String userId = tempThirdPart.getUserId();
             BeanUtils.copyProperties(tempThirdPart , thirdpart);
             thirdpart.setId(tempId);
             thirdpart.setUserId(userId);

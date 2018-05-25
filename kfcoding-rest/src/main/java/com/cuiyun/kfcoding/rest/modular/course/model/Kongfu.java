@@ -24,22 +24,21 @@ public class Kongfu extends Model<Kongfu> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.UUID)
-    private Integer id;
+    private String id;
     private String title;
     private String author;
     private Integer type;
     private String brief;
     @TableField("created_at")
-    private Date createdAt;
+    private Date createdAt = new Date();
     @TableField("user_id")
-    private Integer userId;
+    private String userId;
 
-
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -83,11 +82,11 @@ public class Kongfu extends Model<Kongfu> {
         this.createdAt = createdAt;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

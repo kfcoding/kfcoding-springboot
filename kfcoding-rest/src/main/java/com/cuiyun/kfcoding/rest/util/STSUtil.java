@@ -10,7 +10,6 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.cuiyun.kfcoding.core.util.ToolUtil;
 import com.cuiyun.kfcoding.rest.config.STSConfig;
-import com.cuiyun.kfcoding.rest.modular.github.application.OauthGithub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -27,14 +27,14 @@ public class Thirdpart extends Model<Thirdpart> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.UUID)
-    private Integer id;
+    private String id;
     @TableField("user_id")
-    private Integer userId;
+    private String userId;
     @JSONField(serialzeFeatures= SerializerFeature.WriteEnumUsingToString)
     @TableField("auth_type")
     private ThirdpartAuthTypeEnum authType;
     @TableField("thirdpart_id")
-    private Integer thirdpartId;
+    private String thirdpartId;
     @TableField("gists_url")
     private String gistsUrl;
     @TableField("repos_url")
@@ -84,20 +84,19 @@ public class Thirdpart extends Model<Thirdpart> {
     private String name;
     private String location;
 
-
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -109,11 +108,11 @@ public class Thirdpart extends Model<Thirdpart> {
         this.authType = authType;
     }
 
-    public Integer getThirdpartId() {
+    public String getThirdpartId() {
         return thirdpartId;
     }
 
-    public void setThirdpartId(Integer thirdpartId) {
+    public void setThirdpartId(String thirdpartId) {
         this.thirdpartId = thirdpartId;
     }
 
