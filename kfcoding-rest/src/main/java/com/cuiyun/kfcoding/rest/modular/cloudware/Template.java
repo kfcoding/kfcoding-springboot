@@ -1,7 +1,11 @@
 package com.cuiyun.kfcoding.rest.modular.cloudware;
 
 public class Template {
-    public final static String DeplymentTemplate = "{\n" +
+    public static final int TYPE_CLOUDWARE = 0;
+    public static final int TYPE_TERMINAL = 1;
+
+
+    public final static String CloudwareDeplymentTemplate = "{\n" +
             "  \"apiVersion\": \"extensions/v1beta1\",\n" +
             "  \"kind\": \"Deployment\",\n" +
             "  \"metadata\": {\n" +
@@ -73,7 +77,7 @@ public class Template {
             "  }\n" +
             "}";
 
-    public static final String ServiceTemplate = "{\n" +
+    public static final String CloudwareServiceTemplate = "{\n" +
             "  \"apiVersion\": \"v1\",\n" +
             "  \"kind\": \"Service\",\n" +
             "  \"metadata\": {\n" +
@@ -96,4 +100,35 @@ public class Template {
             "  }\n" +
             "}";
 
+    public static final String TerminalDeploymentTemplate = "{\n" +
+            "  \"apiVersion\": \"extensions/v1beta1\",\n" +
+            "  \"kind\": \"Deployment\",\n" +
+            "  \"metadata\": {\n" +
+            "    \"name\": \"terminal-1\",\n" +
+            "    \"namespace\": \"kfcoding-alpha\"\n" +
+            "  },\n" +
+            "  \"spec\": {\n" +
+            "    \"replicas\": 1,\n" +
+            "    \"selector\": {\n" +
+            "      \"matchLabels\": {\n" +
+            "        \"app\": \"terminal-1\"\n" +
+            "      }\n" +
+            "    },\n" +
+            "    \"template\": {\n" +
+            "      \"metadata\": {\n" +
+            "        \"labels\": {\n" +
+            "          \"app\": \"terminal-1\"\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"spec\": {\n" +
+            "        \"containers\": [\n" +
+            "          {\n" +
+            "            \"name\": \"ubuntu\",\n" +
+            "            \"image\": \"ubuntu:latest\"\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      }\n" +
+            "    }\n" +
+            "  }\n" +
+            "}";
 }
