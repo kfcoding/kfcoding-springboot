@@ -4,6 +4,65 @@ public class Template {
     public static final int TYPE_CLOUDWARE = 0;
     public static final int TYPE_TERMINAL = 1;
 
+    public final static String CloudwarePodTemplate = "{\n" +
+            "  \"apiVersion\": \"v1\",\n" +
+            "  \"kind\": \"Pod\",\n" +
+            "  \"metadata\": {\n" +
+            "    \"name\": \"cloudware-1\",\n" +
+            "    \"namespace\": \"default\",\n" +
+            "    \"labels\": {\n" +
+            "      \"app\": \"cloudware-1\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  \"spec\": {\n" +
+            "    \"containers\": [\n" +
+            "      {\n" +
+            "        \"name\": \"application\",\n" +
+            "        \"image\": \"daocloud.io/shaoling/kfcoding-rstudio:master-e2af784\",\n" +
+            "        \"volumeMounts\": [\n" +
+            "          {\n" +
+            "            \"name\": \"app-tmp\",\n" +
+            "            \"mountPath\": \"/tmp\"\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      },\n" +
+            "      {\n" +
+            "        \"name\": \"xorg\",\n" +
+            "        \"command\": [\n" +
+            "          \"Xorg\"\n" +
+            "        ],\n" +
+            "        \"image\": \"daocloud.io/shaoling/kfcoding-xorg:master-094594c\",\n" +
+            "        \"volumeMounts\": [\n" +
+            "          {\n" +
+            "            \"name\": \"app-tmp\",\n" +
+            "            \"mountPath\": \"/tmp\"\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      },\n" +
+            "      {\n" +
+            "        \"name\": \"pulsar\",\n" +
+            "        \"image\": \"daocloud.io/shaoling/kfcoding-pulsar:master\",\n" +
+            "        \"ports\": [\n" +
+            "          {\n" +
+            "            \"containerPort\": 9800\n" +
+            "          }\n" +
+            "        ],\n" +
+            "        \"volumeMounts\": [\n" +
+            "          {\n" +
+            "            \"name\": \"app-tmp\",\n" +
+            "            \"mountPath\": \"/tmp\"\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      }\n" +
+            "    ],\n" +
+            "    \"volumes\": [\n" +
+            "      {\n" +
+            "        \"name\": \"app-tmp\",\n" +
+            "        \"emptyDir\": {}\n" +
+            "      }\n" +
+            "    ]\n" +
+            "  }\n" +
+            "}";
 
     public final static String CloudwareDeplymentTemplate = "{\n" +
             "  \"apiVersion\": \"extensions/v1beta1\",\n" +
@@ -129,6 +188,26 @@ public class Template {
             "        ]\n" +
             "      }\n" +
             "    }\n" +
+            "  }\n" +
+            "}";
+
+    public static final String TerminalPodTemplate = "{\n" +
+            "  \"apiVersion\": \"v1\",\n" +
+            "  \"kind\": \"Pod\",\n" +
+            "  \"metadata\": {\n" +
+            "    \"name\": \"terminal-1\",\n" +
+            "    \"namespace\": \"kfcoding-alpha\",\n" +
+            "    \"labels\": {\n" +
+            "      \"app\": \"terminal-1\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  \"spec\": {\n" +
+            "    \"containers\": [\n" +
+            "      {\n" +
+            "        \"name\": \"application\",\n" +
+            "        \"image\": \"nginx\"\n" +
+            "      }\n" +
+            "    ]\n" +
             "  }\n" +
             "}";
 }

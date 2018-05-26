@@ -1,24 +1,17 @@
 package com.cuiyun.kfcoding.rest.modular.cloudware.controller;
 
 import cn.hutool.core.util.RandomUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.support.HttpKit;
 import com.cuiyun.kfcoding.rest.modular.cloudware.K8sApi;
-import com.cuiyun.kfcoding.rest.modular.cloudware.Template;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import io.kubernetes.client.models.ExtensionsV1beta1Deployment;
+import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1Service;
 import io.kubernetes.client.models.V1Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 /**
  * @program: kfcoding
@@ -30,48 +23,81 @@ import java.io.IOException;
 @RequestMapping("/cloudware")
 @CrossOrigin(origins = "*")
 @Api(description = "cloudware相关接口")
-public class CloudWareController extends BaseController{
+public class CloudWareController extends BaseController {
 
     @Value("${cloudware.namespace}")
     private String namespace;
 
+    // 删除此项
     @Value("${cloudware.container}")
     private String container;
 
+    // 增加此项
+    @Value("${cloudware.websocket.server.addr}")
+    private String cloudwareWss; // value is http://cloudware.wss.kfcoding.com
+
+    // 增加此项
+    @Value("${terminal.websocket.server.addr}")
+    private String terminalWss; // value is http://terminal.wss.kfcoding.com
+
     @ResponseBody
-    @RequestMapping(path = "/start", method = RequestMethod.GET)
-    @ApiOperation(value = "", notes="")
-    public SuccessTip startCloudWare(@RequestParam String imageName){
-//        String namespace = "kfcoding-alpha";
-//        String container = "application";
+    @RequestMapping(path = "/startContainer", method = RequestMethod.GET)
+    @ApiOperation(value = "", notes = "")
+    public SuccessTip startContainer(@RequestParam String imageName, @RequestParam int type) {
         K8sApi k8sApi = K8sApi.getInstance();
-        String uuid = RandomUtil.randomUUID();
-        ExtensionsV1beta1Deployment extensionsV1beta1Deployment = k8sApi.createDeployment(namespace, uuid, imageName);
-        V1Service v1Service = k8sApi.createService(namespace, uuid);
-        map.put("extensionsV1beta1Deployment", extensionsV1beta1Deployment);
-        map.put("v1Service", v1Service);
-        StringBuffer sb = new StringBuffer();
-        sb.append("http://wss.kfcoding.com:30081/api/v1/pod/").append(namespace).append(uuid).append("/shell/").append(container);
-        String url = sb.toString();
-        String data = HttpKit.get(url);
-        map.put("shellWsToken", data);
+        String podName = RandomUtil.randomUUID();
+        switch (type) {
+            case 0://cloudware
+                // create cloudware pod and service
+                V1Pod podResult = k8sApi.createCloudwarePod(namespace, podName, imageName);
+                V1Service serviceResult = k8sApi.createCloudwareService(namespace, podName);
+
+                // get cloudware websocket address
+                try {
+                    StringBuffer url = new StringBuffer(cloudwareWss);
+                    url.append("/api/websocket/getws/").append(podName).append("/").append(serviceResult.getSpec().getClusterIP());
+                    String wsAddr = HttpKit.get(url.toString());
+                    map.put("WsAddr", wsAddr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // if get wsaddr filed, delete pod
+                    k8sApi.deletePod(namespace, podName);
+                    k8sApi.deleteService(namespace, podName);
+                }
+                break;
+            case 1://terminal
+                // create terminal pod
+                podResult = k8sApi.createTerminalPod(namespace, podName, imageName);
+
+                // get terminal websocket address
+                try {
+                    StringBuffer url = new StringBuffer(terminalWss);
+                    url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
+                    String wsAddr = HttpKit.get(url.toString());
+                    map.put("WsAddr", wsAddr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // if get wsaddr filed, delete pod
+                    k8sApi.deletePod(namespace, podName);
+                }
+                break;
+        }
+
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
     }
 
-
     @ResponseBody
-    @RequestMapping(path = "/delete", method = RequestMethod.DELETE)
-    @ApiOperation(value = "", notes="")
-    public SuccessTip deleteCloudWare(@RequestParam String podName){
-//        String namespace = "kfcoding-alpha";
-//        String container = "application";
+    @RequestMapping(path = "/deleteContainer", method = RequestMethod.DELETE)
+    @ApiOperation(value = "", notes = "")
+    public SuccessTip deleteCloudWare(@RequestParam String podName, @RequestParam int type) {
         K8sApi k8sApi = K8sApi.getInstance();
-        V1Status deploymentStatus = k8sApi.deleteDeployment(namespace, podName);
-        V1Status serviceStatus = k8sApi.deleteService(namespace, podName);
-        map.put("deploymentStatus", deploymentStatus);
-        map.put("serviceStatus", serviceStatus);
-        SUCCESSTIP.setResult(map);
+
+        k8sApi.deletePod(namespace, podName);
+        if (type == 0) { // delete cloudware service
+            k8sApi.deleteService(namespace, podName);
+        }
+
         return SUCCESSTIP;
     }
 }
