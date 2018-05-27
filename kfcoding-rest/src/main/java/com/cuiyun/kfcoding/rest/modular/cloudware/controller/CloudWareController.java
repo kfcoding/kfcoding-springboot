@@ -28,17 +28,11 @@ public class CloudWareController extends BaseController {
     @Value("${cloudware.namespace}")
     private String namespace;
 
-    // 删除此项
-    @Value("${cloudware.container}")
-    private String container;
-
-    // 增加此项
     @Value("${cloudware.websocket.server.addr}")
-    private String cloudwareWss; // value is http://cloudware.wss.kfcoding.com
+    private String cloudwareWss;
 
-    // 增加此项
     @Value("${terminal.websocket.server.addr}")
-    private String terminalWss; // value is http://terminal.wss.kfcoding.com
+    private String terminalWss;
 
     @ResponseBody
     @RequestMapping(path = "/startContainer", method = RequestMethod.GET)
