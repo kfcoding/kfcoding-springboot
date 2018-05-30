@@ -24,6 +24,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,9 @@ public class AuthController extends BaseController{
 
     @Autowired
     private IThirdpartService thirdpartService;
+
+    @Value("${oss.bucketName}")
+    private String bucketName;
 
 
     @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.GET)
@@ -133,9 +137,9 @@ public class AuthController extends BaseController{
     @RequestMapping(value = "/auth/sts/{kongfuid}", method = RequestMethod.GET)
     @ApiOperation(value = "获取sts临时身份", notes="")
     public ResponseEntity<?> getSts(HttpServletRequest request, @PathVariable String kongfuid) throws ClientException {
-//        String token = (String) request.getAttribute("token");
-//        String userId = jwtTokenUtil.getUsernameFromToken(token);
-        AssumeRoleResponse response = STSUtil.instance().getAssumeRoleResponse("kfcoding/" + kongfuid + "/*");
+        StringBuffer sb = new StringBuffer();
+        sb.append(bucketName).append("/").append(kongfuid).append("/*");
+        AssumeRoleResponse response = STSUtil.instance().getAssumeRoleResponse(bucketName + "/" + kongfuid + "/*");
         map.put("assumeRoleResponse", response);
         SUCCESSTIP.setResult(map);
         return ResponseEntity.ok(SUCCESSTIP);

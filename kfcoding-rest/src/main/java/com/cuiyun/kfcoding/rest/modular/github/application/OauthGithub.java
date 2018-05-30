@@ -55,7 +55,7 @@ public class OauthGithub extends Oauth {
         Map<String, String> params = new HashMap<String, String>();
         params.put("response_type", "code");
         params.put("client_id", getClientId());
-        params.put("redirect_uri", getRedirectUri());
+        // params.put("redirect_uri", getRedirectUri());
         if (StringUtils.isNotBlank(state)) {
             params.put("state", state); //OAuth2.0标准协议建议，利用state参数来防止CSRF攻击。可存储于session或其他cache中
         }
@@ -78,7 +78,7 @@ public class OauthGithub extends Oauth {
         params.put("client_id", getClientId());
         params.put("client_secret", getClientSecret());
         params.put("grant_type", "authorization_code");
-        params.put("redirect_uri", getRedirectUri());
+        // params.put("redirect_uri", getRedirectUri());
         String token = TokenUtil.getAccessToken(super.doPost(TOKEN_URL, params));
         log.debug(token);
         return token;
