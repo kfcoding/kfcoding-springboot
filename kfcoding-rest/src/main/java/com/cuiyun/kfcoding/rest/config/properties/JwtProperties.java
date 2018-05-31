@@ -3,6 +3,9 @@ package com.cuiyun.kfcoding.rest.config.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * jwt相关配置
  *
@@ -24,6 +27,8 @@ public class JwtProperties {
     private String authPath = "auth";
 
     private String md5Key = "randomKey";
+
+    private List white = new ArrayList();
 
     public static String getJwtPrefix() {
         return JWT_PREFIX;
@@ -67,5 +72,13 @@ public class JwtProperties {
 
     public void setMd5Key(String md5Key) {
         this.md5Key = md5Key;
+    }
+
+    public List getWhite() {
+        return white;
+    }
+
+    public void setWhite(List white) {
+        this.white = white;
     }
 }

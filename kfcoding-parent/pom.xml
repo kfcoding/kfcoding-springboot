@@ -46,6 +46,7 @@
         <flowable.version>6.2.0</flowable.version>
         <hutool.version>4.0.0</hutool.version>
         <aliyun.oss.version>2.8.3</aliyun.oss.version>
+        <rongcloud.version>3.0.1</rongcloud.version>
     </properties>
 
     <dependencyManagement>
@@ -184,6 +185,11 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun.oss.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.rongcloud.im</groupId>
+                <artifactId>server-sdk-java</artifactId>
+                <version>${rongcloud.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

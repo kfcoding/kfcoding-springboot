@@ -43,7 +43,19 @@ public class KongfuController extends BaseController{
         }else{
             throw new KfCodingException(BizExceptionEnum.COURSE_CREAT_ERROR);
         }
+    }
 
+    @ResponseBody
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "创建课程", notes="")
+    public SuccessTip create(@PathVariable String id){
+        Kongfu kongfu = kongfuService.selectById(id);
+        if (kongfu == null) {
+            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+        }
+        map.put("kongfu", kongfu);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
     }
 
     @ResponseBody

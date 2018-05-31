@@ -50,7 +50,8 @@ public class AuthFilter extends OncePerRequestFilter {
         }
         // 白名单
         if (request.getServletPath().equals("/" + jwtProperties.getAuthPath()) ||
-            request.getServletPath().equals("/cloudware/deleteContainer")
+            request.getServletPath().equals("/cloudware/deleteContainer") ||
+            request.getServletPath().equals("/cloudware/startContainer")
                 ) {
             chain.doFilter(request, response);
             return;

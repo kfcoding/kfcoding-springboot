@@ -1,6 +1,8 @@
 package com.cuiyun.kfcoding.rest.modular.cloudware.controller;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.http.HttpUtil;
 import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.support.HttpKit;
@@ -12,6 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: kfcoding
@@ -38,8 +43,12 @@ public class CloudWareController extends BaseController {
     @RequestMapping(path = "/startContainer", method = RequestMethod.GET)
     @ApiOperation(value = "", notes = "")
     public SuccessTip startContainer(@RequestParam String imageName, @RequestParam int type) {
+
         K8sApi k8sApi = K8sApi.getInstance();
         String podName = RandomUtil.randomUUID();
+        Map headers = new HashMap();
+        headers.put("Content-Type", "application/json");
+
         switch (type) {
             case 0://cloudware
                 // create cloudware pod and service
@@ -50,7 +59,7 @@ public class CloudWareController extends BaseController {
                 try {
                     StringBuffer url = new StringBuffer(cloudwareWss);
                     url.append("/api/websocket/getws/").append(podName).append("/").append(serviceResult.getSpec().getClusterIP());
-                    String wsAddr = HttpKit.get(url.toString());
+                    String wsAddr = HttpKit.get(url.toString(), null, headers);
                     map.put("WsAddr", wsAddr);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -62,12 +71,12 @@ public class CloudWareController extends BaseController {
             case 1://terminal
                 // create terminal pod
                 podResult = k8sApi.createTerminalPod(namespace, podName, imageName);
-
                 // get terminal websocket address
                 try {
                     StringBuffer url = new StringBuffer(terminalWss);
                     url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
-                    String wsAddr = HttpKit.get(url.toString());
+
+                    String wsAddr = HttpKit.get(url.toString(), null, headers);
                     map.put("WsAddr", wsAddr);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -83,7 +92,7 @@ public class CloudWareController extends BaseController {
 
     @ResponseBody
     @RequestMapping(path = "/deleteContainer", method = RequestMethod.DELETE)
-    @ApiOperation(value = "", notes = "")
+    @ApiOperation(value = "删除容器", notes = "")
     public SuccessTip deleteCloudWare(@RequestParam String podName, @RequestParam int type) {
         K8sApi k8sApi = K8sApi.getInstance();
 
