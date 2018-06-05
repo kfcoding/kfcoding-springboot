@@ -7,6 +7,7 @@ import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.support.HttpKit;
 import com.cuiyun.kfcoding.rest.modular.cloudware.K8sApi;
+import com.cuiyun.kfcoding.rest.modular.cloudware.controller.dto.StartContainerDto;
 import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1Service;
 import io.kubernetes.client.models.V1Status;
@@ -40,9 +41,11 @@ public class CloudWareController extends BaseController {
     private String terminalWss;
 
     @ResponseBody
-    @RequestMapping(path = "/startContainer", method = RequestMethod.GET)
+    @RequestMapping(path = "/startContainer", method = RequestMethod.POST)
     @ApiOperation(value = "", notes = "")
-    public SuccessTip startContainer(@RequestParam String imageName, @RequestParam int type) {
+    public SuccessTip startContainer(@RequestBody StartContainerDto startContainerDto) {
+        String imageName = startContainerDto.getImageName();
+        Integer type = startContainerDto.getType();
 
         K8sApi k8sApi = K8sApi.getInstance();
         String podName = RandomUtil.randomUUID();
