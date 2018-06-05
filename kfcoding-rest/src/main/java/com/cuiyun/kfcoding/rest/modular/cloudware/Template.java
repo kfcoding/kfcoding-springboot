@@ -8,24 +8,14 @@ public class Template {
             "  \"apiVersion\": \"v1\",\n" +
             "  \"kind\": \"Pod\",\n" +
             "  \"metadata\": {\n" +
-            "    \"name\": \"cloudware-1\",\n" +
-            "    \"namespace\": \"default\",\n" +
+            "    \"name\": \"cloudware-3\",\n" +
+            "    \"namespace\": \"kfcoding-alpha\",\n" +
             "    \"labels\": {\n" +
-            "      \"app\": \"cloudware-1\"\n" +
+            "      \"app\": \"cloudware-3\"\n" +
             "    }\n" +
             "  },\n" +
             "  \"spec\": {\n" +
             "    \"containers\": [\n" +
-            "      {\n" +
-            "        \"name\": \"application\",\n" +
-            "        \"image\": \"daocloud.io/shaoling/kfcoding-rstudio:master-e2af784\",\n" +
-            "        \"volumeMounts\": [\n" +
-            "          {\n" +
-            "            \"name\": \"app-tmp\",\n" +
-            "            \"mountPath\": \"/tmp\"\n" +
-            "          }\n" +
-            "        ]\n" +
-            "      },\n" +
             "      {\n" +
             "        \"name\": \"xorg\",\n" +
             "        \"command\": [\n" +
@@ -41,7 +31,7 @@ public class Template {
             "      },\n" +
             "      {\n" +
             "        \"name\": \"pulsar\",\n" +
-            "        \"image\": \"daocloud.io/shaoling/kfcoding-pulsar:master\",\n" +
+            "        \"image\": \"daocloud.io/shaoling/kfcoding-rstudio-latest:master\",\n" +
             "        \"ports\": [\n" +
             "          {\n" +
             "            \"containerPort\": 9800\n" +
@@ -205,9 +195,17 @@ public class Template {
             "    \"containers\": [\n" +
             "      {\n" +
             "        \"name\": \"application\",\n" +
-            "        \"image\": \"nginx\"\n" +
+            "        \"command\": [\n" +
+            "          \"/bin/sh\",\n" +
+            "          \"-c\",\n" +
+            "          \"--\"\n" +
+            "        ],\n" +
+            "        \"args\": [\n" +
+            "          \"while true; do sleep 30; done;\"\n" +
+            "        ],\n" +
+            "        \"image\": \"ubuntu:latest\"\n" +
             "      }\n" +
             "    ]\n" +
             "  }\n" +
-            "}";
+            "}" ;
 }

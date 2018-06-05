@@ -54,6 +54,8 @@ public class CloudWareController extends BaseController {
                 // create cloudware pod and service
                 V1Pod podResult = k8sApi.createCloudwarePod(namespace, podName, imageName);
                 V1Service serviceResult = k8sApi.createCloudwareService(namespace, podName);
+                System.err.println(podResult);
+                System.err.println(serviceResult);
 
                 // get cloudware websocket address
                 try {
@@ -61,6 +63,7 @@ public class CloudWareController extends BaseController {
                     url.append("/api/websocket/getws/").append(podName).append("/").append(serviceResult.getSpec().getClusterIP());
                     String wsAddr = HttpKit.get(url.toString(), null, headers);
                     map.put("WsAddr", wsAddr);
+                    map.put("podResult", podResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                     // if get wsaddr filed, delete pod
@@ -71,6 +74,8 @@ public class CloudWareController extends BaseController {
             case 1://terminal
                 // create terminal pod
                 podResult = k8sApi.createTerminalPod(namespace, podName, imageName);
+
+                System.err.println(podResult);
                 // get terminal websocket address
                 try {
                     StringBuffer url = new StringBuffer(terminalWss);
@@ -78,6 +83,7 @@ public class CloudWareController extends BaseController {
 
                     String wsAddr = HttpKit.get(url.toString(), null, headers);
                     map.put("WsAddr", wsAddr);
+                    map.put("podResult", podResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                     // if get wsaddr filed, delete pod
@@ -85,7 +91,6 @@ public class CloudWareController extends BaseController {
                 }
                 break;
         }
-
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
     }

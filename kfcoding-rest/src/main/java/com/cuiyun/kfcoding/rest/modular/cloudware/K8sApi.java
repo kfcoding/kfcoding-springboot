@@ -75,7 +75,7 @@ public class K8sApi {
         podBody.getMetadata().setName(podName);
         podBody.getMetadata().getLabels().clear();
         podBody.getMetadata().getLabels().put("app", podName);
-        podBody.getSpec().getContainers().get(0).setImage(imageName);
+        podBody.getSpec().getContainers().get(1).setImage(imageName);
 
         return createPod(namespace, podBody);
     }
