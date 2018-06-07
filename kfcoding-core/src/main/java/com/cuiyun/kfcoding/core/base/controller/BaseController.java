@@ -33,8 +33,9 @@ public class BaseController {
     protected static String REDIRECT = "redirect:";
     protected static String FORWARD = "forward:";
 
-    protected static SuccessTip SUCCESSTIP = new SuccessTip();
-    protected static Map<String, Object> map = new HashMap<>();
+    protected SuccessTip SUCCESSTIP = new SuccessTip();
+
+    protected Map<String, Object> map = new HashMap<>();
 
     protected HttpServletRequest getHttpServletRequest() {
         return HttpKit.getRequest();

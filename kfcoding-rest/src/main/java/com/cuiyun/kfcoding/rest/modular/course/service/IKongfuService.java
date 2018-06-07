@@ -2,6 +2,7 @@ package com.cuiyun.kfcoding.rest.modular.course.service;
 
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
 import com.baomidou.mybatisplus.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,8 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface IKongfuService extends IService<Kongfu> {
 
+    /**
+     * 通过Id查询Kongfu
+     */
+    Kongfu getKongfuById(@Param("id") String id);
 }

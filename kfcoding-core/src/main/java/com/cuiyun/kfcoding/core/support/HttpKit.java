@@ -45,6 +45,7 @@ public class HttpKit {
 
     private static final String _GET  = "GET"; // GET
     private static final String _POST = "POST";// POST
+    private static final String _PUT = "PUT"; //PUT
 
     public static String getIp(){
        return HttpKit.getRequest().getRemoteHost();
@@ -364,6 +365,46 @@ public class HttpKit {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     *
+     * @description
+     * 功能描述: POST 请求
+     * @return       返回类型:
+     */
+    public static int put(String url, String params, Map<String, String> headers) {
+        StringBuffer bufferRes = null;
+        try {
+            HttpURLConnection http = null;
+            if (isHttps(url)) {
+                http = initHttps(url, _PUT, headers);
+            } else {
+                http = initHttp(url, _PUT, headers);
+            }
+            OutputStream out = http.getOutputStream();
+            out.write(params.getBytes(DEFAULT_CHARSET));
+            out.flush();
+            out.close();
+
+            InputStream in = http.getInputStream();
+            BufferedReader read = new BufferedReader(new InputStreamReader(in, DEFAULT_CHARSET));
+            String valueString = null;
+            bufferRes = new StringBuffer();
+            while ((valueString = read.readLine()) != null){
+                bufferRes.append(valueString);
+            }
+            read.close();
+            in.close();
+            int code = http.getResponseCode();
+            if (http != null) {
+                http.disconnect();// 关闭连接
+            }
+            return code;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 

@@ -8,6 +8,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
+import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
@@ -29,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 
 /**
@@ -60,6 +62,8 @@ public class AuthController extends BaseController{
     public ResponseEntity<?> createAuthenticationToken(@RequestParam String authType ,@RequestParam String code) {
 //        String authType = authRequest.getAuthType();
 //        String code = authRequest.getCode();
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
         //若是github登陆
         if (authType.equals(ThirdpartAuthTypeEnum.GITHUB.getValue())) {
 
@@ -140,6 +144,8 @@ public class AuthController extends BaseController{
         StringBuffer sb = new StringBuffer();
         sb.append(bucketName).append("/").append(kongfuid).append("/*");
         AssumeRoleResponse response = STSUtil.instance().getAssumeRoleResponse(bucketName + "/" + kongfuid + "/*");
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
         map.put("assumeRoleResponse", response);
         SUCCESSTIP.setResult(map);
         return ResponseEntity.ok(SUCCESSTIP);

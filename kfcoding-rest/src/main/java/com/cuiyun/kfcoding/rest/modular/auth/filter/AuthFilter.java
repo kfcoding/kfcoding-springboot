@@ -48,10 +48,16 @@ public class AuthFilter extends OncePerRequestFilter {
         if (!restProperties.isAuthOpen()){
             return;
         }
+        System.out.println("1:"+request.getServletPath().startsWith("/" + jwtProperties.getAuthPath()) +
+            "--2:"+request.getServletPath().equals("/cloudware/deleteContainer") +
+                " --3" + (request.getServletPath().startsWith("/kongfu") && request.getMethod().equals("GET"))
+        );
+        request.getServletPath();
         // 白名单
-        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath()) ||
+        if (request.getServletPath().startsWith("/" + jwtProperties.getAuthPath()) ||
             request.getServletPath().equals("/cloudware/deleteContainer") ||
-            request.getServletPath().equals("/cloudware/startContainer")
+            request.getServletPath().equals("/cloudware/startContainer") ||
+                (request.getServletPath().startsWith("/kongfu") && request.getMethod().equals("GET"))
                 ) {
             chain.doFilter(request, response);
             return;

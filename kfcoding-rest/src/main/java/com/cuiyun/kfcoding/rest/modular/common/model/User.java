@@ -29,6 +29,7 @@ public class User extends Model<User> {
     private String avatarUrl;
     private String password;
     private Integer status;
+    private transient String salt;
 
     public String getId() {
         return id;
@@ -68,6 +69,14 @@ public class User extends Model<User> {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override

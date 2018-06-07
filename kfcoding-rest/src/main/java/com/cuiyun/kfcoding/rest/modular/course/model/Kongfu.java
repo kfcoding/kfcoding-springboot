@@ -2,13 +2,12 @@ package com.cuiyun.kfcoding.rest.modular.course.model;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -16,23 +15,31 @@ import java.io.Serializable;
  * </p>
  *
  * @author maple123
- * @since 2018-05-19
+ * @since 2018-06-07
  */
 @TableName("course_kongfu")
 public class Kongfu extends Model<Kongfu> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
     private String title;
     private String author;
     private Integer type;
     private String brief;
     @TableField("created_at")
-    private Date createdAt = new Date();
+    private Date createdAt;
     @TableField("user_id")
     private String userId;
+    private String level;
+    private String image;
+    @TableField("image_color")
+    private String imageColor;
+    private Integer status;
+    private Integer priority;
+    @TableField(exist=false)
+    private List<Tag> tags;
+
 
     public String getId() {
         return id;
@@ -40,6 +47,14 @@ public class Kongfu extends Model<Kongfu> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getImageColor() {
+        return imageColor;
+    }
+
+    public void setImageColor(String imageColor) {
+        this.imageColor = imageColor;
     }
 
     public String getTitle() {
@@ -90,6 +105,46 @@ public class Kongfu extends Model<Kongfu> {
         this.userId = userId;
     }
 
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -105,6 +160,10 @@ public class Kongfu extends Model<Kongfu> {
         ", brief=" + brief +
         ", createdAt=" + createdAt +
         ", userId=" + userId +
+        ", level=" + level +
+        ", image=" + image +
+        ", status=" + status +
+        ", priority=" + priority +
         "}";
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.course.dao.KongfuToTagMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.KongfuToTag">
+        <id column="id" property="id" />
+        <result column="kongfu_id" property="kongfuId" />
+        <result column="tag_id" property="tagId" />
+        <result column="date" property="date" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, kongfu_id AS kongfuId, tag_id AS tagId, date
+    </sql>
+
+</mapper>

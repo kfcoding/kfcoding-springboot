@@ -3,9 +3,13 @@ package com.cuiyun.kfcoding.rest.modular.cloudware.controller;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
+import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.core.support.HttpKit;
+import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.cloudware.K8sApi;
 import com.cuiyun.kfcoding.rest.modular.cloudware.controller.dto.StartContainerDto;
 import io.kubernetes.client.models.V1Pod;
@@ -40,18 +44,30 @@ public class CloudWareController extends BaseController {
     @Value("${terminal.websocket.server.addr}")
     private String terminalWss;
 
+    @Value("cloudware.Ingress")
+    private String ingress;
+
     @ResponseBody
     @RequestMapping(path = "/startContainer", method = RequestMethod.POST)
     @ApiOperation(value = "", notes = "")
     public SuccessTip startContainer(@RequestBody StartContainerDto startContainerDto) {
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
         String imageName = startContainerDto.getImageName();
         Integer type = startContainerDto.getType();
 
+        // 初始化
         K8sApi k8sApi = K8sApi.getInstance();
         String podName = RandomUtil.randomUUID();
+        // 设置header
         Map headers = new HashMap();
         headers.put("Content-Type", "application/json");
-
+        // 拼接请求json
+        Map requestBody = new HashMap();
+        requestBody.put("Pod", podName);
+        requestBody.put("Namespace", namespace);
+        requestBody.put("Ingress", ingress);
+        int responseCode = 0;
         switch (type) {
             case 0://cloudware
                 // create cloudware pod and service
@@ -62,10 +78,11 @@ public class CloudWareController extends BaseController {
 
                 // get cloudware websocket address
                 try {
-                    StringBuffer url = new StringBuffer(cloudwareWss);
-                    url.append("/api/websocket/getws/").append(podName).append("/").append(serviceResult.getSpec().getClusterIP());
-                    String wsAddr = HttpKit.get(url.toString(), null, headers);
-                    map.put("WsAddr", wsAddr);
+//                    StringBuffer url = new StringBuffer(cloudwareWss);
+//                    url.append("/api/websocket/getws/").append(podName).append("/").append(serviceResult.getSpec().getClusterIP());
+//                    String wsAddr = HttpKit.get(url.toString(), null, headers);
+//                    map.put("WsAddr", wsAddr);
+                    responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
                     map.put("podResult", podResult);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -81,11 +98,12 @@ public class CloudWareController extends BaseController {
                 System.err.println(podResult);
                 // get terminal websocket address
                 try {
-                    StringBuffer url = new StringBuffer(terminalWss);
-                    url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
-
-                    String wsAddr = HttpKit.get(url.toString(), null, headers);
-                    map.put("WsAddr", wsAddr);
+//                    StringBuffer url = new StringBuffer(terminalWss);
+//                    url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
+//
+//                    String wsAddr = HttpKit.get(url.toString(), null, headers);
+//                    map.put("WsAddr", wsAddr);
+                    responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
                     map.put("podResult", podResult);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -94,6 +112,14 @@ public class CloudWareController extends BaseController {
                 }
                 break;
         }
+        if (responseCode == 200){
+            StringBuffer sb = new StringBuffer();
+            sb.append(podName).append(".cloudware.kfcoding.com");
+            map.put("webSocketAddress", sb.toString());
+        } else {
+            throw new KfCodingException(BizExceptionEnum.CLOUDWARE_CREATE_ERROR);
+        }
+
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
     }
@@ -108,7 +134,8 @@ public class CloudWareController extends BaseController {
         if (type == 0) { // delete cloudware service
             k8sApi.deleteService(namespace, podName);
         }
-
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
         return SUCCESSTIP;
     }
 }

@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class KongfuServiceImpl extends ServiceImpl<KongfuMapper, Kongfu> implements IKongfuService {
 
+    @Override
+    public Kongfu getKongfuById(String id) {
+        return this.baseMapper.getKongfuById(id);
+    }
 }

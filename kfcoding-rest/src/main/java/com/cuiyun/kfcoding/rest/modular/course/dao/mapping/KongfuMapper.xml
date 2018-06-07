@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cuiyun.kfcoding.rest.modular.common.dao.KongfuMapper">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.course.dao.KongfuMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.common.model.Kongfu">
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.Kongfu">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="author" property="author" />
@@ -11,11 +10,27 @@
         <result column="brief" property="brief" />
         <result column="created_at" property="createdAt" />
         <result column="user_id" property="userId" />
+        <result column="level" property="level" />
+        <result column="image" property="image" />
+        <result column="image_color" property="imageColor" />
+        <result column="status" property="status" />
+        <result column="priority" property="priority" />
+        <collection property="tags" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Tag">
+            <id property="id" column="id" javaType="java.lang.String" />
+            <result property="name" column="name" javaType="java.lang.String" />
+        </collection>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, author, type, brief, created_at AS createdAt, user_id AS userId
+        id, title, author, type, brief, created_at AS createdAt, user_id AS userId, level, image, image_color AS imageColor, status, priority
     </sql>
+
+    <select id="getKongfuById" resultMap="BaseResultMap">
+        SELECT k.*,t.*
+        FROM course_kongfu k
+        LEFT JOIN course_kongfu_to_tag ktg ON k.id=ktg.kongfu_id
+        LEFT JOIN course_tag t ON ktg.tag_id=t.id
+        WHERE k.id=#{id}
+    </select>
 
 </mapper>

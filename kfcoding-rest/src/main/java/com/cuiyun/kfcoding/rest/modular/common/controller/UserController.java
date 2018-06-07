@@ -48,6 +48,8 @@ public class UserController extends BaseController{
     public SuccessTip listKongfu(@PathVariable(value = "userid") String userId){
         List list = kongfuService.selectList(new EntityWrapper<Kongfu>().eq("user_id", userId));
         Map map = new HashMap();
+        SUCCESSTIP = new SuccessTip();
+        map = new HashMap();
         map.put("courses", list);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
@@ -60,6 +62,8 @@ public class UserController extends BaseController{
         String token = (String) request.getAttribute("token");
         String userId = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectById(userId);
+        SUCCESSTIP = new SuccessTip();
+        map = new HashMap();
         map.put("user", user);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
