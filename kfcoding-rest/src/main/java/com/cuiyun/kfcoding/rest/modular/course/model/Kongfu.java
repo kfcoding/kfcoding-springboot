@@ -32,9 +32,10 @@ public class Kongfu extends Model<Kongfu> {
     @TableField("user_id")
     private String userId;
     private String level;
-    private String image;
-    @TableField("image_color")
-    private String imageColor;
+    @TableField("surface_image")
+    private String surfaceImage;
+    @TableField("surface_background")
+    private String surfaceBackground;
     private Integer status;
     private Integer priority;
     @TableField(exist=false)
@@ -47,14 +48,6 @@ public class Kongfu extends Model<Kongfu> {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getImageColor() {
-        return imageColor;
-    }
-
-    public void setImageColor(String imageColor) {
-        this.imageColor = imageColor;
     }
 
     public String getTitle() {
@@ -113,12 +106,20 @@ public class Kongfu extends Model<Kongfu> {
         this.level = level;
     }
 
-    public String getImage() {
-        return image;
+    public String getSurfaceImage() {
+        return surfaceImage;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setSurfaceImage(String surfaceImage) {
+        this.surfaceImage = surfaceImage;
+    }
+
+    public String getSurfaceBackground() {
+        return surfaceBackground;
+    }
+
+    public void setSurfaceBackground(String surfaceBackground) {
+        this.surfaceBackground = surfaceBackground;
     }
 
     public Integer getStatus() {
@@ -161,7 +162,7 @@ public class Kongfu extends Model<Kongfu> {
         ", createdAt=" + createdAt +
         ", userId=" + userId +
         ", level=" + level +
-        ", image=" + image +
+        ", image=" + surfaceImage +
         ", status=" + status +
         ", priority=" + priority +
         "}";

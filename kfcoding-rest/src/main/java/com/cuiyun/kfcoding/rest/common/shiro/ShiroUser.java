@@ -21,6 +21,14 @@ public class ShiroUser implements Serializable {
 //    public List<String> roleNames; // 角色名称集
 
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }

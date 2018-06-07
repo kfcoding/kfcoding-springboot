@@ -2,7 +2,10 @@ package com.cuiyun.kfcoding.rest.common.shiro;
 
 import com.cuiyun.kfcoding.rest.common.shiro.factory.IShiro;
 import com.cuiyun.kfcoding.rest.common.shiro.factory.ShiroFactroy;
+import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import com.cuiyun.kfcoding.rest.util.TokenUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -10,11 +13,25 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class ShiroDbRealm extends AuthorizingRealm {
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private IUserService userService;
+
+    /**
+     * 大坑！，必须重写此方法，不然Shiro会报错
+     */
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JWTToken;
+    }
 
     /**
      * 登录认证
@@ -29,6 +46,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo info = shiroFactory.info(shiroUser, user, super.getName());
         return info;
     }
+
 
     /**
      * 权限认证
