@@ -113,5 +113,4 @@ public class KongfuController extends BaseController{
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
     }
-
 }
