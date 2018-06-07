@@ -1,12 +1,15 @@
 package com.cuiyun.kfcoding.rest.modular.course.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
 import com.cuiyun.kfcoding.rest.modular.course.dao.KongfuMapper;
 import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -25,7 +28,7 @@ public class KongfuServiceImpl extends ServiceImpl<KongfuMapper, Kongfu> impleme
     }
 
     @Override
-    public Page<Kongfu> getKongfuByTag(@Param("id") String id){
-        return this.baseMapper.getKongfuByTag(id);
+    public Page<Kongfu> getKongfuByTag(Page<Kongfu> page, @Param("id") String id) {
+        return page.setRecords(this.baseMapper.getKongfuByTag(page, id));
     }
 }

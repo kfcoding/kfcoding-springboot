@@ -1,9 +1,12 @@
 package com.cuiyun.kfcoding.rest.modular.course.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
 import com.baomidou.mybatisplus.service.IService;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -23,5 +26,5 @@ public interface IKongfuService extends IService<Kongfu> {
     /**
      * 通过tag查询Kongfu
      */
-    Page<Kongfu> getKongfuByTag(@Param("id") String id);
+    Page<Kongfu> getKongfuByTag(Page<Kongfu> page, @Param("id") String id);
 }

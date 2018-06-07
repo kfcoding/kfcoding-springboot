@@ -1,6 +1,7 @@
 package com.cuiyun.kfcoding.rest.modular.course.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,7 +116,6 @@ public class KongfuController extends BaseController{
         return SUCCESSTIP;
     }
 
-
     @ResponseBody
     @RequestMapping(path = "/taglist", method = RequestMethod.GET)
     @ApiOperation(value = "标签列表", notes="")
@@ -130,11 +131,11 @@ public class KongfuController extends BaseController{
     @ResponseBody
     @RequestMapping(path = "/findByTag", method = RequestMethod.GET)
     @ApiOperation(value = "按tag获取课程列表", notes="")
-    public SuccessTip findByTag(Page page,@PathVariable String tagId) {
-        Page<Kongfu> kongfuList = kongfuService.getKongfuByTag(tagId);
+    public SuccessTip findByTag(Page<Kongfu> page,@RequestParam(value="tag") String id) {
+        Page<Kongfu> kongfuList = kongfuService.getKongfuByTag(page,id);
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-        if (kongfuList.getTotal() != 0) {
+        if (kongfuList.getSize() != 0) {
             map.put("kongfuList", kongfuList);
             SUCCESSTIP.setResult(map);
             return SUCCESSTIP;
