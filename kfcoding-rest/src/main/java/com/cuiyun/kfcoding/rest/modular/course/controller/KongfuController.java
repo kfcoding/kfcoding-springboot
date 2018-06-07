@@ -143,4 +143,15 @@ public class KongfuController extends BaseController{
             throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
         }
     }
+
+    @ResponseBody
+    @RequestMapping(path = "/deleteById", method = RequestMethod.GET)
+    @ApiOperation(value = "按tag获取课程列表", notes="")
+    public SuccessTip deleteById(@RequestParam String id) {
+        if (kongfuService.deleteById(id)){
+            return SUCCESSTIP;
+        } else {
+            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+        }
+    }
 }
