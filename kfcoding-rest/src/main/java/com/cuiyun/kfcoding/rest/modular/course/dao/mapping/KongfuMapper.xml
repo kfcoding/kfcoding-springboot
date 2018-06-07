@@ -33,4 +33,12 @@
         WHERE k.id=#{id}
     </select>
 
+    <select id="getKongfuByTag" resultMap="BaseResultMap">
+        SELECT k.*,t.*
+        FROM course_kongfu k
+        LEFT JOIN course_kongfu_to_tag ktg ON k.id=ktg.kongfu_id
+        LEFT JOIN course_tag t ON ktg.tag_id=t.id
+        WHERE k.id IN ('0'SELECT ktg.kongfu_id FROM course_kongfu_to_tag ktg WHERE t.id=#{id})
+    </select>
+
 </mapper>

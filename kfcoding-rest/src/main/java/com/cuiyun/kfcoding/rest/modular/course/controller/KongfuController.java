@@ -114,4 +114,32 @@ public class KongfuController extends BaseController{
         return SUCCESSTIP;
     }
 
+
+    @ResponseBody
+    @RequestMapping(path = "/taglist", method = RequestMethod.GET)
+    @ApiOperation(value = "标签列表", notes="")
+    public SuccessTip Taglist() {
+        List taglist = tagService.selectList(new EntityWrapper<>());
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
+        map.put("taglist", taglist);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/findByTag", method = RequestMethod.GET)
+    @ApiOperation(value = "按tag获取课程列表", notes="")
+    public SuccessTip findByTag(Page page,@PathVariable String tagId) {
+        Page<Kongfu> kongfuList = kongfuService.getKongfuByTag(tagId);
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
+        if (kongfuList.getTotal() != 0) {
+            map.put("kongfuList", kongfuList);
+            SUCCESSTIP.setResult(map);
+            return SUCCESSTIP;
+        } else {
+            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+        }
+    }
 }
