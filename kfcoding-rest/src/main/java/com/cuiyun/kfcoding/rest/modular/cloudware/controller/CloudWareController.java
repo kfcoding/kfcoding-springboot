@@ -67,7 +67,7 @@ public class CloudWareController extends BaseController {
         requestBody.put("Pod", podName);
         requestBody.put("Namespace", namespace);
         requestBody.put("Ingress", ingress);
-        int responseCode = 0;
+
         switch (type) {
             case 0://cloudware
                 // create cloudware pod and service
@@ -82,7 +82,14 @@ public class CloudWareController extends BaseController {
 //                    url.append("/api/websocket/getws/").append(podName).append("/").append(serviceResult.getSpec().getClusterIP());
 //                    String wsAddr = HttpKit.get(url.toString(), null, headers);
 //                    map.put("WsAddr", wsAddr);
-                    responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
+                    int responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
+                    if (responseCode == 200){
+                        StringBuffer sb = new StringBuffer();
+                        sb.append(podName).append(".cloudware.kfcoding.com");
+                        map.put("webSocketAddress", sb.toString());
+                    } else {
+                        throw new KfCodingException(BizExceptionEnum.CLOUDWARE_CREATE_ERROR);
+                    }
                     map.put("podResult", podResult);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -98,13 +105,13 @@ public class CloudWareController extends BaseController {
                 System.err.println(podResult);
                 // get terminal websocket address
                 try {
-//                    StringBuffer url = new StringBuffer(terminalWss);
-//                    url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
-//
-//                    String wsAddr = HttpKit.get(url.toString(), null, headers);
-//                    map.put("WsAddr", wsAddr);
-                    responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
-                    map.put("podResult", podResult);
+                    StringBuffer url = new StringBuffer(terminalWss);
+                    url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
+
+                    String wsAddr = HttpKit.get(url.toString(), null, headers);
+                    map.put("WsAddr", wsAddr);
+//                    responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
+//                    map.put("podResult", podResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                     // if get wsaddr filed, delete pod
@@ -112,13 +119,7 @@ public class CloudWareController extends BaseController {
                 }
                 break;
         }
-        if (responseCode == 200){
-            StringBuffer sb = new StringBuffer();
-            sb.append(podName).append(".cloudware.kfcoding.com");
-            map.put("webSocketAddress", sb.toString());
-        } else {
-            throw new KfCodingException(BizExceptionEnum.CLOUDWARE_CREATE_ERROR);
-        }
+
 
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;

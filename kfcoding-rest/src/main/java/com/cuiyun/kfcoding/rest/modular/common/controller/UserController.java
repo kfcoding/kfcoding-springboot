@@ -69,4 +69,21 @@ public class UserController extends BaseController{
         return SUCCESSTIP;
     }
 
+    @ResponseBody
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "用户Id", notes="获取用户信息")
+    public SuccessTip current(@PathVariable String id){
+        User user = userService.selectById(id);
+        if (user == null) {
+            throw new KfCodingException(BizExceptionEnum.USER_ERROR);
+        }
+        SUCCESSTIP = new SuccessTip();
+        map = new HashMap();
+        map.put("user", user);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
+    }
+
+
+
 }
