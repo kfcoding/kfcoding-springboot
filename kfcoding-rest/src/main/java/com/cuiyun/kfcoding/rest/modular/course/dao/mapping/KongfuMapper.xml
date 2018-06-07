@@ -15,6 +15,7 @@
         <result column="surface_background" property="surfaceBackground" />
         <result column="status" property="status" />
         <result column="priority" property="priority" />
+        <result column="is_del" property="isDel" />
         <collection property="tags" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Tag">
             <id property="id" column="id" javaType="java.lang.String" />
             <result property="name" column="name" javaType="java.lang.String" />
@@ -22,7 +23,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, title, author, type, brief, created_at AS createdAt, user_id AS userId, level, surface_image AS surfaceImage, surface_background AS surfaceBackground, status, priority
+        id, title, author, type, brief, created_at AS createdAt, user_id AS userId, level, surface_image AS surfaceImage, surface_background AS surfaceBackground, status, priority, is_del AS isDel
     </sql>
 
     <select id="getKongfuById" resultMap="BaseResultMap">

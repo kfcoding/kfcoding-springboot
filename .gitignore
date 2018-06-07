@@ -4,10 +4,6 @@
 *.idea
 target/
 logs/
-# 防止私密信息上传
-application.yml
-oauth.properties
-
 
 # Log file
 *.log
@@ -35,3 +31,11 @@ hs_err_pid*
 .classpath
 .project
 .settings/
+.DS_Store
+kfcoding-core/src/main/resources/
+kfcoding-core/src/test/
+kfcoding-generator/src/test/
+kfcoding-parent/src/main/resources/
+kfcoding-parent/src/test/
+kfcoding-rest/src/test/
+kfcoding-rest/src/main/resources

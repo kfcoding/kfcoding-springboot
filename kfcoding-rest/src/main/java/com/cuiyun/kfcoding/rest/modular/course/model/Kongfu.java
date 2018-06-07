@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 import java.util.List;
@@ -38,6 +39,8 @@ public class Kongfu extends Model<Kongfu> {
     private String surfaceBackground;
     private Integer status;
     private Integer priority;
+    @TableLogic
+    private Integer isDel;
     @TableField(exist=false)
     private List<Tag> tags;
 
