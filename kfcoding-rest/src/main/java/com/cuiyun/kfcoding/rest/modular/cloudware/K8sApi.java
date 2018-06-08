@@ -129,9 +129,11 @@ public class K8sApi {
      */
     private V1Service createService(String namespace, V1Service serviceBody) {
         V1Service result = null;
+        System.out.println(serviceBody.toString());
         try {
             result = coreV1Api.createNamespacedService(namespace, serviceBody, "false");
         } catch (ApiException e) {
+            System.out.println(e.getResponseBody());
             e.printStackTrace();
         }
 

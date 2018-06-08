@@ -2,6 +2,7 @@ package com.cuiyun.kfcoding.rest.modular.course.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
+import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
 import com.cuiyun.kfcoding.rest.modular.course.dao.KongfuMapper;
 import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuService;
@@ -28,7 +29,7 @@ public class KongfuServiceImpl extends ServiceImpl<KongfuMapper, Kongfu> impleme
     }
 
     @Override
-    public Page<Kongfu> getKongfuByTag(Page<Kongfu> page, @Param("id") String id) {
-        return page.setRecords(this.baseMapper.getKongfuByTag(page, id));
+    public Page<Kongfu> getKongfuByTag(Page<Kongfu> page, @Param("id") String id, @Param("status")KongfuStatusEnum status) {
+        return page.setRecords(this.baseMapper.getKongfuByTag(page, id, status));
     }
 }

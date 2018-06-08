@@ -1,6 +1,7 @@
 package com.cuiyun.kfcoding.rest.modular.course.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
@@ -8,6 +9,7 @@ import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
 import com.cuiyun.kfcoding.rest.modular.course.model.KongfuToTag;
 import com.cuiyun.kfcoding.rest.modular.course.model.Tag;
@@ -37,7 +39,7 @@ public class KongfuController extends BaseController {
     IKongfuService kongfuService;
 
     @Autowired
-    IKongfuToTagService iKongfuToTagService;
+    IKongfuToTagService kongfuToTagService;
 
     @Autowired
     ITagService tagService;
@@ -51,22 +53,13 @@ public class KongfuController extends BaseController {
     @ApiOperation(value = "创建课程", notes="")
     @Transactional
     public SuccessTip create(@RequestBody Kongfu kongfu, HttpServletRequest request){
-//        String token = (String) getHttpServletRequest().getAttribute("token");
-//        String id = jwtTokenUtil.getUsernameFromToken(token);
-
         User user = getUser(request);
         kongfu.setAuthor(user.getName());
+        kongfu.setUserId(user.getId());
         List<Tag> tags = kongfu.getTags();
         kongfuService.insert(kongfu);
-        List<KongfuToTag> kongfuToTags = new ArrayList<>();
-        KongfuToTag kongfuToTag = null;
-        for (Tag tag: tags) {
-            kongfuToTag = new KongfuToTag();
-            kongfuToTag.setKongfuId(kongfu.getId());
-            kongfuToTag.setTagId(tag.getId());
-            kongfuToTags.add(kongfuToTag);
-        }
-        boolean flag = iKongfuToTagService.insertBatch(kongfuToTags);
+        List<KongfuToTag> kongfuToTags = setKongfuToTag(tags, kongfu.getId());
+        boolean flag = kongfuToTagService.insertBatch(kongfuToTags);
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         if(flag){
@@ -74,6 +67,46 @@ public class KongfuController extends BaseController {
         }else{
             throw new KfCodingException(BizExceptionEnum.COURSE_CREAT_ERROR);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    @ApiOperation(value = "修改课程", notes="")
+    @Transactional
+    public SuccessTip update(@RequestBody Kongfu kongfu, HttpServletRequest request){
+        User user = getUser(request);
+        kongfu.setAuthor(user.getName());
+        kongfu.setUserId(user.getId());
+
+        // 删除这个课程和tag的对应关系
+        EntityWrapper ew = new EntityWrapper<>();
+        ew.eq("kongfu_id", kongfu.getId());
+        kongfuToTagService.delete(ew);
+
+        // 添加这个课程和tag的对应关系
+        List<Tag> tags = kongfu.getTags();
+        kongfuService.updateById(kongfu);
+        List<KongfuToTag> kongfuToTags = setKongfuToTag(tags, kongfu.getId());
+        boolean flag = kongfuToTagService.insertBatch(kongfuToTags);
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
+        if(flag){
+            return SUCCESSTIP;
+        }else{
+            throw new KfCodingException(BizExceptionEnum.COURSE_CREAT_ERROR);
+        }
+    }
+
+    private List<KongfuToTag> setKongfuToTag(List<Tag> tags, String kongfuId){
+        List<KongfuToTag> kongfuToTags = new ArrayList<>();
+        KongfuToTag kongfuToTag;
+        for (Tag tag: tags) {
+            kongfuToTag = new KongfuToTag();
+            kongfuToTag.setKongfuId(kongfuId);
+            kongfuToTag.setTagId(tag.getId());
+            kongfuToTags.add(kongfuToTag);
+        }
+        return kongfuToTags;
     }
 
     @ResponseBody
@@ -111,7 +144,9 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/list", method = RequestMethod.GET)
     @ApiOperation(value = "课程列表", notes="")
     public SuccessTip list(Page page) {
-        List list = kongfuService.selectList(new EntityWrapper<>());
+        EntityWrapper ew = new EntityWrapper<Kongfu>();
+        ew.eq("status", KongfuStatusEnum.PUBLIC);
+        List<Kongfu> list = kongfuService.selectList(ew);
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         map.put("kongfus", list);
@@ -135,7 +170,7 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/findByTag", method = RequestMethod.GET)
     @ApiOperation(value = "按tag获取课程列表", notes="")
     public SuccessTip findByTag(Page<Kongfu> page,@RequestParam(value="tag") String id) {
-        Page<Kongfu> kongfuList = kongfuService.getKongfuByTag(page,id);
+        Page<Kongfu> kongfuList = kongfuService.getKongfuByTag(page, id, KongfuStatusEnum.PUBLIC);
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         if (kongfuList.getSize() != 0) {

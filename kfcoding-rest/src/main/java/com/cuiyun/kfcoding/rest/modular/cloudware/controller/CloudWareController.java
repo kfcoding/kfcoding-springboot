@@ -1,6 +1,7 @@
 package com.cuiyun.kfcoding.rest.modular.cloudware.controller;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
@@ -16,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +56,7 @@ public class CloudWareController extends BaseController {
 
         // 初始化
         K8sApi k8sApi = K8sApi.getInstance();
-        String podName = RandomUtil.randomUUID();
+        String podName = "a" + RandomUtil.randomUUID();
         // 设置header
         Map headers = new HashMap();
         headers.put("Content-Type", "application/json");
@@ -135,4 +137,18 @@ public class CloudWareController extends BaseController {
         SUCCESSTIP = new SuccessTip();
         return SUCCESSTIP;
     }
+
+    @ResponseBody
+    @RequestMapping(path = "/keepalive", method = RequestMethod.POST)
+    @ApiOperation(value = "心跳", notes = "")
+    public SuccessTip keepalive(@RequestBody String data) throws UnsupportedEncodingException {
+        String url = "http://controller.cloudware.kfcoding.com/api/cloudware/keepalive";
+        String result = HttpUtil.post(url, data);
+        map = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
+        map.put("result", result);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
+    }
+
 }

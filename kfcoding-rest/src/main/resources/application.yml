@@ -1,6 +1,6 @@
 rest:
   swagger-open: true #是否开启swagger (true/false)
-  auth-open: false #jwt鉴权机制是否开启(true或者false)
+  auth-open: true #jwt鉴权机制是否开启(true或者false)
   sign-open: false #签名机制是否开启(true或false)
 
 jwt:
@@ -18,6 +18,7 @@ mybatis-plus:
   mapper-locations: classpath*:com/cuiyun/kfcoding/rest/**/mapping/*.xml
   typeAliasesPackage: com.cuiyun.kfcoding.rest.modular.*.model
   typeEnumsPackage: com.cuiyun.kfcoding.rest.modular.*.enums
+  sqlSessionFactory:
   global-config:
     id-type: 3  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
     db-column-underline: false
@@ -33,7 +34,7 @@ mybatis-plus:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
 spring:
   datasource:
-      url: jdbc:mysql://127.0.0.1:3306/kfcoding?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://115.28.244.50:3306/kfcoding?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
       username: root
       password: 1234
       filters: log4j,wall,mergeStat

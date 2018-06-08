@@ -1,6 +1,8 @@
 package com.cuiyun.kfcoding.rest.config;
 
+import com.baomidou.mybatisplus.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,5 +25,18 @@ public class MybatisPlusConfig {
         return new PaginationInterceptor();
     }
 
+    /**
+     * 乐观锁插件
+     */
+    @Bean
+    public OptimisticLockerInterceptor optimisticLockerInterceptor(){
+        return new OptimisticLockerInterceptor();
+    }
+
+//
+//    @Bean
+//    public PerformanceInterceptor performanceInterceptor(){
+//        return new PerformanceInterceptor();
+//    }
 
 }

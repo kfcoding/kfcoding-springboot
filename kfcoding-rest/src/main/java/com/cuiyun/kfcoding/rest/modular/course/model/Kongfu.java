@@ -2,6 +2,7 @@ package com.cuiyun.kfcoding.rest.modular.course.model;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
@@ -9,8 +10,8 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -40,13 +41,13 @@ public class Kongfu extends Model<Kongfu> {
     private String surfaceImage;
     @TableField("surface_background")
     private String surfaceBackground;
-    private Integer status;
+    private KongfuStatusEnum status = KongfuStatusEnum.PRIVATE;
     private Integer priority;
     @TableLogic
     @TableField("is_del")
-    private Integer isDel;
+    private Integer isDel = 0;
     @TableField(exist=false)
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
 
 
     public String getId() {
@@ -129,11 +130,11 @@ public class Kongfu extends Model<Kongfu> {
         this.surfaceBackground = surfaceBackground;
     }
 
-    public Integer getStatus() {
+    public KongfuStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(KongfuStatusEnum status) {
         this.status = status;
     }
 

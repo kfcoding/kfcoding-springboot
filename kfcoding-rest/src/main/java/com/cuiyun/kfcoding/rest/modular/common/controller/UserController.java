@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
-import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
+import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: kfcoding
@@ -42,7 +41,10 @@ public class UserController extends BaseController {
     @RequestMapping(path = "/{userid}/kongfu", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
     public SuccessTip listKongfu(@PathVariable(value = "userid") String userId){
-        List list = kongfuService.selectList(new EntityWrapper<Kongfu>().eq("user_id", userId));
+        EntityWrapper ew = new EntityWrapper<Kongfu>();
+        ew.eq("user_id", userId);
+        ew.eq("status", KongfuStatusEnum.PUBLIC);
+        List list = kongfuService.selectList(ew);
         SUCCESSTIP = new SuccessTip();
         map = new HashMap();
         map.put("courses", list);
@@ -54,9 +56,9 @@ public class UserController extends BaseController {
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
     public SuccessTip current(HttpServletRequest request){
-        String token = (String) request.getAttribute("token");
-        String userId = jwtTokenUtil.getUsernameFromToken(token);
-        User user = userService.selectById(userId);
+//        String token = (String) request.getAttribute("token");
+//        String userId = jwtTokenUtil.getUsernameFromToken(token);
+        User user = getUser(request);
         SUCCESSTIP = new SuccessTip();
         map = new HashMap();
         map.put("user", user);
@@ -65,9 +67,24 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(path = "/current/kongfu", method = RequestMethod.GET)
+    @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
+    public SuccessTip currentKongfu(HttpServletRequest request){
+        User user = getUser(request);
+        EntityWrapper ew = new EntityWrapper<Kongfu>();
+        ew.eq("user_id", user.getId());
+        List kongfus = kongfuService.selectList(ew);
+        SUCCESSTIP = new SuccessTip();
+        map = new HashMap();
+        map.put("kongfuList", kongfus);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
+    }
+
+    @ResponseBody
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "用户Id", notes="获取用户信息")
-    public SuccessTip current(@PathVariable String id){
+    public SuccessTip getUserInfoById(@PathVariable String id){
         User user = userService.selectById(id);
         if (user == null) {
             throw new KfCodingException(BizExceptionEnum.USER_ERROR);
