@@ -3,11 +3,11 @@ package com.cuiyun.kfcoding.rest.modular.github.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
+import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.cuiyun.kfcoding.rest.modular.github.application.OauthGithub;
@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 
 
 /**
@@ -41,7 +40,7 @@ import java.util.HashMap;
 @RequestMapping("/api/github")
 @CrossOrigin(origins = "*")
 @Api(description = "gitHub权限相关接口")
-public class OauthGithubController extends BaseController{
+public class OauthGithubController extends BaseController {
     //OAuth2.0标准协议建议，利用state参数来防止CSRF攻击。可存储于session或其他cache中
     private static final String SESSION_STATE = "GITHUB";
     private static Logger log = LoggerFactory.getLogger(OauthGithubController.class);

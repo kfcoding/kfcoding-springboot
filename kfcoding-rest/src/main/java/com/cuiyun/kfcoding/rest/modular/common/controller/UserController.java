@@ -1,11 +1,11 @@
 package com.cuiyun.kfcoding.rest.modular.common.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
+import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
@@ -13,7 +13,6 @@ import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,13 +30,10 @@ import java.util.Map;
 @RequestMapping("/users")
 @CrossOrigin(origins = "*")
 @Api(description = "用户相关接口")
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     @Autowired
     IUserService userService;
-
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     IKongfuService kongfuService;
@@ -47,7 +43,6 @@ public class UserController extends BaseController{
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
     public SuccessTip listKongfu(@PathVariable(value = "userid") String userId){
         List list = kongfuService.selectList(new EntityWrapper<Kongfu>().eq("user_id", userId));
-        Map map = new HashMap();
         SUCCESSTIP = new SuccessTip();
         map = new HashMap();
         map.put("courses", list);

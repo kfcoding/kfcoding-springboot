@@ -1,13 +1,13 @@
 package com.cuiyun.kfcoding.rest.modular.course.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
+import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
 import com.cuiyun.kfcoding.rest.modular.course.model.KongfuToTag;
 import com.cuiyun.kfcoding.rest.modular.course.model.Tag;
@@ -20,11 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by carrie on 2018/5/12.
@@ -33,7 +32,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 @RequestMapping("/kongfu")
 @Api(description = "课程相关接口")
-public class KongfuController extends BaseController{
+public class KongfuController extends BaseController {
     @Autowired
     IKongfuService kongfuService;
 
@@ -51,10 +50,13 @@ public class KongfuController extends BaseController{
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     @ApiOperation(value = "创建课程", notes="")
     @Transactional
-    public SuccessTip create(@RequestBody Kongfu kongfu){
+    public SuccessTip create(@RequestBody Kongfu kongfu, HttpServletRequest request){
+//        String token = (String) getHttpServletRequest().getAttribute("token");
+//        String id = jwtTokenUtil.getUsernameFromToken(token);
+
+        User user = getUser(request);
+        kongfu.setAuthor(user.getName());
         List<Tag> tags = kongfu.getTags();
-        tagService.insertOrUpdateAllColumnBatch(tags);
-        kongfu.setTags(tags);
         kongfuService.insert(kongfu);
         List<KongfuToTag> kongfuToTags = new ArrayList<>();
         KongfuToTag kongfuToTag = null;
@@ -62,6 +64,7 @@ public class KongfuController extends BaseController{
             kongfuToTag = new KongfuToTag();
             kongfuToTag.setKongfuId(kongfu.getId());
             kongfuToTag.setTagId(tag.getId());
+            kongfuToTags.add(kongfuToTag);
         }
         boolean flag = iKongfuToTagService.insertBatch(kongfuToTags);
         map = new HashMap<>();

@@ -6,12 +6,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
+import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.base.enums.ThirdpartAuthTypeEnum;
 import com.cuiyun.kfcoding.rest.modular.common.model.Thirdpart;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
@@ -42,7 +42,7 @@ import java.util.HashMap;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @Api(description = "权限相关接口")
-public class AuthController extends BaseController{
+public class AuthController extends BaseController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

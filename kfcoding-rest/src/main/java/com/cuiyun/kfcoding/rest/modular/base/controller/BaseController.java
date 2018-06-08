@@ -1,4 +1,4 @@
-package com.cuiyun.kfcoding.core.base.controller;
+package com.cuiyun.kfcoding.rest.modular.base.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
@@ -6,6 +6,11 @@ import com.cuiyun.kfcoding.core.base.warpper.BaseControllerWarpper;
 import com.cuiyun.kfcoding.core.page.PageInfoBT;
 import com.cuiyun.kfcoding.core.support.HttpKit;
 import com.cuiyun.kfcoding.core.util.FileUtil;
+import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +31,12 @@ import java.util.Map;
  * @create: 2018-05-05 21:11
  **/
 public class BaseController {
+
+    @Autowired
+    protected JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    protected IUserService userService;
 
     protected static String SUCCESS = "SUCCESS";
     protected static String ERROR = "ERROR";
@@ -121,6 +132,18 @@ public class BaseController {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDispositionFormData("attachment", dfileName);
         return new ResponseEntity<byte[]>(fileBytes, headers, HttpStatus.CREATED);
+    }
+
+    protected User getUser(HttpServletRequest request){
+        String token = (String) request.getAttribute("token");
+        if (StringUtils.isBlank(token)){
+//            User user = new User();
+//            user.setName("测试");
+//            return user;
+            return null;
+        }
+        String userId = jwtTokenUtil.getUsernameFromToken(token);
+        return userService.selectById(userId);
     }
 }
 

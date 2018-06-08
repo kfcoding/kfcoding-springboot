@@ -5,8 +5,11 @@ import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,7 +25,7 @@ import java.util.List;
 public class Kongfu extends Model<Kongfu> {
 
     private static final long serialVersionUID = 1L;
-
+    @TableId(value = "id", type = IdType.UUID)
     private String id;
     private String title;
     private String author;
@@ -40,6 +43,7 @@ public class Kongfu extends Model<Kongfu> {
     private Integer status;
     private Integer priority;
     @TableLogic
+    @TableField("is_del")
     private Integer isDel;
     @TableField(exist=false)
     private List<Tag> tags;
@@ -152,6 +156,14 @@ public class Kongfu extends Model<Kongfu> {
     @Override
     protected Serializable pkVal() {
         return this.id;
+    }
+
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 
     @Override

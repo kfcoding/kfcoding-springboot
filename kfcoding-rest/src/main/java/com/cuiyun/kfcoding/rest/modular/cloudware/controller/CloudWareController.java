@@ -1,20 +1,16 @@
 package com.cuiyun.kfcoding.rest.modular.cloudware.controller;
 
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.ReUtil;
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.cuiyun.kfcoding.core.base.controller.BaseController;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.core.support.HttpKit;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
+import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.cloudware.K8sApi;
 import com.cuiyun.kfcoding.rest.modular.cloudware.controller.dto.StartContainerDto;
 import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1Service;
-import io.kubernetes.client.models.V1Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +40,7 @@ public class CloudWareController extends BaseController {
     @Value("${terminal.websocket.server.addr}")
     private String terminalWss;
 
-    @Value("cloudware.Ingress")
+    @Value("${cloudware.Ingress}")
     private String ingress;
 
     @ResponseBody
