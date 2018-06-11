@@ -1,4 +1,4 @@
-package com.cuiyun.kfcoding.rest.modular.base;
+package com.cuiyun.kfcoding.rest.modular.base.Model;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
@@ -68,5 +68,13 @@ public class BaseModel<T extends Model> extends Model<T>{
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }

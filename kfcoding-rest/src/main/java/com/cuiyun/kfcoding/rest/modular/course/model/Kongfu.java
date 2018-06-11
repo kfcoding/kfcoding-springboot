@@ -1,17 +1,10 @@
 package com.cuiyun.kfcoding.rest.modular.course.model;
 
-import java.io.Serializable;
-
 import java.util.ArrayList;
-import java.util.Date;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
+import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
 import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 
 import java.util.List;
@@ -25,17 +18,13 @@ import java.util.List;
  * @since 2018-06-07
  */
 @TableName("course_kongfu")
-public class Kongfu extends Model<Kongfu> {
+public class Kongfu extends BaseModel<Kongfu> {
 
     private static final long serialVersionUID = 1L;
-    @TableId(value = "id", type = IdType.UUID)
-    private String id;
     private String title;
     private String author;
     private Integer type;
     private String brief;
-    @TableField("created_at")
-    private Date createdAt;
     @TableField("user_id")
     private String userId;
     private String level;
@@ -45,20 +34,8 @@ public class Kongfu extends Model<Kongfu> {
     private String surfaceBackground;
     private KongfuStatusEnum status = KongfuStatusEnum.PRIVATE;
     private Integer priority;
-    @TableLogic
-    @TableField("is_del")
-    private Integer isDel = 0;
     @TableField(exist=false)
     private List<Tag> tags = new ArrayList<>();
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -90,14 +67,6 @@ public class Kongfu extends Model<Kongfu> {
 
     public void setBrief(String brief) {
         this.brief = brief;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getUserId() {
@@ -157,27 +126,12 @@ public class Kongfu extends Model<Kongfu> {
     }
 
     @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    @Override
     public String toString() {
         return "Kongfu{" +
-        "id=" + id +
         ", title=" + title +
         ", author=" + author +
         ", type=" + type +
         ", brief=" + brief +
-        ", createdAt=" + createdAt +
         ", userId=" + userId +
         ", level=" + level +
         ", image=" + surfaceImage +

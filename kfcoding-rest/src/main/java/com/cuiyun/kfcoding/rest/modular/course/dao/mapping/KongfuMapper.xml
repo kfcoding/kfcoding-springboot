@@ -8,7 +8,7 @@
         <result column="author" property="author" />
         <result column="type" property="type" />
         <result column="brief" property="brief" />
-        <result column="created_at" property="createdAt" />
+        <result column="create_time" property="createTime" />
         <result column="user_id" property="userId" />
         <result column="level" property="level" />
         <result column="surface_image" property="surfaceImage" />
@@ -16,16 +16,17 @@
         <result column="status" property="status" />
         <result column="priority" property="priority" />
         <result column="is_del" property="isDel" />
+        <result column="update_time" property="updateTime" />
         <collection property="tags" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Tag" select="getTags" column="id">
         </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, title, author, type, brief, created_at AS createdAt, user_id AS userId, level, surface_image AS surfaceImage, surface_background AS surfaceBackground, status, priority, is_del AS isDel
+        id, title, author, type, brief, create_time AS createTime, user_id AS userId, level, surface_image AS surfaceImage, surface_background AS surfaceBackground, status, priority, is_del AS isDel, update_time AS updateTime, version
     </sql>
 
     <sql id="Column_List">
-        k.id, k.title, k.author, k.type, k.brief, k.created_at, k.user_id, k.level, k.surface_image, k.surface_background, k.status, k.priority, k.is_del
+        k.id, k.title, k.author, k.type, k.brief, k.user_id, k.level, k.surface_image, k.surface_background, k.status, k.priority, k.is_del, k.version, k.update_time
     </sql>
 
     <select id="getKongfuById" resultMap="BaseResultMap">
