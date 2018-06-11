@@ -28,4 +28,9 @@ public enum  KongfuStatusEnum implements IEnum{
     public Serializable getValue() {
         return this.key;
     }
+
+    @Override
+    public String toString() {
+        return this.key;
+    }
 }

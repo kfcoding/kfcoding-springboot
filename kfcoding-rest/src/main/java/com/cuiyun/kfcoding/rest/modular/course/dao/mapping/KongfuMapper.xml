@@ -24,9 +24,13 @@
         id, title, author, type, brief, created_at AS createdAt, user_id AS userId, level, surface_image AS surfaceImage, surface_background AS surfaceBackground, status, priority, is_del AS isDel
     </sql>
 
+    <sql id="Column_List">
+        k.id, k.title, k.author, k.type, k.brief, k.created_at, k.user_id, k.level, k.surface_image, k.surface_background, k.status, k.priority, k.is_del
+    </sql>
+
     <select id="getKongfuById" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List" />
+        <include refid="Column_List" />
         FROM course_kongfu k
         WHERE k.id=#{id}
     </select>
@@ -41,9 +45,11 @@
 
     <select id="getKongfuByTag" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List" />
-        FROM course_kongfu k
-        WHERE k.id=#{id} AND k.status=#{status}
+        <include refid="Column_List" />
+        FROM course_tag t
+        LEFT JOIN course_kongfu_to_tag ktg ON t.id=ktg.tag_id
+        LEFT JOIN course_kongfu k ON ktg.kongfu_id=k.id
+        WHERE t.id=#{id} AND k.status=#{status}
     </select>
 
 </mapper>

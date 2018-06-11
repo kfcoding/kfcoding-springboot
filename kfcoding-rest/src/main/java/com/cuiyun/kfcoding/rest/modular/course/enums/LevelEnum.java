@@ -26,4 +26,6 @@ public enum LevelEnum implements IEnum {
     public Serializable getValue() {
         return this.key;
     }
+
+
 }

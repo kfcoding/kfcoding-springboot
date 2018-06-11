@@ -70,7 +70,7 @@ public class KongfuController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    @RequestMapping(path = "/{id}", method = RequestMethod.POST)
     @ApiOperation(value = "修改课程", notes="")
     @Transactional
     public SuccessTip update(@RequestBody Kongfu kongfu, HttpServletRequest request){
@@ -169,7 +169,7 @@ public class KongfuController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/findByTag", method = RequestMethod.GET)
     @ApiOperation(value = "按tag获取课程列表", notes="")
-    public SuccessTip findByTag(Page<Kongfu> page,@RequestParam(value="tag") String id) {
+    public SuccessTip findByTag(Page<Kongfu> page, @RequestParam(value="tag") String id) {
         Page<Kongfu> kongfuList = kongfuService.getKongfuByTag(page, id, KongfuStatusEnum.PUBLIC);
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();

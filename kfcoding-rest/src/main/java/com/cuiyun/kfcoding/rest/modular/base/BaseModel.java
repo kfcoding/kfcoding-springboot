@@ -3,6 +3,7 @@ package com.cuiyun.kfcoding.rest.modular.base;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.Version;
 import com.baomidou.mybatisplus.enums.IdType;
 
@@ -19,15 +20,18 @@ public class BaseModel<T extends Model> extends Model<T>{
     @TableId(value = "id", type = IdType.UUID)
     private String id;
 
-    @TableField(value = "createTime")
-
+    @TableField(value = "create_time")
     private Date createTime;
 
     @TableField(value = "update_time", update = "now()")
     private Date updateTime;
 
     @Version
-    private Integer version;
+    private Long version;
+
+    @TableLogic
+    @TableField("is_del")
+    private Integer isDel = 0;
 
     @Override
     protected Serializable pkVal() {
@@ -50,11 +54,19 @@ public class BaseModel<T extends Model> extends Model<T>{
         this.updateTime = updateTime;
     }
 
-    public Integer getVersion() {
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(Integer version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 }

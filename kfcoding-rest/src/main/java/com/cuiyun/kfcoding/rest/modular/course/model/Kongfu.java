@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
