@@ -1,5 +1,6 @@
 package com.cuiyun.kfcoding.generator;
 
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
@@ -10,10 +11,13 @@ import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.cuiyun.kfcoding.core.util.shortid.ShortId;
+import org.hashids.Hashids;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 实体生成
@@ -88,5 +92,17 @@ public class EntityGenerator {
 
         // 打印注入设置
         System.err.println(mpg.getCfg().getMap().get("abc"));
+    }
+
+    @Test
+    public void testHashId(){
+
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(ShortId.generate());
+        }
+
+//        for (int i = 0; i < 100; i++) {
+//            System.out.println(RandomUtil.simpleUUID());
+//        }
     }
 }

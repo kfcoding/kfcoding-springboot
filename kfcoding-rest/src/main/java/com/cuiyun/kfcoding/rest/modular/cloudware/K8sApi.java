@@ -114,6 +114,7 @@ public class K8sApi {
         try {
             result = coreV1Api.createNamespacedPod(namespace, podBody, "false");
         } catch (ApiException e) {
+            System.err.println(e.getResponseBody());
             e.printStackTrace();
         }
         return result;

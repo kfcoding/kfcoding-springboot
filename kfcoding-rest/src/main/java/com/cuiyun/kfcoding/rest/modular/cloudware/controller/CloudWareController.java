@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.core.support.HttpKit;
+import com.cuiyun.kfcoding.core.util.shortid.ShortId;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.cloudware.K8sApi;
@@ -56,7 +57,7 @@ public class CloudWareController extends BaseController {
 
         // 初始化
         K8sApi k8sApi = K8sApi.getInstance();
-        String podName = "a" + RandomUtil.randomUUID();
+        String podName = (RandomUtil.randomString("abcdefghijklmnopqrstuvwxyz", 1) + ShortId.generate()).toLowerCase();
         // 设置header
         Map headers = new HashMap();
         headers.put("Content-Type", "application/json");
