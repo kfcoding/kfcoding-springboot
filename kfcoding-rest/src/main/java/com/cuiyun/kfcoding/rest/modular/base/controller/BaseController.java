@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.warpper.BaseControllerWarpper;
 import com.cuiyun.kfcoding.core.page.PageInfoBT;
-import com.cuiyun.kfcoding.core.support.HttpKit;
+import com.cuiyun.kfcoding.core.support.http.HttpKit;
 import com.cuiyun.kfcoding.core.util.FileUtil;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;

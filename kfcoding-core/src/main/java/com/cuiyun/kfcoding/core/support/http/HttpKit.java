@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.cuiyun.kfcoding.core.support;
+package com.cuiyun.kfcoding.core.support.http;
 
+import com.cuiyun.kfcoding.core.support.WafRequestWrapper;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.net.ssl.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.spi.http.HttpExchange;
-import javax.xml.ws.spi.http.HttpHandler;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -314,6 +314,43 @@ public class HttpKit {
      * 功能描述: get 请求
      * @return       返回类型:
      */
+    public static HttpResult getResult(String url, Map<String, String> params, Map<String, String> headers) {
+        StringBuffer bufferRes = null;
+        try {
+            HttpURLConnection http = null;
+            if (isHttps(url)) {
+                http = initHttps(initParams(url, params), _GET, headers);
+            } else {
+                http = initHttp(initParams(url, params), _GET, headers);
+            }
+            InputStream in = http.getInputStream();
+            BufferedReader read = new BufferedReader(new InputStreamReader(in, DEFAULT_CHARSET));
+            String valueString = null;
+            bufferRes = new StringBuffer();
+            while ((valueString = read.readLine()) != null){
+                bufferRes.append(valueString);
+            }
+            read.close();
+            in.close();
+            if (http != null) {
+                http.disconnect();// 关闭连接
+            }
+            HttpResult httpResult = new HttpResult();
+            httpResult.setResult(bufferRes.toString());
+            httpResult.setCode(http.getResponseCode());
+            return httpResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @description
+     * 功能描述: get 请求
+     * @return       返回类型:
+     */
     public static String get(String url) {
         return get(url, null);
     }
@@ -362,6 +399,48 @@ public class HttpKit {
                 http.disconnect();// 关闭连接
             }
             return bufferRes.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @description
+     * 功能描述: POST 请求
+     * @return       返回类型:
+     */
+    public static HttpResult postResult(String url, String params, Map<String, String> headers) {
+        StringBuffer bufferRes = null;
+        try {
+            HttpURLConnection http = null;
+            if (isHttps(url)) {
+                http = initHttps(url, _POST, headers);
+            } else {
+                http = initHttp(url, _POST, headers);
+            }
+            OutputStream out = http.getOutputStream();
+            out.write(params.getBytes(DEFAULT_CHARSET));
+            out.flush();
+            out.close();
+
+            InputStream in = http.getInputStream();
+            BufferedReader read = new BufferedReader(new InputStreamReader(in, DEFAULT_CHARSET));
+            String valueString = null;
+            bufferRes = new StringBuffer();
+            while ((valueString = read.readLine()) != null){
+                bufferRes.append(valueString);
+            }
+            read.close();
+            in.close();
+            if (http != null) {
+                http.disconnect();// 关闭连接
+            }
+            HttpResult httpResult = new HttpResult();
+            httpResult.setResult(bufferRes.toString());
+            httpResult.setCode(http.getResponseCode());
+            return httpResult;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

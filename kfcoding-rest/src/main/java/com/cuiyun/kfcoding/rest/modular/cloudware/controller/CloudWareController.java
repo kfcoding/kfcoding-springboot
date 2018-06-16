@@ -5,7 +5,8 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
-import com.cuiyun.kfcoding.core.support.HttpKit;
+import com.cuiyun.kfcoding.core.support.http.HttpKit;
+import com.cuiyun.kfcoding.core.support.http.HttpResult;
 import com.cuiyun.kfcoding.core.util.shortid.ShortId;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
@@ -107,8 +108,9 @@ public class CloudWareController extends BaseController {
                     StringBuffer url = new StringBuffer(terminalWss);
                     url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
 
-                    String wsAddr = HttpKit.get(url.toString(), null, headers);
-                    map.put("WsAddr", wsAddr);
+                    HttpResult httpResult = HttpKit.getResult(url.toString(), null, headers);
+                    System.out.println(httpResult.getCode());
+                    map.put("WsAddr", httpResult.getResult());
 //                    responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
 //                    map.put("podResult", podResult);
                 } catch (Exception e) {

@@ -3,7 +3,7 @@ package com.cuiyun.kfcoding.rest.modular.auth.converter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
-import com.cuiyun.kfcoding.core.support.HttpKit;
+import com.cuiyun.kfcoding.core.support.http.HttpKit;
 import com.cuiyun.kfcoding.core.util.MD5Util;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.config.properties.JwtProperties;

@@ -1,6 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.base;
 
-import com.cuiyun.kfcoding.core.support.HttpKit;
+import com.cuiyun.kfcoding.core.support.http.HttpKit;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
