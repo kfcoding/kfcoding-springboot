@@ -12,10 +12,12 @@ import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.cloudware.K8sApi;
 import com.cuiyun.kfcoding.rest.modular.cloudware.controller.dto.StartContainerDto;
+import com.google.gson.JsonObject;
 import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1Service;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -144,8 +146,33 @@ public class CloudWareController extends BaseController {
     @RequestMapping(path = "/keepalive", method = RequestMethod.POST)
     @ApiOperation(value = "心跳", notes = "")
     public SuccessTip keepalive(@RequestBody String data) throws UnsupportedEncodingException {
-        String url = cloudwareWss + "/api/cloudware/keepalive";
-        String result = HttpUtil.post(url, data);
+        String result;
+        try {
+            String url = cloudwareWss + "/api/cloudware/keepalive";
+
+            Map headers = new HashMap();
+            headers.put("Content-Type", "application/json");
+
+            JSONObject body = new JSONObject(data);
+            body.put("Name", body.get("Pod"));
+            body.remove("Pod");
+
+            if (body.getString("Name") != "" && body.getString("Name") != null) {
+
+                HttpResult response = HttpKit.postResult(url, body.toString(), headers);
+                if (response.getCode() != 200) {
+                    System.err.println(response.getResult());
+                }
+                result = String.valueOf(response.getCode());
+
+            } else {
+                result = "Error, name is null";
+            }
+        } catch (Exception e) {
+            result = "Read body error!";
+            e.printStackTrace();
+        }
+
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         map.put("result", result);
