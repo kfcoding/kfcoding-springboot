@@ -55,12 +55,13 @@ public class CloudWareController extends BaseController {
 
         // 初始化
         K8sApi k8sApi = K8sApi.getInstance();
-        String podName = (RandomUtil.randomString("abcdefghijklmnopqrstuvwxyz", 1) + ShortId.generate()).toLowerCase();
+        String podName = (RandomUtil.randomString("abcdefghijklmnopqrstuvwxyz", 1) +
+                ShortId.generate()).toLowerCase().replace("_", "a");
 
         // header
         Map headers = new HashMap();
         headers.put("Content-Type", "application/json");
-        headers.put("Authorization", "Bearer ad3efe453a786f036a946015feff19f78a80192f462ea1d56e3d89e8c4f5d833");
+
 
         switch (type) {
             case 0:
@@ -72,6 +73,8 @@ public class CloudWareController extends BaseController {
                 System.err.println(podResult);
                 System.err.println(serviceResult);
                 try {
+                    // set header
+                    headers.put("Authorization", "Bearer ad3efe453a786f036a946015feff19f78a80192f462ea1d56e3d89e8c4f5d833");
                     // set body
                     Map requestBody = new HashMap();
                     requestBody.put("Name", podName);
