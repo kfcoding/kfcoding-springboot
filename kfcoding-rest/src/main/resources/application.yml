@@ -38,6 +38,7 @@ spring:
       username: root
       password: 1234
       filters: log4j,wall,mergeStat
+      driver-class-name: com.mysql.jdbc.Driver
 
 logging:
   level.root: info

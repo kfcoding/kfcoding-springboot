@@ -44,9 +44,6 @@ public class CloudWareController extends BaseController {
     @Value("${terminal.websocket.server.addr}")
     private String terminalWss;
 
-    @Value("${cloudware.Ingress}")
-    private String ingress;
-
     @ResponseBody
     @RequestMapping(path = "/startContainer", method = RequestMethod.POST)
     @ApiOperation(value = "", notes = "")
@@ -59,68 +56,66 @@ public class CloudWareController extends BaseController {
         // 初始化
         K8sApi k8sApi = K8sApi.getInstance();
         String podName = (RandomUtil.randomString("abcdefghijklmnopqrstuvwxyz", 1) + ShortId.generate()).toLowerCase();
-        // 设置header
+
+        // header
         Map headers = new HashMap();
         headers.put("Content-Type", "application/json");
-        // 拼接请求json
-        Map requestBody = new HashMap();
-        requestBody.put("Pod", podName);
-        requestBody.put("Namespace", namespace);
-        requestBody.put("Ingress", ingress);
+        headers.put("Authorization", "Bearer ad3efe453a786f036a946015feff19f78a80192f462ea1d56e3d89e8c4f5d833");
 
         switch (type) {
-            case 0://cloudware
-                // create cloudware pod and service
+            case 0:
+                // 创建 pod 及 service
+                // 请求 cloudware controller 添加 traefik 转发规则
+                // 如果请求失败或抛异常，删除 pod 及 service
                 V1Pod podResult = k8sApi.createCloudwarePod(namespace, podName, imageName);
                 V1Service serviceResult = k8sApi.createCloudwareService(namespace, podName);
                 System.err.println(podResult);
                 System.err.println(serviceResult);
-
-                // get cloudware websocket address
                 try {
-//                    StringBuffer url = new StringBuffer(cloudwareWss);
-//                    url.append("/api/websocket/getws/").append(podName).append("/").append(serviceResult.getSpec().getClusterIP());
-//                    String wsAddr = HttpKit.get(url.toString(), null, headers);
-//                    map.put("WsAddr", wsAddr);
-                    int responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
-                    if (responseCode == 200){
-                        StringBuffer sb = new StringBuffer();
-                        sb.append(podName).append(".cloudware.kfcoding.com");
-                        map.put("webSocketAddress", sb.toString());
+                    // set body
+                    Map requestBody = new HashMap();
+                    requestBody.put("Name", podName);
+                    requestBody.put("URL", "http://" + serviceResult.getSpec().getClusterIP() + ":9800");
+                    requestBody.put("Rule", "Path: /" + podName);
+
+                    HttpResult result = HttpKit.postResult(cloudwareWss + "/api/cloudware/routing", JSON.toJSONString(requestBody), headers);
+
+                    if (result.getCode() == 200) {
+                        map.put("webSocketAddress", new StringBuffer("cloudware.kfcoding.com/").append(podName).toString());
                     } else {
+                        k8sApi.deletePod(namespace, podName);
+                        k8sApi.deleteService(namespace, podName);
                         throw new KfCodingException(BizExceptionEnum.CLOUDWARE_CREATE_ERROR);
                     }
                     map.put("podResult", podResult);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    // if get wsaddr filed, delete pod
                     k8sApi.deletePod(namespace, podName);
                     k8sApi.deleteService(namespace, podName);
+                    e.printStackTrace();
                 }
                 break;
-            case 1://terminal
-                // create terminal pod
+            case 1:
                 podResult = k8sApi.createTerminalPod(namespace, podName, imageName);
-
                 System.err.println(podResult);
-                // get terminal websocket address
+
                 try {
                     StringBuffer url = new StringBuffer(terminalWss);
                     url.append("/api/v1/pod/").append(namespace).append("/").append(podName).append("/shell/application");
 
-                    HttpResult httpResult = HttpKit.getResult(url.toString(), null, headers);
-                    System.out.println(httpResult.getCode());
-                    map.put("WsAddr", httpResult.getResult());
-//                    responseCode = HttpKit.put(" http://controller.cloudware.kfcoding.com/api/cloudware", JSON.toJSONString(requestBody), headers);
-//                    map.put("podResult", podResult);
+                    HttpResult result = HttpKit.getResult(url.toString(), null, headers);
+
+                    if (result.getCode() == 200) {
+                        map.put("WsAddr", result.getResult());
+                    } else {
+                        k8sApi.deletePod(namespace, podName);
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // if get wsaddr filed, delete pod
                     k8sApi.deletePod(namespace, podName);
                 }
                 break;
         }
-
 
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
@@ -133,9 +128,10 @@ public class CloudWareController extends BaseController {
         K8sApi k8sApi = K8sApi.getInstance();
 
         k8sApi.deletePod(namespace, podName);
-        if (type == 0) { // delete cloudware service
+        if (type == 0) {
             k8sApi.deleteService(namespace, podName);
         }
+
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         return SUCCESSTIP;
@@ -145,7 +141,7 @@ public class CloudWareController extends BaseController {
     @RequestMapping(path = "/keepalive", method = RequestMethod.POST)
     @ApiOperation(value = "心跳", notes = "")
     public SuccessTip keepalive(@RequestBody String data) throws UnsupportedEncodingException {
-        String url = "http://controller.cloudware.kfcoding.com/api/cloudware/keepalive";
+        String url = cloudwareWss + "/api/cloudware/keepalive";
         String result = HttpUtil.post(url, data);
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
@@ -153,5 +149,4 @@ public class CloudWareController extends BaseController {
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
     }
-
 }

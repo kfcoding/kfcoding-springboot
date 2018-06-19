@@ -5,15 +5,24 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.common.model.User">
         <id column="id" property="id" />
+        <result column="account" property="account" />
         <result column="name" property="name" />
         <result column="avatar_url" property="avatarUrl" />
         <result column="password" property="password" />
         <result column="status" property="status" />
+        <result column="is_del" property="isDel" />
+        <result column="email" property="email" />
+        <result column="city" property="city" />
+        <result column="company" property="company" />
+        <result column="profession" property="profession" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, avatar_url AS avatarUrl, password, status
+        id, account, name, avatar_url, password, status, is_del, email, city, company, profession, create_time, update_time, version
     </sql>
 
 </mapper>

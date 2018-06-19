@@ -16,7 +16,7 @@ import java.util.Date;
  * @author: maple
  * @create: 2018-06-07 20:25
  **/
-public class BaseModel<T extends Model> extends Model<T>{
+public abstract class BaseModel<T extends Model> extends Model<T>{
     @TableId(value = "id", type = IdType.UUID)
     private String id;
 

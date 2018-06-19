@@ -36,6 +36,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      * user模块异常
      */
     USER_ERROR(100, "用户不存在"),
+    USER_EXIST(101, "用户账号已存在"),
 
 
     /**
