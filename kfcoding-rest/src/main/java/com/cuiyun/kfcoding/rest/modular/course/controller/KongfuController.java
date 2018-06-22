@@ -183,7 +183,7 @@ public class KongfuController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(path = "/deleteById", method = RequestMethod.GET)
+    @RequestMapping(path = "/delete", method = RequestMethod.GET)
     @ApiOperation(value = "课程Id", notes="根据Id删除课程")
     public SuccessTip deleteById(@RequestParam String id) {
         if (kongfuService.deleteById(id)){

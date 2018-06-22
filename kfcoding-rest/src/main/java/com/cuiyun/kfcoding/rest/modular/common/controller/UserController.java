@@ -70,6 +70,33 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(path = "/current", method = RequestMethod.POST)
+    @ApiOperation(value = "用户类", notes="修改用户信息")
+    public SuccessTip getUserInfoById(@RequestBody User user){
+        User oldUser = userService.selectById(user.getId());
+        // 检验账号是否重复
+        if (!oldUser.getAccount().equals(user.getAccount())){
+            EntityWrapper ew = new EntityWrapper();
+            ew.eq("account", user.getAccount());
+            if (userService.selectOne(ew) != null){
+                throw new KfCodingException(BizExceptionEnum.USER_EXIST);
+            }
+        }
+        // 修改数据
+        String[] ingoreProperties = {"id", "version", "startTime", "updateTime", "isDel"};
+        BeanUtil.copyProperties(user, oldUser, ingoreProperties);
+        if (!userService.updateById(oldUser)) {
+            throw new KfCodingException(BizExceptionEnum.USER_ERROR);
+        }
+        SUCCESSTIP = new SuccessTip();
+        map = new HashMap();
+        map.put("user", oldUser);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
+    }
+
+
+    @ResponseBody
     @RequestMapping(path = "/current/kongfu", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
     public SuccessTip currentKongfu(HttpServletRequest request){
@@ -99,31 +126,6 @@ public class UserController extends BaseController {
         return SUCCESSTIP;
     }
 
-    @ResponseBody
-    @RequestMapping(path = "/update", method = RequestMethod.POST)
-    @ApiOperation(value = "用户类", notes="修改用户信息")
-    public SuccessTip getUserInfoById(@RequestBody User user){
-        User oldUser = userService.selectById(user.getId());
-        // 检验账号是否重复
-        if (!oldUser.getAccount().equals(user.getAccount())){
-            Map selectMap = new HashMap();
-            selectMap.put("account", user.getAccount());
-            if (userService.selectByMap(selectMap) != null){
-                throw new KfCodingException(BizExceptionEnum.USER_EXIST);
-            }
-        }
-        // 修改数据
-        String[] ingoreProperties = {"id", "version", "startTime", "updateTime", "isDel"};
-        BeanUtil.copyProperties(user, oldUser, ingoreProperties);
-        if (!userService.updateById(oldUser)) {
-            throw new KfCodingException(BizExceptionEnum.USER_ERROR);
-        }
-        SUCCESSTIP = new SuccessTip();
-        map = new HashMap();
-        map.put("user", oldUser);
-        SUCCESSTIP.setResult(map);
-        return SUCCESSTIP;
-    }
 
 
 }
