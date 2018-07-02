@@ -48,7 +48,14 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     /**
      * cloudware模块异常
      */
-    CLOUDWARE_CREATE_ERROR(601, "创建异常");
+    CLOUDWARE_CREATE_ERROR(601, "创建异常"),
+
+    /**
+     * workspace模块异常
+     */
+    WORKSPACE_CREATE_ERROR(801, "创建异常"),
+    WORKSPACE_NULL(802, "工作空间不存在"),
+    ;
 
     BizExceptionEnum(Integer code, String message) {
         this.code = code;

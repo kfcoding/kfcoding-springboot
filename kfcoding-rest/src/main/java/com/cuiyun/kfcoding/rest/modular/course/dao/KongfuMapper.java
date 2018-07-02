@@ -1,6 +1,5 @@
 package com.cuiyun.kfcoding.rest.modular.course.dao;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
