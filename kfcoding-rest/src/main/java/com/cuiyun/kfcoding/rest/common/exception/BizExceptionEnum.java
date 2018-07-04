@@ -37,7 +37,8 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      */
     USER_ERROR(100, "用户不存在"),
     USER_EXIST(101, "用户账号已存在"),
-
+    USER_CREATE_REQUIRED(102, "用户信息不全"),
+    USER_CREATE_EMAIL(103, "邮箱格式不合法"),
 
     /**
      * course模块异常

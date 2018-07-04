@@ -568,4 +568,20 @@ public class ToolUtil {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * 判断邮箱是否合法
+     */
+    public static boolean checkEmail(String email)
+    {
+        String format = "\\p{Alpha}\\w{2,15}[@][a-z0-9]{3,}[.]\\p{Lower}{2,}";
+        if (email.matches(format))
+        {
+            return true;// 邮箱名合法，返回true
+        }
+        else
+        {
+            return false;// 邮箱名不合法，返回false
+        }
+    }
 }

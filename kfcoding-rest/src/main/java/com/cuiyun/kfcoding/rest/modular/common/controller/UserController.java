@@ -1,15 +1,19 @@
 package com.cuiyun.kfcoding.rest.modular.common.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.core.util.ToolUtil;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
+import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
+import com.cuiyun.kfcoding.rest.modular.auth.validator.dto.Credence;
+import com.cuiyun.kfcoding.rest.modular.auth.validator.impl.DbValidator;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
-import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
 import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuService;
 import io.swagger.annotations.Api;
@@ -18,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: kfcoding
@@ -39,6 +43,10 @@ public class UserController extends BaseController {
 
     @Autowired
     IKongfuService kongfuService;
+
+    @Autowired
+    DbValidator dbValidator;
+
 
     @ResponseBody
     @RequestMapping(path = "/{userid}/kongfu", method = RequestMethod.GET)
@@ -120,10 +128,55 @@ public class UserController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.USER_ERROR);
         }
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap();
+        map = new HashMap<>();
         map.put("user", user);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "用户类", notes="创建用户")
+    public SuccessTip createUser(@RequestBody User user){
+        if (StrUtil.isAllBlank(user.getEmail(), user.getPassword()))
+            throw new KfCodingException(BizExceptionEnum.USER_CREATE_REQUIRED);
+        if (!ToolUtil.checkEmail(user.getEmail()))
+            throw new KfCodingException(BizExceptionEnum.USER_CREATE_EMAIL);
+        if (user.getName() == null){
+            user.setName(user.getEmail());
+        }
+        if (user.getAccount() == null){
+            user.setAccount(user.getEmail());
+        }
+        user.setCreateTime(new Date());
+        if (userService.insert(user)){
+            Credence credence = new Credence() {
+                @Override
+                public AuthTypeEnum getCredenceAuthType() {
+                    return AuthTypeEnum.PASSWORD;
+                }
+
+                @Override
+                public String getCredenceName() {
+                    return user.getId();
+                }
+
+                @Override
+                public String getCredenceCode() {
+                    return user.getPassword();
+                }
+            };
+            if(dbValidator.validate(credence) != null){
+                String token = jwtTokenUtil.generateToken(user.getId(), jwtTokenUtil.getRandomKey());
+                map = new HashMap<>();
+                SUCCESSTIP = new SuccessTip();
+                map.put("token", token);
+                SUCCESSTIP.setResult(map);
+                return SUCCESSTIP;
+            } else
+                throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);
+        }
+        throw new KfCodingException(BizExceptionEnum.USER_CREATE_REQUIRED);
     }
 
 

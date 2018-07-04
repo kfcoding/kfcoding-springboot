@@ -60,7 +60,6 @@ public class AuthController extends BaseController {
                 userId = dbValidator.validate(authPasswordRequest);
                 break;
         }
-
         if (userId == null)
             throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);
 
