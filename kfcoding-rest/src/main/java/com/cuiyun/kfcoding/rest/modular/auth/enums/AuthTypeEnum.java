@@ -14,7 +14,7 @@ import java.util.Map;
  **/
 public enum AuthTypeEnum implements IEnum{
     GITHUB("github"),
-    PASSWORD("passwrod");
+    PASSWORD("password");
 
 
     private static final Map<String, AuthTypeEnum> CODE_MAP = new HashMap<String, AuthTypeEnum>();

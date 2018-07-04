@@ -14,7 +14,7 @@ public class AuthPasswordRequest implements Credence {
 
     // 验证类型
     private AuthTypeEnum authType;
-    // 账号活着邮箱
+    // 账号或者邮箱
     private String credenceName;
     // 密码
     private String credenceCode;

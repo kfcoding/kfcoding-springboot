@@ -68,8 +68,6 @@ public class UserController extends BaseController {
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
     public SuccessTip current(HttpServletRequest request){
-//        String token = (String) request.getAttribute("token");
-//        String userId = jwtTokenUtil.getUsernameFromToken(token);
         User user = getUser(request);
         SUCCESSTIP = new SuccessTip();
         map = new HashMap<>();
@@ -147,7 +145,8 @@ public class UserController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.USER_EXIST);
 
         // 密码加密
-        user.setPassword(MD5Util.encrypt(user.getPassword()));
+        String password = user.getPassword();
+        user.setPassword(MD5Util.encrypt(password));
 
         if (user.getName() == null){
             user.setName(user.getEmail());
@@ -159,7 +158,7 @@ public class UserController extends BaseController {
         if (userService.insert(user)){
             AuthPasswordRequest authPasswordRequest = new AuthPasswordRequest();
             authPasswordRequest.setAuthType(AuthTypeEnum.PASSWORD.toString());
-            authPasswordRequest.setCredenceCode(user.getPassword());
+            authPasswordRequest.setCredenceCode(password);
             authPasswordRequest.setCredenceName(user.getEmail());
             if(dbValidator.validate(authPasswordRequest) != null){
                 String token = jwtTokenUtil.generateToken(user.getId(), jwtTokenUtil.getRandomKey());

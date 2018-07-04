@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 
@@ -45,9 +46,10 @@ public class AuthController extends BaseController {
     private String bucketName;
 
 
-    @RequestMapping(value = "${jwt.auth-path}", method =RequestMethod.GET)
+    @RequestMapping(value = "${jwt.auth-path}", method = {RequestMethod.GET, RequestMethod.POST})
     @ApiOperation(value = "获取token", notes="")
-    public ResponseEntity<?> createAuthenticationToken(AuthPasswordRequest authPasswordRequest) {
+    public ResponseEntity<?> createAuthenticationToken(HttpServletRequest request, @RequestBody AuthPasswordRequest authPasswordRequest) {
+
         map = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
 

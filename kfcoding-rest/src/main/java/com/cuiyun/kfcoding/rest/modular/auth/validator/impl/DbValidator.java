@@ -2,6 +2,7 @@ package com.cuiyun.kfcoding.rest.modular.auth.validator.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.core.util.MD5Util;
 import com.cuiyun.kfcoding.core.util.ToolUtil;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.validator.IReqValidator;
@@ -32,7 +33,7 @@ public class DbValidator implements IReqValidator {
         } else {
             ew.eq("account", credence.getCredenceName());
         }
-        ew.eq("password", credence.getCredenceCode());
+        ew.eq("password", MD5Util.encrypt(credence.getCredenceCode()));
 
         User user = userService.selectOne(ew);
         if (user == null)
