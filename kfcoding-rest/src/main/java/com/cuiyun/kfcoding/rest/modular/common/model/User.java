@@ -21,15 +21,42 @@ public class User extends BaseModel<User> {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 账号 （required）
+     */
     private String account;
+    /**
+     * 名称 （required）
+     */
     private String name;
     @TableField("avatar_url")
+    /**
+     * 头像
+     */
     private String avatarUrl;
+    /**
+     * 密码 （required）
+     */
     private String password;
+    /**
+     * 状态
+     */
     private Integer status;
+    /**
+     * 邮箱（required）
+     */
     private String email;
+    /**
+     * 城市
+     */
     private String city;
+    /**
+     * 公司
+     */
     private String company;
+    /**
+     * 职位
+     */
     private String profession;
 
     public String getAccount() {

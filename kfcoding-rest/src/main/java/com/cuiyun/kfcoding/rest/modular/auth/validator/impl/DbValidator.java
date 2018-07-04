@@ -1,7 +1,13 @@
 package com.cuiyun.kfcoding.rest.modular.auth.validator.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.validator.IReqValidator;
 import com.cuiyun.kfcoding.rest.modular.auth.validator.dto.Credence;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,17 +21,18 @@ import java.util.List;
 @Service
 public class DbValidator implements IReqValidator {
 
-//    @Autowired
-//    UserMapper userMapper;
+    @Autowired
+    IUserService userService;
 
     @Override
-    public boolean validate(Credence credence) {
-        return true;
-//        List<User> users = userMapper.selectList(new EntityWrapper<User>().eq("userName", credence.getCredenceName()));
-//        if (users != null && users.size() > 0) {
-//            return true;
-//        } else {
-//            return false;
-//        }
+    public String validate(Credence credence) {
+        EntityWrapper ew = new EntityWrapper<User>();
+        ew.eq("account", credence.getCredenceName());
+        ew.eq("password", credence.getCredenceCode());
+        User user = userService.selectOne(ew);
+        if (user == null)
+            throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);
+
+        return user.getId();
     }
 }

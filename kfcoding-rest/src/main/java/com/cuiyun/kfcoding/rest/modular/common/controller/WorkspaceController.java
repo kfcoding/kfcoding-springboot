@@ -1,9 +1,11 @@
 package com.cuiyun.kfcoding.rest.modular.common.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import com.cuiyun.kfcoding.rest.modular.common.service.IWorkspaceService;
 import io.swagger.annotations.Api;
@@ -11,7 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @program: kfcoding
@@ -20,7 +24,7 @@ import java.util.HashMap;
  * @create: 2018-07-01 19:45
  **/
 @RestController
-@RequestMapping("/workspace")
+@RequestMapping("/workspaces")
 @CrossOrigin(origins = "*")
 @Api(description = "工作空间相关接口")
 public class WorkspaceController extends BaseController {
@@ -29,7 +33,7 @@ public class WorkspaceController extends BaseController {
     IWorkspaceService workspaceService;
 
     @ResponseBody
-    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "工作空间", notes = "创建工作空间")
     public SuccessTip create(@RequestBody Workspace workspace) {
         if (workspaceService.insert(workspace)) {
@@ -40,6 +44,21 @@ public class WorkspaceController extends BaseController {
         } else {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_CREATE_ERROR);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "", notes = "获取当前用户的所有workspace")
+    public SuccessTip getWorkspaces(HttpServletRequest request) {
+        User user = getUser(request);
+        EntityWrapper ew = new EntityWrapper();
+        ew.eq("user_id", user.getId());
+        List<Workspace> workspaces = workspaceService.selectList(ew);
+        SUCCESSTIP = new SuccessTip();
+        map = new HashMap<>();
+        map.put("workspaces", workspaces);
+        SUCCESSTIP.setResult(map);
+        return SUCCESSTIP;
     }
 
     @ResponseBody
@@ -57,5 +76,9 @@ public class WorkspaceController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_NULL);
         }
     }
+
+
+
+
 
 }

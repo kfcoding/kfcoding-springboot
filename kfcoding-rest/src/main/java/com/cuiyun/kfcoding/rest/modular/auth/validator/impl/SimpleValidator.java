@@ -18,15 +18,15 @@ public class SimpleValidator implements IReqValidator {
     private static String PASSWORD = "admin";
 
     @Override
-    public boolean validate(Credence credence) {
+    public String validate(Credence credence) {
 
         String userName = credence.getCredenceName();
         String password = credence.getCredenceCode();
 
         if (USER_NAME.equals(userName) && PASSWORD.equals(password)) {
-            return true;
+            return USER_NAME;
         } else {
-            return false;
+            return null;
         }
     }
 }

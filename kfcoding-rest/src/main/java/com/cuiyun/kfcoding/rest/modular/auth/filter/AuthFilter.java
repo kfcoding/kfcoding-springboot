@@ -54,7 +54,8 @@ public class AuthFilter extends OncePerRequestFilter {
         if (request.getServletPath().startsWith("/" + jwtProperties.getAuthPath()) ||
                 (request.getServletPath().startsWith("/cloudware")) ||
                 (request.getServletPath().startsWith("/druid")) ||
-                (request.getServletPath().startsWith("/kongfu") && request.getMethod().equals("GET"))
+                (request.getServletPath().startsWith("/kongfu") && request.getMethod().equals("GET")) ||
+                (request.getServletPath().startsWith("/workspaces") && request.getMethod().equals("GET"))
                 ) {
             chain.doFilter(request, response);
             return;

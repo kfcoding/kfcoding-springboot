@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-import com.cuiyun.kfcoding.rest.modular.base.enums.ThirdpartAuthTypeEnum;
+import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
 
 /**
  * <p>
@@ -32,7 +32,7 @@ public class Thirdpart extends Model<Thirdpart> {
     private String userId;
     @JSONField(serialzeFeatures= SerializerFeature.WriteEnumUsingToString)
     @TableField("auth_type")
-    private ThirdpartAuthTypeEnum authType;
+    private AuthTypeEnum authType;
     @TableField("thirdpart_id")
     private String thirdpartId;
     @TableField("gists_url")
@@ -100,11 +100,11 @@ public class Thirdpart extends Model<Thirdpart> {
         this.userId = userId;
     }
 
-    public ThirdpartAuthTypeEnum getAuthType() {
+    public AuthTypeEnum getAuthType() {
         return authType;
     }
 
-    public void setAuthType(ThirdpartAuthTypeEnum authType) {
+    public void setAuthType(AuthTypeEnum authType) {
         this.authType = authType;
     }
 
