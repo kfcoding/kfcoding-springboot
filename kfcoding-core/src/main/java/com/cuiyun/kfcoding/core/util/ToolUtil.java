@@ -574,7 +574,7 @@ public class ToolUtil {
      */
     public static boolean checkEmail(String email)
     {
-        String format = "\\p{Alpha}\\w{2,15}[@][a-z0-9]{3,}[.]\\p{Lower}{2,}";
+        String format = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
         if (email.matches(format))
         {
             return true;// 邮箱名合法，返回true

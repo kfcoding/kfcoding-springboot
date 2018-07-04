@@ -5,10 +5,11 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.core.util.MD5Util;
 import com.cuiyun.kfcoding.core.util.ToolUtil;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
+import com.cuiyun.kfcoding.rest.modular.auth.controller.dto.AuthPasswordRequest;
 import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
-import com.cuiyun.kfcoding.rest.modular.auth.validator.dto.Credence;
 import com.cuiyun.kfcoding.rest.modular.auth.validator.impl.DbValidator;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
@@ -57,7 +58,7 @@ public class UserController extends BaseController {
         ew.eq("status", KongfuStatusEnum.PUBLIC);
         List list = kongfuService.selectList(ew);
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap();
+        map = new HashMap<>();
         map.put("courses", list);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
@@ -71,7 +72,7 @@ public class UserController extends BaseController {
 //        String userId = jwtTokenUtil.getUsernameFromToken(token);
         User user = getUser(request);
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap();
+        map = new HashMap<>();
         map.put("user", user);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
@@ -97,7 +98,7 @@ public class UserController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.USER_ERROR);
         }
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap();
+        map = new HashMap<>();
         map.put("user", oldUser);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
@@ -113,7 +114,7 @@ public class UserController extends BaseController {
         ew.eq("user_id", user.getId());
         List kongfus = kongfuService.selectList(ew);
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap();
+        map = new HashMap<>();
         map.put("kongfuList", kongfus);
         SUCCESSTIP.setResult(map);
         return SUCCESSTIP;
@@ -142,6 +143,12 @@ public class UserController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.USER_CREATE_REQUIRED);
         if (!ToolUtil.checkEmail(user.getEmail()))
             throw new KfCodingException(BizExceptionEnum.USER_CREATE_EMAIL);
+        if (userService.selectOne(new EntityWrapper<User>().eq("email",user.getEmail())) != null)
+            throw new KfCodingException(BizExceptionEnum.USER_EXIST);
+
+        // 密码加密
+        user.setPassword(MD5Util.encrypt(user.getPassword()));
+
         if (user.getName() == null){
             user.setName(user.getEmail());
         }
@@ -150,23 +157,11 @@ public class UserController extends BaseController {
         }
         user.setCreateTime(new Date());
         if (userService.insert(user)){
-            Credence credence = new Credence() {
-                @Override
-                public AuthTypeEnum getCredenceAuthType() {
-                    return AuthTypeEnum.PASSWORD;
-                }
-
-                @Override
-                public String getCredenceName() {
-                    return user.getId();
-                }
-
-                @Override
-                public String getCredenceCode() {
-                    return user.getPassword();
-                }
-            };
-            if(dbValidator.validate(credence) != null){
+            AuthPasswordRequest authPasswordRequest = new AuthPasswordRequest();
+            authPasswordRequest.setAuthType(AuthTypeEnum.PASSWORD.toString());
+            authPasswordRequest.setCredenceCode(user.getPassword());
+            authPasswordRequest.setCredenceName(user.getEmail());
+            if(dbValidator.validate(authPasswordRequest) != null){
                 String token = jwtTokenUtil.generateToken(user.getId(), jwtTokenUtil.getRandomKey());
                 map = new HashMap<>();
                 SUCCESSTIP = new SuccessTip();

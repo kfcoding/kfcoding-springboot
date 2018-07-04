@@ -143,7 +143,8 @@ public class BaseController {
             return null;
         }
         String userId = jwtTokenUtil.getUsernameFromToken(token);
-        return userService.selectById(userId);
+        User user = userService.selectById(userId);
+        return user;
     }
 }
 
