@@ -58,9 +58,9 @@ public class UserController extends BaseController {
         ew.eq("status", KongfuStatusEnum.PUBLIC);
         List list = kongfuService.selectList(ew);
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap<>();
-        map.put("courses", list);
-        SUCCESSTIP.setResult(map);
+        MAP = new HashMap<>();
+        MAP.put("courses", list);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -70,9 +70,9 @@ public class UserController extends BaseController {
     public SuccessTip current(HttpServletRequest request){
         User user = getUser(request);
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap<>();
-        map.put("user", user);
-        SUCCESSTIP.setResult(map);
+        MAP = new HashMap<>();
+        MAP.put("user", user);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -96,9 +96,9 @@ public class UserController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.USER_ERROR);
         }
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap<>();
-        map.put("user", oldUser);
-        SUCCESSTIP.setResult(map);
+        MAP = new HashMap<>();
+        MAP.put("user", oldUser);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -112,9 +112,9 @@ public class UserController extends BaseController {
         ew.eq("user_id", user.getId());
         List kongfus = kongfuService.selectList(ew);
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap<>();
-        map.put("kongfuList", kongfus);
-        SUCCESSTIP.setResult(map);
+        MAP = new HashMap<>();
+        MAP.put("kongfuList", kongfus);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -127,9 +127,9 @@ public class UserController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.USER_ERROR);
         }
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap<>();
-        map.put("user", user);
-        SUCCESSTIP.setResult(map);
+        MAP = new HashMap<>();
+        MAP.put("user", user);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -162,10 +162,10 @@ public class UserController extends BaseController {
             authPasswordRequest.setCredenceName(user.getEmail());
             if(dbValidator.validate(authPasswordRequest) != null){
                 String token = jwtTokenUtil.generateToken(user.getId(), jwtTokenUtil.getRandomKey());
-                map = new HashMap<>();
+                MAP = new HashMap<>();
                 SUCCESSTIP = new SuccessTip();
-                map.put("token", token);
-                SUCCESSTIP.setResult(map);
+                MAP.put("token", token);
+                SUCCESSTIP.setResult(MAP);
                 return SUCCESSTIP;
             } else
                 throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);

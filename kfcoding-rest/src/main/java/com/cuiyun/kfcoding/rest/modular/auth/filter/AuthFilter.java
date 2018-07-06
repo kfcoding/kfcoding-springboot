@@ -56,7 +56,7 @@ public class AuthFilter extends OncePerRequestFilter {
                 (request.getServletPath().startsWith("/cloudware")) ||
                 (request.getServletPath().startsWith("/druid")) ||
                 (request.getServletPath().startsWith("/kongfu") && request.getMethod().equals("GET")) ||
-                (request.getServletPath().startsWith("/workspaces") && request.getMethod().equals("GET"))
+                (request.getServletPath().startsWith("/workspaces") && request.getMethod().equals("GET") &&  !request.getServletPath().equals("/workspaces"))
                 ) {
             chain.doFilter(request, response);
             return;

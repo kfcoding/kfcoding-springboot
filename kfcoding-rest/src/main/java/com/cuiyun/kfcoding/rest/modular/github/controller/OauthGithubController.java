@@ -110,8 +110,8 @@ public class OauthGithubController extends BaseController {
             JSONObject userInfo = OauthGithub.me().getUserInfo(gitHubToken);
             User user = JSON.parseObject(userInfo.toJSONString(), new TypeReference<User>() {});
             String token = jwtTokenUtil.generateToken(user.getId().toString(), jwtTokenUtil.getRandomKey());
-            map.put("token", token);
-            SUCCESSTIP.setResult(map);
+            MAP.put("token", token);
+            SUCCESSTIP.setResult(MAP);
             return ResponseEntity.ok(SUCCESSTIP);
         }catch(Exception e){
             e.printStackTrace();

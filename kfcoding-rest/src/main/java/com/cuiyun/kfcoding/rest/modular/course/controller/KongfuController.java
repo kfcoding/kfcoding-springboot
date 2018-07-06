@@ -1,7 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.course.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
@@ -60,7 +59,7 @@ public class KongfuController extends BaseController {
         kongfuService.insert(kongfu);
         List<KongfuToTag> kongfuToTags = setKongfuToTag(tags, kongfu.getId());
         boolean flag = kongfuToTagService.insertBatch(kongfuToTags);
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         if(flag){
             return SUCCESSTIP;
@@ -88,7 +87,7 @@ public class KongfuController extends BaseController {
         kongfuService.updateById(kongfu);
         List<KongfuToTag> kongfuToTags = setKongfuToTag(tags, kongfu.getId());
         boolean flag = kongfuToTagService.insertBatch(kongfuToTags);
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         if(flag){
             return SUCCESSTIP;
@@ -117,10 +116,10 @@ public class KongfuController extends BaseController {
         if (kongfu == null) {
             throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
         }
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-        map.put("kongfu", kongfu);
-        SUCCESSTIP.setResult(map);
+        MAP.put("kongfu", kongfu);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -129,11 +128,11 @@ public class KongfuController extends BaseController {
     @ApiOperation(value = "课程列表", notes="")
     public SuccessTip findByPage(Page page) {
         Page<Kongfu> tutorialPage = kongfuService.selectPage(page);
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         if (tutorialPage.getTotal() != 0) {
-            map.put("kongfuPage", tutorialPage);
-            SUCCESSTIP.setResult(map);
+            MAP.put("kongfuPage", tutorialPage);
+            SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
             throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
@@ -147,10 +146,10 @@ public class KongfuController extends BaseController {
         EntityWrapper ew = new EntityWrapper<Kongfu>();
         ew.eq("status", KongfuStatusEnum.PUBLIC);
         List<Kongfu> list = kongfuService.selectList(ew);
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-        map.put("kongfus", list);
-        SUCCESSTIP.setResult(map);
+        MAP.put("kongfus", list);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -159,10 +158,10 @@ public class KongfuController extends BaseController {
     @ApiOperation(value = "标签列表", notes="")
     public SuccessTip Taglist() {
         List taglist = tagService.selectList(new EntityWrapper<>());
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-        map.put("taglist", taglist);
-        SUCCESSTIP.setResult(map);
+        MAP.put("taglist", taglist);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -171,11 +170,11 @@ public class KongfuController extends BaseController {
     @ApiOperation(value = "按tag获取课程列表", notes="")
     public SuccessTip findByTag(Page<Kongfu> page, @RequestParam(value="tag") String id) {
         Page<Kongfu> kongfuList = kongfuService.getKongfuByTag(page, id, KongfuStatusEnum.PUBLIC);
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         if (kongfuList.getSize() != 0) {
-            map.put("kongfuList", kongfuList);
-            SUCCESSTIP.setResult(map);
+            MAP.put("kongfuList", kongfuList);
+            SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
             throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);

@@ -1,14 +1,8 @@
 package com.cuiyun.kfcoding.rest.modular.common.model;
 
-import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -31,6 +25,16 @@ public class Workspace extends BaseModel<Workspace> {
     private String status;
     @TableField("user_id")
     private String userId;
+    @TableField("container_name")
+    private String containerName;
+
+    public String getContainerName() {
+        return containerName;
+    }
+
+    public void setContainerName(String containerName) {
+        this.containerName = containerName;
+    }
 
     public String getTitle() {
         return title;

@@ -38,8 +38,8 @@ public class WorkspaceController extends BaseController {
     public SuccessTip create(@RequestBody Workspace workspace) {
         if (workspaceService.insert(workspace)) {
             SUCCESSTIP = new SuccessTip();
-            map.put("workspace", workspace);
-            SUCCESSTIP.setResult(map);
+            MAP.put("workspace", workspace);
+            SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_CREATE_ERROR);
@@ -55,9 +55,9 @@ public class WorkspaceController extends BaseController {
         ew.eq("user_id", user.getId());
         List<Workspace> workspaces = workspaceService.selectList(ew);
         SUCCESSTIP = new SuccessTip();
-        map = new HashMap<>();
-        map.put("workspaces", workspaces);
-        SUCCESSTIP.setResult(map);
+        MAP = new HashMap<>();
+        MAP.put("workspaces", workspaces);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -68,17 +68,24 @@ public class WorkspaceController extends BaseController {
         Workspace workspace = workspaceService.selectById(id);
         if (workspace != null) {
             SUCCESSTIP = new SuccessTip();
-            map = new HashMap<>();
-            map.put("workspace", workspace);
-            SUCCESSTIP.setResult(map);
+            MAP = new HashMap<>();
+            MAP.put("workspace", workspace);
+            SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_NULL);
         }
     }
 
+    @ResponseBody
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除工作空间", notes = "删除工作空间")
+    public SuccessTip delete(@PathVariable String id) {
+        if (!workspaceService.deleteById(id))
+            throw new KfCodingException(BizExceptionEnum.WORKSPACE_DELETE);
 
-
-
+        SUCCESSTIP = new SuccessTip();
+        return SUCCESSTIP;
+    }
 
 }

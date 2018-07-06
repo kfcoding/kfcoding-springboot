@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 
@@ -46,13 +45,12 @@ public class AuthController extends BaseController {
     private String bucketName;
 
 
-    @RequestMapping(value = "${jwt.auth-path}", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.POST)
     @ApiOperation(value = "获取token", notes="")
-    public ResponseEntity<?> createAuthenticationToken(HttpServletRequest request, @RequestBody AuthPasswordRequest authPasswordRequest) {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthPasswordRequest authPasswordRequest) {
 
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-
         String userId = null;
         switch (authPasswordRequest.getAuthType()) {
             case GITHUB:  // 若是github登陆
@@ -66,11 +64,16 @@ public class AuthController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);
 
         String token = jwtTokenUtil.generateToken(userId, jwtTokenUtil.getRandomKey());
-        map.put("token", token);
-        SUCCESSTIP.setResult(map);
+        MAP.put("token", token);
+        SUCCESSTIP.setResult(MAP);
         return ResponseEntity.ok(SUCCESSTIP);
     }
 
+    @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取token", notes="")
+    public ResponseEntity<?> createAuthenticationTokenByPost(AuthPasswordRequest authPasswordRequest) {
+        return createAuthenticationToken(authPasswordRequest);
+    }
 
 
     @RequestMapping(value = "/auth/sts/{kongfuid}", method = RequestMethod.GET)
@@ -79,10 +82,10 @@ public class AuthController extends BaseController {
         StringBuffer sb = new StringBuffer();
         sb.append(bucketName).append("/").append(kongfuid).append("/*");
         AssumeRoleResponse response = STSUtil.instance().getAssumeRoleResponse(bucketName + "/" + kongfuid + "/*");
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-        map.put("assumeRoleResponse", response);
-        SUCCESSTIP.setResult(map);
+        MAP.put("assumeRoleResponse", response);
+        SUCCESSTIP.setResult(MAP);
         return ResponseEntity.ok(SUCCESSTIP);
     }
 }

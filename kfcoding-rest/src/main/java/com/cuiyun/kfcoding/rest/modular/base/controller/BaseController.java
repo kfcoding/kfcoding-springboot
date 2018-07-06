@@ -46,7 +46,7 @@ public class BaseController {
 
     protected SuccessTip SUCCESSTIP = new SuccessTip();
 
-    protected Map<String, Object> map = new HashMap<>();
+    protected Map<String, Object> MAP = new HashMap<>();
 
     protected HttpServletRequest getHttpServletRequest() {
         return HttpKit.getRequest();

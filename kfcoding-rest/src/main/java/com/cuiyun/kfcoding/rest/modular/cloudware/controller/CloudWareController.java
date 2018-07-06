@@ -1,7 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.cloudware.controller;
 
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
@@ -12,7 +11,6 @@ import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.cloudware.K8sApi;
 import com.cuiyun.kfcoding.rest.modular.cloudware.controller.dto.StartContainerDto;
-import com.google.gson.JsonObject;
 import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1Service;
 import io.swagger.annotations.Api;
@@ -50,7 +48,7 @@ public class CloudWareController extends BaseController {
     @RequestMapping(path = "/startContainer", method = RequestMethod.POST)
     @ApiOperation(value = "", notes = "")
     public SuccessTip startContainer(@RequestBody StartContainerDto startContainerDto) {
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         String imageName = startContainerDto.getImageName();
         Integer type = startContainerDto.getType();
@@ -86,13 +84,13 @@ public class CloudWareController extends BaseController {
                     HttpResult result = HttpKit.postResult(cloudwareWss + "/api/cloudware/routing", JSON.toJSONString(requestBody), headers);
 
                     if (result.getCode() == 200) {
-                        map.put("webSocketAddress", new StringBuffer("cloudware.kfcoding.com/").append(podName).toString());
+                        MAP.put("webSocketAddress", new StringBuffer("cloudware.kfcoding.com/").append(podName).toString());
                     } else {
                         k8sApi.deletePod(namespace, podName);
                         k8sApi.deleteService(namespace, podName);
                         throw new KfCodingException(BizExceptionEnum.CLOUDWARE_CREATE_ERROR);
                     }
-                    map.put("podResult", podResult);
+                    MAP.put("podResult", podResult);
                 } catch (Exception e) {
                     k8sApi.deletePod(namespace, podName);
                     k8sApi.deleteService(namespace, podName);
@@ -110,7 +108,7 @@ public class CloudWareController extends BaseController {
                     HttpResult result = HttpKit.getResult(url.toString(), null, headers);
 
                     if (result.getCode() == 200) {
-                        map.put("WsAddr", result.getResult());
+                        MAP.put("WsAddr", result.getResult());
                     } else {
                         k8sApi.deletePod(namespace, podName);
                     }
@@ -122,7 +120,7 @@ public class CloudWareController extends BaseController {
                 break;
         }
 
-        SUCCESSTIP.setResult(map);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 
@@ -137,7 +135,7 @@ public class CloudWareController extends BaseController {
             k8sApi.deleteService(namespace, podName);
         }
 
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         return SUCCESSTIP;
     }
@@ -173,10 +171,10 @@ public class CloudWareController extends BaseController {
             e.printStackTrace();
         }
 
-        map = new HashMap<>();
+        MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-        map.put("result", result);
-        SUCCESSTIP.setResult(map);
+        MAP.put("result", result);
+        SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
 }

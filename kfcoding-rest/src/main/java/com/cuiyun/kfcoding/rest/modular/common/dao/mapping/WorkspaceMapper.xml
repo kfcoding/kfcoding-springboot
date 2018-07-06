@@ -15,11 +15,12 @@
         <result column="is_del" property="isDel" />
         <result column="status" property="status" />
         <result column="user_id" property="userId" />
+        <result column="container_name" property="containerName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, description, git_url, environment, version, create_time, update_time, is_del, status, user_id
+        id, title, description, git_url, environment, version, create_time, update_time, is_del, status, user_id, container_name
     </sql>
 
 </mapper>

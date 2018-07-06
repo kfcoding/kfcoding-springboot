@@ -56,6 +56,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      */
     WORKSPACE_CREATE_ERROR(801, "创建异常"),
     WORKSPACE_NULL(802, "工作空间不存在"),
+    WORKSPACE_DELETE(803, "删除失败"),
     ;
 
     BizExceptionEnum(Integer code, String message) {
