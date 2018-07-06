@@ -3,6 +3,7 @@ package com.cuiyun.kfcoding.rest.modular.common.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.core.support.http.HttpKit;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
@@ -11,11 +12,14 @@ import com.cuiyun.kfcoding.rest.modular.common.service.IWorkspaceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: kfcoding
@@ -28,6 +32,9 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @Api(description = "工作空间相关接口")
 public class WorkspaceController extends BaseController {
+
+    @Value("${workspace.deleteUrl}")
+    private String deleteUrl;
 
     @Autowired
     IWorkspaceService workspaceService;
@@ -80,10 +87,12 @@ public class WorkspaceController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除工作空间", notes = "删除工作空间")
-    public SuccessTip delete(@PathVariable String id) {
+    public SuccessTip delete(@PathVariable String id) throws UnsupportedEncodingException {
         if (!workspaceService.deleteById(id))
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_DELETE);
-
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("name", id);
+        HttpKit.post(deleteUrl, param);
         SUCCESSTIP = new SuccessTip();
         return SUCCESSTIP;
     }
