@@ -1,12 +1,9 @@
 package com.cuiyun.kfcoding.rest.modular.common.model;
 
-import java.util.Date;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -37,6 +34,7 @@ public class User extends BaseModel<User> {
     /**
      * 密码 （required）
      */
+    @JSONField(serialize=false)
     private String password;
     /**
      * 状态

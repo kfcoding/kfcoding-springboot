@@ -1,5 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.base.Model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -27,10 +28,12 @@ public abstract class BaseModel<T extends Model> extends Model<T>{
     private Date updateTime;
 
     @Version
+    @JSONField(serialize=false)
     private Long version;
 
     @TableLogic
     @TableField("is_del")
+    @JSONField(serialize=false)
     private Integer isDel = 0;
 
     @Override
