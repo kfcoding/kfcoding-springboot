@@ -52,7 +52,7 @@ public class AuthFilter extends OncePerRequestFilter {
         request.getServletPath();
         // 白名单
         if (request.getServletPath().startsWith("/" + jwtProperties.getAuthPath()) ||
-                (request.getServletPath().equals("/users") && request.getMethod().equals("POST")) ||
+                (request.getServletPath().startsWith("/users")) ||
                 (request.getServletPath().startsWith("/cloudware")) ||
                 (request.getServletPath().startsWith("/druid")) ||
                 (request.getServletPath().startsWith("/kongfu") && request.getMethod().equals("GET")) ||

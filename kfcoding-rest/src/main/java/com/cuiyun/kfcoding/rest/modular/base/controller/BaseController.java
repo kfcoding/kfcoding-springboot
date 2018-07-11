@@ -3,9 +3,11 @@ package com.cuiyun.kfcoding.rest.modular.base.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.warpper.BaseControllerWarpper;
+import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.core.page.PageInfoBT;
 import com.cuiyun.kfcoding.core.support.http.HttpKit;
 import com.cuiyun.kfcoding.core.util.FileUtil;
+import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
@@ -143,6 +145,8 @@ public class BaseController {
             return null;
         }
         String userId = jwtTokenUtil.getUsernameFromToken(token);
+        if (userId == null)
+            throw new KfCodingException(BizExceptionEnum.TOKEN_NULL);
         User user = userService.selectById(userId);
         return user;
     }
