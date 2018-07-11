@@ -27,6 +27,7 @@ public class Workspace extends BaseModel<Workspace> {
     private String userId;
     @TableField("container_name")
     private String containerName;
+    private String release;
 
     public String getContainerName() {
         return containerName;
@@ -84,6 +85,13 @@ public class Workspace extends BaseModel<Workspace> {
         this.userId = userId;
     }
 
+    public String getRelease() {
+        return release;
+    }
+
+    public void setRelease(String release) {
+        this.release = release;
+    }
 
     @Override
     public String toString() {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,9 @@ public class WorkspaceController extends BaseController {
     @Value("${workspace.deleteUrl}")
     private String deleteUrl;
 
+    @Value("${workspace.release}")
+    private String workSpaceRelease;
+
     @Autowired
     IWorkspaceService workspaceService;
 
@@ -43,6 +47,8 @@ public class WorkspaceController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "工作空间", notes = "创建工作空间")
     public SuccessTip create(@RequestBody Workspace workspace) {
+        workspace.setCreateTime(new Date());
+        workspace.setRelease(workSpaceRelease);
         if (workspaceService.insert(workspace)) {
             SUCCESSTIP = new SuccessTip();
             MAP.put("workspace", workspace);
