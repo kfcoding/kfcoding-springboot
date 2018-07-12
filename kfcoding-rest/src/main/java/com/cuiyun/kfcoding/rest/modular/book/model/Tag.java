@@ -1,6 +1,4 @@
-package com.cuiyun.kfcoding.rest.modular.course.model;
-
-import java.io.Serializable;
+package com.cuiyun.kfcoding.rest.modular.book.model;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -17,7 +15,7 @@ import java.io.Serializable;
  * @author maple123
  * @since 2018-06-07
  */
-@TableName("course_tag")
+@TableName("book_tag")
 public class Tag extends Model<Tag> {
 
     private static final long serialVersionUID = 1L;

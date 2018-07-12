@@ -1,6 +1,6 @@
-package com.cuiyun.kfcoding.rest.modular.course.dao;
+package com.cuiyun.kfcoding.rest.modular.book.dao;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.KongfuToTag;
+import com.cuiyun.kfcoding.rest.modular.book.model.KongfuToTag;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**

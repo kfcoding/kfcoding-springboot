@@ -1,4 +1,4 @@
-package com.cuiyun.kfcoding.rest.modular.course.controller;
+package com.cuiyun.kfcoding.rest.modular.book.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -9,13 +9,13 @@ import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
-import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
-import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
-import com.cuiyun.kfcoding.rest.modular.course.model.KongfuToTag;
-import com.cuiyun.kfcoding.rest.modular.course.model.Tag;
-import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuService;
-import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuToTagService;
-import com.cuiyun.kfcoding.rest.modular.course.service.ITagService;
+import com.cuiyun.kfcoding.rest.modular.book.enums.KongfuStatusEnum;
+import com.cuiyun.kfcoding.rest.modular.book.model.Kongfu;
+import com.cuiyun.kfcoding.rest.modular.book.model.KongfuToTag;
+import com.cuiyun.kfcoding.rest.modular.book.model.Tag;
+import com.cuiyun.kfcoding.rest.modular.book.service.IKongfuService;
+import com.cuiyun.kfcoding.rest.modular.book.service.IKongfuToTagService;
+import com.cuiyun.kfcoding.rest.modular.book.service.ITagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

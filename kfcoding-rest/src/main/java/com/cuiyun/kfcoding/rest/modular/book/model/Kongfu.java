@@ -1,12 +1,11 @@
-package com.cuiyun.kfcoding.rest.modular.course.model;
-
-import java.util.ArrayList;
+package com.cuiyun.kfcoding.rest.modular.book.model;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
-import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
+import com.cuiyun.kfcoding.rest.modular.book.enums.KongfuStatusEnum;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
  * @author maple123
  * @since 2018-06-07
  */
-@TableName("course_kongfu")
+@TableName("book_kongfu")
 public class Kongfu extends BaseModel<Kongfu> {
 
     private static final long serialVersionUID = 1L;

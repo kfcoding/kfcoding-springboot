@@ -1,4 +1,4 @@
-package com.cuiyun.kfcoding.rest.modular.course.enums;
+package com.cuiyun.kfcoding.rest.modular.book.enums;
 
 import com.baomidou.mybatisplus.enums.IEnum;
 

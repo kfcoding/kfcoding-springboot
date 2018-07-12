@@ -1,8 +1,8 @@
-package com.cuiyun.kfcoding.rest.modular.course.dao;
+package com.cuiyun.kfcoding.rest.modular.book.dao;
 
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
-import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
-import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
+import com.cuiyun.kfcoding.rest.modular.book.enums.KongfuStatusEnum;
+import com.cuiyun.kfcoding.rest.modular.book.model.Kongfu;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 

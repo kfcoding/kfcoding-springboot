@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cuiyun.kfcoding.rest.modular.course.dao.KongfuToTagMapper">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.book.dao.KongfuToTagMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.KongfuToTag">
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.book.model.KongfuToTag">
         <id column="id" property="id" />
         <result column="kongfu_id" property="kongfuId" />
         <result column="tag_id" property="tagId" />

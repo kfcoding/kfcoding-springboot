@@ -1,8 +1,8 @@
-package com.cuiyun.kfcoding.rest.modular.course.service.impl;
+package com.cuiyun.kfcoding.rest.modular.book.service.impl;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.Tag;
-import com.cuiyun.kfcoding.rest.modular.course.dao.TagMapper;
-import com.cuiyun.kfcoding.rest.modular.course.service.ITagService;
+import com.cuiyun.kfcoding.rest.modular.book.model.Tag;
+import com.cuiyun.kfcoding.rest.modular.book.dao.TagMapper;
+import com.cuiyun.kfcoding.rest.modular.book.service.ITagService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,11 @@
-package com.cuiyun.kfcoding.rest.modular.course.service.impl;
+package com.cuiyun.kfcoding.rest.modular.book.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
-import com.cuiyun.kfcoding.rest.modular.course.enums.KongfuStatusEnum;
-import com.cuiyun.kfcoding.rest.modular.course.model.Kongfu;
-import com.cuiyun.kfcoding.rest.modular.course.dao.KongfuMapper;
-import com.cuiyun.kfcoding.rest.modular.course.service.IKongfuService;
+import com.cuiyun.kfcoding.rest.modular.book.enums.KongfuStatusEnum;
+import com.cuiyun.kfcoding.rest.modular.book.model.Kongfu;
+import com.cuiyun.kfcoding.rest.modular.book.dao.KongfuMapper;
+import com.cuiyun.kfcoding.rest.modular.book.service.IKongfuService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;

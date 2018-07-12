@@ -1,6 +1,6 @@
-package com.cuiyun.kfcoding.rest.modular.course.service;
+package com.cuiyun.kfcoding.rest.modular.book.service;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.KongfuToTag;
+import com.cuiyun.kfcoding.rest.modular.book.model.KongfuToTag;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

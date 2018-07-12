@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cuiyun.kfcoding.rest.modular.course.dao.KongfuMapper">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.book.dao.KongfuMapper">
 
-    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.Kongfu">
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.book.model.Kongfu">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="author" property="author" />
@@ -17,7 +17,7 @@
         <result column="priority" property="priority" />
         <result column="is_del" property="isDel" />
         <result column="update_time" property="updateTime" />
-        <collection property="tags" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Tag" select="getTags" column="id">
+        <collection property="tags" ofType="com.cuiyun.kfcoding.rest.modular.book.model.Tag" select="getTags" column="id">
         </collection>
     </resultMap>
 
@@ -36,7 +36,7 @@
         WHERE k.id=#{id}
     </select>
 
-    <select id="getTags" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.course.model.Tag">
+    <select id="getTags" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.book.model.Tag">
         SELECT t.id, t.name
         FROM course_kongfu k
         INNER JOIN course_kongfu_to_tag ktg ON k.id=ktg.kongfu_id
