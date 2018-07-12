@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
@@ -48,6 +49,7 @@ public class KongfuController extends BaseController {
 
 
     @ResponseBody
+    @BussinessLog(value = "创建课程")
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     @ApiOperation(value = "创建课程", notes="")
     @Transactional
@@ -69,6 +71,7 @@ public class KongfuController extends BaseController {
     }
 
     @ResponseBody
+    @BussinessLog(value = "修改课程")
     @RequestMapping(path = "/{id}", method = RequestMethod.POST)
     @ApiOperation(value = "修改课程", notes="")
     @Transactional
@@ -182,6 +185,7 @@ public class KongfuController extends BaseController {
     }
 
     @ResponseBody
+    @BussinessLog(value = "删除课程")
     @RequestMapping(path = "/delete", method = RequestMethod.GET)
     @ApiOperation(value = "课程Id", notes="根据Id删除课程")
     public SuccessTip deleteById(@RequestParam String id) {

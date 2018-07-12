@@ -11,6 +11,17 @@ import com.cuiyun.kfcoding.core.exception.ServiceExceptionEnum;
 public enum BizExceptionEnum implements ServiceExceptionEnum {
 
     /**
+     * 字典
+     */
+    DICT_EXISTED(500, "字典已经存在"),
+    ERROR_CREATE_DICT(500, "创建字典失败"),
+    ERROR_WRAPPER_FIELD(500, "包装字典属性失败"),
+    /**
+     * 错误的请求
+     */
+    DICT_MUST_BE_NUMBER(400,"字典的值必须为数字"),
+
+    /**
      * token异常
      */
     TOKEN_EXPIRED(700, "token过期"),
@@ -30,7 +41,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     /**
      * github模块异常
      */
-    GITHUB_CANCAL_OAUTH(002,"取消授权(code为空)"),
+    GITHUB_CANCAL_OAUTH(002, "取消授权(code为空)"),
     GITHUB_ERROR_URL(001, "url获取失败"),
 
     /**
@@ -57,8 +68,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      */
     WORKSPACE_CREATE_ERROR(801, "创建异常"),
     WORKSPACE_NULL(802, "工作空间不存在"),
-    WORKSPACE_DELETE(803, "删除失败"),
-    ;
+    WORKSPACE_DELETE(803, "删除失败"),;
 
     BizExceptionEnum(Integer code, String message) {
         this.code = code;

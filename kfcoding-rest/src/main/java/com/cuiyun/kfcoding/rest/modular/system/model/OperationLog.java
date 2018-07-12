@@ -1,4 +1,4 @@
-package com.cuiyun.kfcoding.rest.modular.common.model;
+package com.cuiyun.kfcoding.rest.modular.system.model;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -13,7 +13,7 @@ import java.util.Date;
  * 操作日志
  * </p>
  *
- * @author stylefeng
+ * @author maple
  * @since 2017-07-11
  */
 @TableName("sys_operation_log")
@@ -37,7 +37,7 @@ public class OperationLog extends Model<OperationLog> {
     /**
      * 用户id
      */
-	private Integer userid;
+	private String userid;
     /**
      * 类名称
      */
@@ -84,11 +84,11 @@ public class OperationLog extends Model<OperationLog> {
 		this.logname = logname;
 	}
 
-	public Integer getUserid() {
+	public String getUserid() {
 		return userid;
 	}
 
-	public void setUserid(Integer userid) {
+	public void setUserid(String userid) {
 		this.userid = userid;
 	}
 

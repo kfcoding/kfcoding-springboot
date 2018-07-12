@@ -1,6 +1,9 @@
 package com.cuiyun.kfcoding.rest.common.annotion;
 
 
+import com.cuiyun.kfcoding.rest.common.constant.dictmap.base.AbstractDictMap;
+import com.cuiyun.kfcoding.rest.common.constant.dictmap.base.SystemDict;
+
 import java.lang.annotation.*;
 
 /**
@@ -24,8 +27,8 @@ public @interface BussinessLog {
      */
     String key() default "id";
 
-//    /**
-//     * 字典(用于查找key的中文名称和字段的中文名称)
-//     */
-//    Class<? extends AbstractDictMap> dict() default SystemDict.class;
+    /**
+     * 字典(用于查找key的中文名称和字段的中文名称)
+     */
+    Class<? extends AbstractDictMap> dict() default SystemDict.class;
 }

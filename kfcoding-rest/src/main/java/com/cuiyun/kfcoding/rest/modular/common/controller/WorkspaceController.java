@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.core.support.http.HttpKit;
+import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
@@ -44,6 +45,7 @@ public class WorkspaceController extends BaseController {
     IWorkspaceService workspaceService;
 
     @ResponseBody
+    @BussinessLog(value = "创建工作空间")
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "工作空间", notes = "创建工作空间")
     public SuccessTip create(@RequestBody Workspace workspace) {
@@ -76,7 +78,7 @@ public class WorkspaceController extends BaseController {
 
     @ResponseBody
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    @ApiOperation(value = "工作空间", notes = "创建工作空间")
+    @ApiOperation(value = "工作空间", notes = "获取工作空间")
     public SuccessTip create(@PathVariable String id) {
         Workspace workspace = workspaceService.selectById(id);
         if (workspace != null) {
@@ -91,6 +93,7 @@ public class WorkspaceController extends BaseController {
     }
 
     @ResponseBody
+    @BussinessLog(value = "删除工作空间")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除工作空间", notes = "删除工作空间")
     public SuccessTip delete(@PathVariable String id) throws UnsupportedEncodingException {
