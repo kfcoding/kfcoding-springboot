@@ -32,24 +32,24 @@
     <select id="getKongfuById" resultMap="BaseResultMap">
         SELECT
         <include refid="Column_List" />
-        FROM course_kongfu k
+        FROM book_kongfu k
         WHERE k.id=#{id}
     </select>
 
     <select id="getTags" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.book.model.Tag">
         SELECT t.id, t.name
-        FROM course_kongfu k
-        INNER JOIN course_kongfu_to_tag ktg ON k.id=ktg.kongfu_id
-        INNER JOIN course_tag t ON ktg.tag_id=t.id
+        FROM book_kongfu k
+        INNER JOIN book_kongfu_to_tag ktg ON k.id=ktg.kongfu_id
+        INNER JOIN book_tag t ON ktg.tag_id=t.id
         WHERE k.id=#{id}
     </select>
 
     <select id="getKongfuByTag" resultMap="BaseResultMap">
         SELECT
         <include refid="Column_List" />
-        FROM course_tag t
-        LEFT JOIN course_kongfu_to_tag ktg ON t.id=ktg.tag_id
-        LEFT JOIN course_kongfu k ON ktg.kongfu_id=k.id
+        FROM book_tag t
+        LEFT JOIN book_kongfu_to_tag ktg ON t.id=ktg.tag_id
+        LEFT JOIN book_kongfu k ON ktg.kongfu_id=k.id
         WHERE t.id=#{id} AND k.status=#{status}
     </select>
 
