@@ -8,7 +8,6 @@ import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
-import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.book.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.book.model.Kongfu;
 import com.cuiyun.kfcoding.rest.modular.book.model.KongfuToTag;
@@ -16,13 +15,13 @@ import com.cuiyun.kfcoding.rest.modular.book.model.Tag;
 import com.cuiyun.kfcoding.rest.modular.book.service.IKongfuService;
 import com.cuiyun.kfcoding.rest.modular.book.service.IKongfuToTagService;
 import com.cuiyun.kfcoding.rest.modular.book.service.ITagService;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +32,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/kongfu")
-@Api(description = "课程相关接口")
+@Api(description = "功夫相关接口")
 public class KongfuController extends BaseController {
     @Autowired
     IKongfuService kongfuService;
@@ -53,8 +52,8 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     @ApiOperation(value = "创建课程", notes="")
     @Transactional
-    public SuccessTip create(@RequestBody Kongfu kongfu, HttpServletRequest request){
-        User user = getUser(request);
+    public SuccessTip create(@RequestBody Kongfu kongfu){
+        User user = getUser();
         kongfu.setAuthor(user.getName());
         kongfu.setUserId(user.getId());
         List<Tag> tags = kongfu.getTags();
@@ -66,7 +65,7 @@ public class KongfuController extends BaseController {
         if(flag){
             return SUCCESSTIP;
         }else{
-            throw new KfCodingException(BizExceptionEnum.COURSE_CREAT_ERROR);
+            throw new KfCodingException(BizExceptionEnum.BOOK_CREAT_ERROR);
         }
     }
 
@@ -75,8 +74,8 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/{id}", method = RequestMethod.POST)
     @ApiOperation(value = "修改课程", notes="")
     @Transactional
-    public SuccessTip update(@RequestBody Kongfu kongfu, HttpServletRequest request){
-        User user = getUser(request);
+    public SuccessTip update(@RequestBody Kongfu kongfu){
+        User user = getUser();
         kongfu.setAuthor(user.getName());
         kongfu.setUserId(user.getId());
 
@@ -95,7 +94,7 @@ public class KongfuController extends BaseController {
         if(flag){
             return SUCCESSTIP;
         }else{
-            throw new KfCodingException(BizExceptionEnum.COURSE_CREAT_ERROR);
+            throw new KfCodingException(BizExceptionEnum.BOOK_CREAT_ERROR);
         }
     }
 
@@ -117,7 +116,7 @@ public class KongfuController extends BaseController {
     public SuccessTip create(@PathVariable String id){
         Kongfu kongfu = kongfuService.getKongfuById(id);
         if (kongfu == null) {
-            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+            throw new KfCodingException(BizExceptionEnum.BOOK_ERROR);
         }
         MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
@@ -138,7 +137,7 @@ public class KongfuController extends BaseController {
             SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
-            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+            throw new KfCodingException(BizExceptionEnum.BOOK_ERROR);
         }
     }
 
@@ -180,7 +179,7 @@ public class KongfuController extends BaseController {
             SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
-            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+            throw new KfCodingException(BizExceptionEnum.BOOK_ERROR);
         }
     }
 
@@ -192,7 +191,7 @@ public class KongfuController extends BaseController {
         if (kongfuService.deleteById(id)){
             return SUCCESSTIP;
         } else {
-            throw new KfCodingException(BizExceptionEnum.COURSE_ERROR);
+            throw new KfCodingException(BizExceptionEnum.BOOK_ERROR);
         }
     }
 }

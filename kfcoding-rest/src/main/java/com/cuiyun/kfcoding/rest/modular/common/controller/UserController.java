@@ -12,17 +12,17 @@ import com.cuiyun.kfcoding.rest.modular.auth.controller.dto.AuthPasswordRequest;
 import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.validator.impl.DbValidator;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
-import com.cuiyun.kfcoding.rest.modular.common.model.User;
-import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.cuiyun.kfcoding.rest.modular.book.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.book.model.Kongfu;
 import com.cuiyun.kfcoding.rest.modular.book.service.IKongfuService;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import com.cuiyun.kfcoding.rest.modular.course.service.ICourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +46,9 @@ public class UserController extends BaseController {
     IKongfuService kongfuService;
 
     @Autowired
+    ICourseService courseService;
+
+    @Autowired
     DbValidator dbValidator;
 
 
@@ -67,8 +70,8 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
-    public SuccessTip current(HttpServletRequest request){
-        User user = getUser(request);
+    public SuccessTip current(){
+        User user = getUser();
         SUCCESSTIP = new SuccessTip();
         MAP = new HashMap<>();
         MAP.put("user", user);
@@ -105,15 +108,30 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @RequestMapping(path = "/current/kongfu", method = RequestMethod.GET)
-    @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
-    public SuccessTip currentKongfu(HttpServletRequest request){
-        User user = getUser(request);
+    @ApiOperation(value = "用户功夫列表", notes="列出该用户创建的所有功夫")
+    public SuccessTip currentKongfu(){
+        User user = getUser();
         EntityWrapper ew = new EntityWrapper<Kongfu>();
         ew.eq("user_id", user.getId());
         List kongfus = kongfuService.selectList(ew);
         SUCCESSTIP = new SuccessTip();
         MAP = new HashMap<>();
         MAP.put("kongfuList", kongfus);
+        SUCCESSTIP.setResult(MAP);
+        return SUCCESSTIP;
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/current/courses", method = RequestMethod.GET)
+    @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
+    public SuccessTip currentCourse(){
+        User user = getUser();
+        EntityWrapper ew = new EntityWrapper<Kongfu>();
+        ew.eq("user_id", user.getId());
+        List courses = courseService.selectList(ew);
+        SUCCESSTIP = new SuccessTip();
+        MAP = new HashMap<>();
+        MAP.put("courses", courses);
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }

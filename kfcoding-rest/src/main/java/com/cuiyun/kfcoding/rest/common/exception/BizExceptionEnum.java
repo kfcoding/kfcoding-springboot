@@ -53,10 +53,10 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     USER_CREATE_EMAIL(103, "邮箱格式不合法"),
 
     /**
-     * course模块异常
+     * book模块异常
      */
-    COURSE_ERROR(501, "没有课程"),
-    COURSE_CREAT_ERROR(502, "创建课程失败"),
+    BOOK_ERROR(501, "没有课程"),
+    BOOK_CREAT_ERROR(502, "创建课程失败"),
 
     /**
      * cloudware模块异常
@@ -68,7 +68,20 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      */
     WORKSPACE_CREATE_ERROR(801, "创建异常"),
     WORKSPACE_NULL(802, "工作空间不存在"),
-    WORKSPACE_DELETE(803, "删除失败"),;
+    WORKSPACE_DELETE(803, "删除失败"),
+    /**
+     * course模块异常
+     */
+
+    COURSE_CREATE(1001, "课程创建异常"),
+    COURSE_KLASS_CREATE(1002, "班级创建异常"),
+    COURSE_WORK_CREATE(1003, "作业创建异常"),
+    COURSE_KLASS_EXIST(1004, "班级不存在"),
+    COURSE_JOIN(1005, "加入班级异常"),
+
+    ;
+
+
 
     BizExceptionEnum(Integer code, String message) {
         this.code = code;

@@ -136,7 +136,8 @@ public class BaseController {
         return new ResponseEntity<byte[]>(fileBytes, headers, HttpStatus.CREATED);
     }
 
-    protected User getUser(HttpServletRequest request){
+    protected User getUser(){
+        HttpServletRequest request = getHttpServletRequest();
         String token = (String) request.getAttribute("token");
         if (StringUtils.isBlank(token)){
 //            User user = new User();

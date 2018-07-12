@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,8 +63,8 @@ public class WorkspaceController extends BaseController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "", notes = "获取当前用户的所有workspace")
-    public SuccessTip getWorkspaces(HttpServletRequest request) {
-        User user = getUser(request);
+    public SuccessTip getWorkspaces() {
+        User user = getUser();
         EntityWrapper ew = new EntityWrapper();
         ew.eq("user_id", user.getId());
         List<Workspace> workspaces = workspaceService.selectList(ew);
