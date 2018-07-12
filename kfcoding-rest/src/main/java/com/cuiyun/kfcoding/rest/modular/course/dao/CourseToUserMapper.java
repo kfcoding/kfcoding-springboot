@@ -1,6 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.course.dao;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.Klass;
+import com.cuiyun.kfcoding.rest.modular.course.model.CourseToUser;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author maple
  * @since 2018-07-12
  */
-public interface KlassMapper extends BaseMapper<Klass> {
+public interface CourseToUserMapper extends BaseMapper<CourseToUser> {
 
 }

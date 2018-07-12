@@ -148,7 +148,7 @@ public class BaseController {
         String userId = jwtTokenUtil.getUsernameFromToken(token);
         if (userId == null)
             throw new KfCodingException(BizExceptionEnum.TOKEN_NULL);
-        User user = userService.selectById(userId);
+        User user = userService.getUserById(userId);
         return user;
     }
 }

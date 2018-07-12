@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 /**
  * @program: kfcoding
  * @description: 作业控制类
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/work")
+@RequestMapping("/works")
 @Api(description = "作业相关接口")
 public class WorkController {
 
@@ -30,6 +32,9 @@ public class WorkController {
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "创建作业", notes="")
     public Tip create(@RequestBody Work work){
+        work.setCreateTime(new Date());
+        if (work.getCourseId() == null)
+            return new ErrorTip(BizExceptionEnum.COURSE_WORK_CREATE.getCode(), BizExceptionEnum.COURSE_WORK_CREATE.getMessage());
         if (!workService.insert(work))
             return new ErrorTip(BizExceptionEnum.COURSE_WORK_CREATE.getCode(), BizExceptionEnum.COURSE_WORK_CREATE.getMessage());
         return new SuccessTip();

@@ -18,11 +18,32 @@
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="version" property="version" />
+        <association property="student" javaType="Student" select="com.cuiyun.kfcoding.rest.modular.course.dao.StudentMapper.getByUserId" column="id" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, account, name, avatar_url, password, status, is_del, email, city, company, profession, create_time, update_time, version
     </sql>
+    <sql id="Column_List">
+        u.id, u.account, u.name, u.avatar_url, u.password, u.status, u.is_del, u.email, u.city, u.company, u.profession, u.create_time, u.update_time, u.version
+    </sql>
+
+    <select id="getUserById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM common_user
+        WHERE id=#{id}
+    </select>
+
+    <select id="getUserByCourseId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+        FROM common_user u
+        INNER JOIN course_course_to_user ctu ON ctu.user_id = u.id
+        INNER JOIN course_course c ON ctu.course_id = c.id
+        WHERE c.id=#{id}
+    </select>
+
 
 </mapper>

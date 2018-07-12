@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+    @Override
+    public User getUserById(String id) {
+        return this.baseMapper.getUserById(id);
+    }
 }

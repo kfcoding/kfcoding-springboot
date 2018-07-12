@@ -1,15 +1,17 @@
 package com.cuiyun.kfcoding.rest.modular.course.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.course.model.Course;
-import com.cuiyun.kfcoding.rest.modular.course.model.Klass;
+import com.cuiyun.kfcoding.rest.modular.course.model.CourseToUser;
 import com.cuiyun.kfcoding.rest.modular.course.service.ICourseService;
-import com.cuiyun.kfcoding.rest.modular.course.service.IKlassService;
+import com.cuiyun.kfcoding.rest.modular.course.service.ICourseToUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +36,16 @@ public class CourseController extends BaseController{
     ICourseService courseService;
 
     @Autowired
-    IKlassService klassService;
+    ICourseToUserService courseToUserService;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "创建课程", notes="")
     public Tip create(@RequestBody Course course){
+        String code = RandomUtil.randomString(6);
+        course.setCode(code);
+        while (courseService.selectOne(new EntityWrapper<Course>().eq("code", code))  != null)
+            code = RandomUtil.randomString(6);
         course.setUserId(getUser().getId());
         course.setCreateTime(new Date());
         if (!courseService.insert(course))
@@ -59,15 +65,35 @@ public class CourseController extends BaseController{
         return SUCCESSTIP;
     }
 
+
     @ResponseBody
-    @RequestMapping(path = "/{id}/klasses", method = RequestMethod.GET)
-    @ApiOperation(value = "班级列表", notes="")
-    public Tip list(@PathVariable String id){
-        List list = klassService.selectList(new EntityWrapper<Klass>().eq("course_id" , id));
+    @RequestMapping(path = "/join",method = RequestMethod.GET)
+    @ApiOperation(value = "课程列表", notes="")
+    public Tip join(@RequestParam String code){
+        User user = getUser();
+        Course course= courseService.selectOne(new EntityWrapper<Course>().eq("code", code));
+        if (course == null)
+            return new ErrorTip(BizExceptionEnum.COURSE_NULL.getCode(), BizExceptionEnum.COURSE_NULL.getMessage());
+        CourseToUser courseToUser = new CourseToUser();
+        courseToUser.setUserId(user.getId());
+        courseToUser.setCourseId(course.getId());
+        courseToUserService.insert(courseToUser);
+        return SUCCESSTIP;
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/{id}",method = RequestMethod.GET)
+    @ApiOperation(value = "课程列表", notes="")
+    public Tip get(@PathVariable String id){
+        Course course= courseService.getCourseById(id);
+        if (course == null)
+            return new ErrorTip(BizExceptionEnum.COURSE_NULL.getCode(), BizExceptionEnum.COURSE_NULL.getMessage());
         MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
-        MAP.put("courses", list);
+        MAP.put("course", course);
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
+
+
 }

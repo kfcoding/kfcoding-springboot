@@ -2,6 +2,7 @@ package com.cuiyun.kfcoding.rest.modular.common.dao;
 
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    User getUserById(@Param("id") String id);
 }

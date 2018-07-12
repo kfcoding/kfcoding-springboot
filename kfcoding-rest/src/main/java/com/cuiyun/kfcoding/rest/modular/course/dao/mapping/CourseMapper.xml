@@ -13,27 +13,41 @@
         <result column="description" property="description" />
         <result column="user_id" property="userId" />
         <result column="status" property="status" />
-        <collection property="klasses" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Klass" select="getKlass" column="id" />
+        <result column="code" property="code" />
         <collection property="works" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Work" select="getWork" column="id" />
+        <collection property="users" ofType="com.cuiyun.kfcoding.rest.modular.common.model.User" select="com.cuiyun.kfcoding.rest.modular.common.dao.UserMapper.getUserByCourseId" column="id" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, version, is_del, name, description, user_id, status
+        id, create_time, update_time, version, is_del, name, description, user_id, status, code
     </sql>
 
-    <select id="getKlass" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.course.model.Klass">
-        SELECT k.id, k.name
-        FROM course_klass k
-        INNER JOIN course_course c ON c.id=k.course_id
+    <sql id="Column_List">
+        c.id, c.create_time, c.update_time, c.version, c.is_del, c.name, c.description, c.user_id, c.status, c.code
+    </sql>
+
+    <select id="getCourseById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+        FROM course_course c
         WHERE c.id=#{id}
     </select>
 
     <select id="getWork" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.course.model.Work">
-        SELECT w.id, w.name
+        SELECT w.*
         FROM course_work w
         INNER JOIN course_course c ON c.id=w.course_id
         WHERE c.id=#{id}
     </select>
+
+    <!--<select id="getUser" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.common.model.User">-->
+        <!--SELECT u.*-->
+        <!--FROM common_user u-->
+        <!--INNER JOIN course_course_to_user ctu ON ctu.user_id=u.id-->
+        <!--INNER JOIN course_course c ON ctu.course_id=c.id-->
+        <!--WHERE c.id=#{id}-->
+    <!--</select>-->
+
 
 </mapper>

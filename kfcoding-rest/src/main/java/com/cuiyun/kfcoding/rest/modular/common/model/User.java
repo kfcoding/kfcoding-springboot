@@ -4,6 +4,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
+import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEum;
+import com.cuiyun.kfcoding.rest.modular.course.model.Student;
 
 /**
  * <p>
@@ -56,6 +58,30 @@ public class User extends BaseModel<User> {
      * 职位
      */
     private String profession;
+
+    /**
+     * 角色
+     */
+    private RoleEum role;
+
+    @TableField(exist = false)
+    private Student student;
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public RoleEum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEum role) {
+        this.role = role;
+    }
 
     public String getAccount() {
         return account;

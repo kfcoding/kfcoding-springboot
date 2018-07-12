@@ -1,9 +1,9 @@
 package com.cuiyun.kfcoding.rest.modular.course.service.impl;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.Course;
-import com.cuiyun.kfcoding.rest.modular.course.dao.CourseMapper;
-import com.cuiyun.kfcoding.rest.modular.course.service.ICourseService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.cuiyun.kfcoding.rest.modular.course.dao.CourseMapper;
+import com.cuiyun.kfcoding.rest.modular.course.model.Course;
+import com.cuiyun.kfcoding.rest.modular.course.service.ICourseService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> implements ICourseService {
 
+    /**
+     *  根据Id查找课程
+     */
+    @Override
+    public Course getCourseById(String id) {
+        return this.baseMapper.getCourseById(id);
+    }
 }

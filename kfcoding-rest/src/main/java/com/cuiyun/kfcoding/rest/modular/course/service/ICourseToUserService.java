@@ -1,6 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.course.service;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.Klass;
+import com.cuiyun.kfcoding.rest.modular.course.model.CourseToUser;
 import com.baomidou.mybatisplus.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.service.IService;
  * @author maple
  * @since 2018-07-12
  */
-public interface IKlassService extends IService<Klass> {
+public interface ICourseToUserService extends IService<CourseToUser> {
 
 }
