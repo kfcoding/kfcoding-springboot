@@ -54,6 +54,18 @@ public class CourseController extends BaseController{
     }
 
     @ResponseBody
+    @RequestMapping(method = RequestMethod.PUT)
+    @ApiOperation(value = "修改课程", notes="")
+    public Tip update(@RequestBody Course course){
+        Course targetCourse = courseService.selectOne(new EntityWrapper<Course>().eq("id", course.getId()));
+        if (targetCourse == null)
+            return new ErrorTip(BizExceptionEnum.COURSE_NULL.getCode(),BizExceptionEnum.COURSE_NULL.getMessage());
+        if (!courseService.updateById(course))
+            return new ErrorTip(BizExceptionEnum.COURSE_UPDATE.getCode(), BizExceptionEnum.COURSE_UPDATE.getMessage());
+        return new SuccessTip();
+    }
+
+    @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "课程列表", notes="")
     public Tip list(){
@@ -94,6 +106,7 @@ public class CourseController extends BaseController{
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
+
 
 
 }

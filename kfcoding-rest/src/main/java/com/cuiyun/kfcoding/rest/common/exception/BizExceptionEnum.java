@@ -74,6 +74,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      */
 
     COURSE_CREATE(1001, "课程创建异常"),
+    COURSE_UPDATE(1001, "课程修改异常"),
     COURSE_KLASS_CREATE(1002, "班级创建异常"),
     COURSE_WORK_CREATE(1003, "作业创建异常"),
     COURSE_KLASS_EXIST(1004, "班级不存在"),

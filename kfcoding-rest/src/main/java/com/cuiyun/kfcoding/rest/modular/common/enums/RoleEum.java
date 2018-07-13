@@ -26,4 +26,9 @@ public enum RoleEum implements IEnum{
     public Serializable getValue() {
         return this.value;
     }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
 }

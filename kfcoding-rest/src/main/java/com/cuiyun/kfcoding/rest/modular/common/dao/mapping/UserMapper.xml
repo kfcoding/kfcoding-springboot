@@ -18,15 +18,16 @@
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="version" property="version" />
+        <result column="role" property="role" />
         <association property="student" javaType="Student" select="com.cuiyun.kfcoding.rest.modular.course.dao.StudentMapper.getByUserId" column="id" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, account, name, avatar_url, password, status, is_del, email, city, company, profession, create_time, update_time, version
+        id, account, name, avatar_url, password, status, is_del, email, city, company, profession, create_time, update_time, version, role
     </sql>
     <sql id="Column_List">
-        u.id, u.account, u.name, u.avatar_url, u.password, u.status, u.is_del, u.email, u.city, u.company, u.profession, u.create_time, u.update_time, u.version
+        u.id, u.account, u.name, u.avatar_url, u.password, u.status, u.is_del, u.email, u.city, u.company, u.profession, u.create_time, u.update_time, u.version, u.role
     </sql>
 
     <select id="getUserById" resultMap="BaseResultMap">

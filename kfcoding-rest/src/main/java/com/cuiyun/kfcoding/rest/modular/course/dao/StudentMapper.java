@@ -14,4 +14,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface StudentMapper extends BaseMapper<Student> {
     Student getByUserId(@Param("id") String id);
+
+    Student getBySubmissionId(@Param("id") String id);
 }

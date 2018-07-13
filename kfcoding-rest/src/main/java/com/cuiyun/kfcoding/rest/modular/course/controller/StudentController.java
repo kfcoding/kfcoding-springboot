@@ -8,14 +8,20 @@ import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEum;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
+import com.cuiyun.kfcoding.rest.modular.course.model.Course;
 import com.cuiyun.kfcoding.rest.modular.course.model.Student;
+import com.cuiyun.kfcoding.rest.modular.course.model.Work;
+import com.cuiyun.kfcoding.rest.modular.course.service.ICourseService;
+import com.cuiyun.kfcoding.rest.modular.course.service.ICourseToUserService;
 import com.cuiyun.kfcoding.rest.modular.course.service.IStudentService;
+import com.cuiyun.kfcoding.rest.modular.course.service.IWorkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: kfcoding
@@ -34,6 +40,15 @@ public class StudentController extends BaseController {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IWorkService workService;
+
+    @Autowired
+    ICourseService courseService;
+
+    @Autowired
+    ICourseToUserService courseToUserService;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
@@ -72,5 +87,27 @@ public class StudentController extends BaseController {
 //        SUCCESSTIP.setResult(MAP);
 //        return SUCCESSTIP;
 //    }
+
+    @ResponseBody
+    @RequestMapping(path = "/current/submissions", method = RequestMethod.GET)
+    @ApiOperation(value = "学生提交的所有作业", notes = "")
+    public Tip currentBubmissions(@RequestBody Student student) {
+        User user = getUser();
+        List<Work> works = workService.getWorksByUserId(user.getId());
+        MAP.put("works", works);
+        SUCCESSTIP.setResult(MAP);
+        return SUCCESSTIP;
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/current", method = RequestMethod.GET)
+    @ApiOperation(value = "学生加入的所有课程", notes = "")
+    public Tip current() {
+        User user = getUser();
+        List<Course> courses = courseService.getCoursesByUserId(user.getId());
+        MAP.put("courses", courses);
+        SUCCESSTIP.setResult(MAP);
+        return SUCCESSTIP;
+    }
 
 }

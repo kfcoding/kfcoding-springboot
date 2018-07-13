@@ -1,9 +1,12 @@
 package com.cuiyun.kfcoding.rest.modular.course.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
+import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
+import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.course.model.Submission;
 import com.cuiyun.kfcoding.rest.modular.course.service.ISubmissionService;
 import io.swagger.annotations.Api;
@@ -23,7 +26,7 @@ import java.util.Date;
 @CrossOrigin(origins = "*")
 @RequestMapping("/submissions")
 @Api(description = "作业提交相关接口")
-public class SubmissionController {
+public class SubmissionController extends BaseController{
 
     @Autowired
     ISubmissionService submissionService;
@@ -32,9 +35,19 @@ public class SubmissionController {
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "提交作业", notes = "")
     public Tip create(@RequestBody Submission submission) {
+        User user = getUser();
         submission.setCreateTime(new Date());
-        if (!submissionService.insert(submission))
-            return new ErrorTip(BizExceptionEnum.COURSE_SUBMISSION_CREATE.getCode(), BizExceptionEnum.COURSE_STUDENT_CREATE.getMessage());
+        submission.setUserId(user.getId());
+        Submission targetSubmission = submissionService.selectOne(new EntityWrapper<Submission>().eq("user_id", user.getId()).eq("work_id", submission.getWorkId()));
+        if (targetSubmission == null){
+            if (!submissionService.insert(submission))
+                return new ErrorTip(BizExceptionEnum.COURSE_SUBMISSION_CREATE.getCode(), BizExceptionEnum.COURSE_STUDENT_CREATE.getMessage());
+        } else {
+            targetSubmission.setGitUrl(submission.getGitUrl());
+            targetSubmission.setWorkId(submission.getWorkId());
+            targetSubmission.setWorkspaceId(submission.getWorkspaceId());
+            submissionService.updateById(targetSubmission);
+        }
         return new SuccessTip();
     }
 

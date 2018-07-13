@@ -1,8 +1,10 @@
 package com.cuiyun.kfcoding.rest.modular.course.service;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.Course;
 import com.baomidou.mybatisplus.service.IService;
+import com.cuiyun.kfcoding.rest.modular.course.model.Course;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,4 +21,8 @@ public interface ICourseService extends IService<Course> {
      */
     Course getCourseById(@Param("id") String id);
 
+    /**
+     *  根据用户ID获取课程列表
+     */
+    List<Course> getCoursesByUserId(@Param("id") String id);
 }

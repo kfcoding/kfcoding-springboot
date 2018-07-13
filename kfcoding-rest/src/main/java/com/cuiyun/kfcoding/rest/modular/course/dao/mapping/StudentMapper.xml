@@ -20,6 +20,9 @@
         id, version, create_time, update_time, is_del, real_name, student_number, school, user_id
     </sql>
 
+    <sql id="Column_List">
+        st.id, st.version, st.create_time, st.update_time, st.is_del, st.real_name, st.student_number, st.school, st.user_id
+    </sql>
     <select id="getByUserId" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
@@ -27,4 +30,11 @@
         WHERE user_id=#{id}
     </select>
 
+    <select id="getBySubmissionId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+        FROM course_student st
+        INNER JOIN course_submission s ON s.user_id = st.user_id
+        WHERE s.id=#{id}
+    </select>
 </mapper>

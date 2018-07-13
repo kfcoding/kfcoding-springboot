@@ -6,6 +6,8 @@ import com.cuiyun.kfcoding.rest.modular.course.model.Course;
 import com.cuiyun.kfcoding.rest.modular.course.service.ICourseService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -23,5 +25,13 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     @Override
     public Course getCourseById(String id) {
         return this.baseMapper.getCourseById(id);
+    }
+
+    /**
+     *  根据用户ID获取课程列表
+     */
+    @Override
+    public List<Course> getCoursesByUserId(String id) {
+        return this.baseMapper.getCoursesByUserId(id);
     }
 }

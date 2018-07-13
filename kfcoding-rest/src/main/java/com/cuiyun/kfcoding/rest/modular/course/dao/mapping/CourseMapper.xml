@@ -18,6 +18,19 @@
         <collection property="users" ofType="com.cuiyun.kfcoding.rest.modular.common.model.User" select="com.cuiyun.kfcoding.rest.modular.common.dao.UserMapper.getUserByCourseId" column="id" />
     </resultMap>
 
+    <resultMap id="ResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.Course">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
+        <result column="is_del" property="isDel" />
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="user_id" property="userId" />
+        <result column="status" property="status" />
+        <result column="code" property="code" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_time, update_time, version, is_del, name, description, user_id, status, code
@@ -39,6 +52,15 @@
         FROM course_work w
         INNER JOIN course_course c ON c.id=w.course_id
         WHERE c.id=#{id}
+    </select>
+
+    <select id="getCoursesByUserId" resultMap="ResultMap" >
+        SELECT
+        <include refid="Column_List" />
+        FROM course_course c
+        INNER JOIN course_course_to_user ctu ON ctu.course_id = c.id
+        WHERE ctu.user_id = #{id}
+
     </select>
 
     <!--<select id="getUser" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.common.model.User">-->

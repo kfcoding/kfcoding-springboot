@@ -31,4 +31,12 @@
         WHERE w.id = #{id}
     </select>
 
+    <select id="getWorksByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+        FROM course_work w
+        INNER JOIN course_submission s ON w.id = s.work_id
+        WHERE s.user_id = #{id}
+    </select>
+
 </mapper>

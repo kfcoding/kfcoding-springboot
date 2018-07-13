@@ -6,6 +6,8 @@ import com.cuiyun.kfcoding.rest.modular.course.service.IWorkService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -20,5 +22,10 @@ public class WorkServiceImpl extends ServiceImpl<WorkMapper, Work> implements IW
     @Override
     public Work getWorkById(String id) {
         return this.baseMapper.getWorkById(id);
+    }
+
+    @Override
+    public List<Work> getWorksByUserId(String id) {
+        return this.baseMapper.getWorksByUserId(id);
     }
 }
