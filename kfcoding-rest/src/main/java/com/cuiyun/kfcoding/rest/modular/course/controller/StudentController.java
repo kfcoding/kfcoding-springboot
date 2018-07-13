@@ -26,7 +26,7 @@ import java.util.Date;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/students")
-@Api(description = "课程相关接口")
+@Api(description = "学生相关接口")
 public class StudentController extends BaseController {
 
     @Autowired

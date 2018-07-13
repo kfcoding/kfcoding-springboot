@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuiyun.kfcoding.rest.modular.course.dao.SubmissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.Submission">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
+        <result column="is_del" property="isDel" />
+        <result column="user_id" property="userId" />
+        <result column="workspace_id" property="workspaceId" />
+        <result column="work_id" property="workId" />
+        <association property="student" javaType="Student" select="com.cuiyun.kfcoding.rest.modular.course.dao.StudentMapper.getByUserId" column="id" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, update_time, version, is_del, user_id, workspace_id, work_id
+    </sql>
+
+    <sql id="Column_List">
+        s.id, s.create_time, s.update_time, s.version, s.is_del, s.user_id, s.workspace_id, s.work_id
+    </sql>
+
+    <select id="getSubmissionsByWorkId" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Column_List" />
+        FROM course_submission s
+        WHERE s.work_id = #{id}
+    </select>
+</mapper>

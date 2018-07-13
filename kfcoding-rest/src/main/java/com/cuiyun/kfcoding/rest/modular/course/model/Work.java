@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
 
+import java.util.List;
+
 /**
  * <p>
  * 
@@ -22,6 +24,16 @@ public class Work extends BaseModel<Work> {
     private String status;
     @TableField("course_id")
     private String courseId;
+    @TableField(exist = false)
+    private List<Submission> submissions;
+
+    public List<Submission> getSubmissions() {
+        return submissions;
+    }
+
+    public void setSubmissions(List<Submission> submissions) {
+        this.submissions = submissions;
+    }
 
     public String getName() {
         return name;

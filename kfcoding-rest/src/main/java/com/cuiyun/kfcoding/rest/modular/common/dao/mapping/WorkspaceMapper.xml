@@ -24,4 +24,10 @@
         id, title, description, git_url, environment, version, create_time, update_time, is_del, status, user_id, container_name, release
     </sql>
 
+    <select id="getWorkById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM course_work w
+        WHERE w.id = #{id}
+    </select>
 </mapper>

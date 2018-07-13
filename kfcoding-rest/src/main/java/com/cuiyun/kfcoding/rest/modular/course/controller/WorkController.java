@@ -4,6 +4,7 @@ import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
+import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.course.model.Work;
 import com.cuiyun.kfcoding.rest.modular.course.service.IWorkService;
 import io.swagger.annotations.Api;
@@ -23,7 +24,7 @@ import java.util.Date;
 @CrossOrigin(origins = "*")
 @RequestMapping("/works")
 @Api(description = "作业相关接口")
-public class WorkController {
+public class WorkController extends BaseController{
 
     @Autowired
     IWorkService workService;
@@ -38,6 +39,18 @@ public class WorkController {
         if (!workService.insert(work))
             return new ErrorTip(BizExceptionEnum.COURSE_WORK_CREATE.getCode(), BizExceptionEnum.COURSE_WORK_CREATE.getMessage());
         return new SuccessTip();
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取作业信息", notes="")
+    public Tip get(@PathVariable String id){
+        Work work = workService.getWorkById(id);
+        if (work == null)
+            return new ErrorTip(BizExceptionEnum.COURSE_WORK_NULL.getCode(), BizExceptionEnum.COURSE_WORK_NULL.getMessage());
+        MAP.put("work", work);
+        SUCCESSTIP.setResult(MAP);
+        return SUCCESSTIP;
     }
 
 }

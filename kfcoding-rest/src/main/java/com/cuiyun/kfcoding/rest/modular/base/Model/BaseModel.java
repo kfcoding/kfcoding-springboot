@@ -29,7 +29,7 @@ public abstract class BaseModel<T extends Model> extends Model<T>{
 
     @Version
     @JSONField(serialize=false)
-    private Long version;
+    private Long version = 1L;
 
     @TableLogic
     @TableField("is_del")

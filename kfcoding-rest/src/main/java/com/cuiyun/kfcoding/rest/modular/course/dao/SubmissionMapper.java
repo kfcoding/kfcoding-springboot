@@ -1,8 +1,10 @@
 package com.cuiyun.kfcoding.rest.modular.course.dao;
 
-import com.cuiyun.kfcoding.rest.modular.course.model.Work;
+import com.cuiyun.kfcoding.rest.modular.course.model.Submission;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,10 +14,7 @@ import org.apache.ibatis.annotations.Param;
  * @author maple
  * @since 2018-07-12
  */
-public interface WorkMapper extends BaseMapper<Work> {
+public interface SubmissionMapper extends BaseMapper<Submission> {
 
-    /**
-     *  根据Id获取work信息
-     */
-    Work getWorkById(@Param("id") String id);
+    List<Submission> getSubmissionsByWorkId(@Param("id") String id);
 }

@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class WorkServiceImpl extends ServiceImpl<WorkMapper, Work> implements IWorkService {
 
+    @Override
+    public Work getWorkById(String id) {
+        return this.baseMapper.getWorkById(id);
+    }
 }
