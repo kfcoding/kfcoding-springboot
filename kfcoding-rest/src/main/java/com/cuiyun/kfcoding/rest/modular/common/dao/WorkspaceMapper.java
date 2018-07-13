@@ -1,7 +1,7 @@
 package com.cuiyun.kfcoding.rest.modular.common.dao;
 
-import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import com.cuiyun.kfcoding.rest.modular.course.model.Work;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +16,6 @@ import org.apache.ibatis.annotations.Param;
 public interface WorkspaceMapper extends BaseMapper<Workspace> {
 
     Work getWorkById(@Param("id") String id);
+
+
 }

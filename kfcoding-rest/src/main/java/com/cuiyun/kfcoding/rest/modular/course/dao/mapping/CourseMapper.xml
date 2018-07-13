@@ -14,8 +14,8 @@
         <result column="user_id" property="userId" />
         <result column="status" property="status" />
         <result column="code" property="code" />
-        <collection property="works" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Work" select="getWork" column="id" />
-        <collection property="users" ofType="com.cuiyun.kfcoding.rest.modular.common.model.User" select="com.cuiyun.kfcoding.rest.modular.common.dao.UserMapper.getUserByCourseId" column="id" />
+        <collection property="works" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Work" select="com.cuiyun.kfcoding.rest.modular.course.dao.WorkMapper.getWorksByCourseId" column="id" />
+        <collection property="users" ofType="com.cuiyun.kfcoding.rest.modular.common.model.User" select="com.cuiyun.kfcoding.rest.modular.common.dao.UserMapper.getUsersByCourseId" column="id" />
     </resultMap>
 
     <resultMap id="ResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.Course">
@@ -44,13 +44,6 @@
         SELECT
         <include refid="Column_List" />
         FROM course_course c
-        WHERE c.id=#{id}
-    </select>
-
-    <select id="getWork" parameterType="java.lang.String" resultType="com.cuiyun.kfcoding.rest.modular.course.model.Work">
-        SELECT w.*
-        FROM course_work w
-        INNER JOIN course_course c ON c.id=w.course_id
         WHERE c.id=#{id}
     </select>
 

@@ -25,4 +25,9 @@ public interface WorkMapper extends BaseMapper<Work> {
      *  根据userId获取作业列表
      */
     List<Work> getWorksByUserId(@Param("id") String id);
+
+    /**
+     *  根据课程ID获取作业列表
+     */
+    List<Work>  getWorksByCourseId(@Param("id") String  id);
 }

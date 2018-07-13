@@ -42,6 +42,20 @@ public class WorkController extends BaseController{
     }
 
     @ResponseBody
+    @RequestMapping(method = RequestMethod.PUT)
+    @ApiOperation(value = "修改作业", notes="")
+    public Tip update(@RequestBody Work work){
+        Work targetWork = workService.selectById(work.getId());
+        if (targetWork == null)
+            return new ErrorTip(BizExceptionEnum.COURSE_WORK_NULL.getCode(), BizExceptionEnum.COURSE_WORK_NULL.getMessage());
+        targetWork.setName(work.getName());
+        targetWork.setDescription(work.getDescription());
+        if (!workService.updateById(targetWork))
+            return new ErrorTip(BizExceptionEnum.COURSE_WORK_UPDATE.getCode(), BizExceptionEnum.COURSE_WORK_UPDATE.getMessage());
+        return new SuccessTip();
+    }
+
+    @ResponseBody
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "获取作业信息", notes="")
     public Tip get(@PathVariable String id){
@@ -52,5 +66,7 @@ public class WorkController extends BaseController{
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
+
+
 
 }

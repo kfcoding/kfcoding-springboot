@@ -23,11 +23,20 @@ public class Submission extends BaseModel<Submission> {
     private String workspaceId;
     @TableField("work_id")
     private String workId;
-    @TableField("git_url")
-    private String gitUrl;
+    private String repo;
+
+    private String image;
 
     @TableField(exist = false)
     private Student student;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public Student getStudent() {
         return student;
@@ -37,12 +46,12 @@ public class Submission extends BaseModel<Submission> {
         this.student = student;
     }
 
-    public String getGitUrl() {
-        return gitUrl;
+    public String getRepo() {
+        return repo;
     }
 
-    public void setGitUrl(String gitUrl) {
-        this.gitUrl = gitUrl;
+    public void setRepo(String repo) {
+        this.repo = repo;
     }
 
     public String getUserId() {

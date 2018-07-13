@@ -8,7 +8,7 @@
         <result column="title" property="title" />
         <result column="description" property="description" />
         <result column="git_url" property="gitUrl" />
-        <result column="environment" property="environment" />
+        <result column="image" property="image" />
         <result column="version" property="version" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -21,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, description, git_url, environment, version, create_time, update_time, is_del, status, user_id, container_name, release
+        id, title, description, git_url, image, version, create_time, update_time, is_del, status, user_id, container_name, release
     </sql>
 
     <select id="getWorkById" resultMap="BaseResultMap">
@@ -30,4 +30,5 @@
         FROM course_work w
         WHERE w.id = #{id}
     </select>
+
 </mapper>

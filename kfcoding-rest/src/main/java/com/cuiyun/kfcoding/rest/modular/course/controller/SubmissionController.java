@@ -7,6 +7,8 @@ import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
+import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
+import com.cuiyun.kfcoding.rest.modular.common.service.IWorkspaceService;
 import com.cuiyun.kfcoding.rest.modular.course.model.Submission;
 import com.cuiyun.kfcoding.rest.modular.course.service.ISubmissionService;
 import io.swagger.annotations.Api;
@@ -31,6 +33,9 @@ public class SubmissionController extends BaseController{
     @Autowired
     ISubmissionService submissionService;
 
+    @Autowired
+    IWorkspaceService workspaceService;
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "提交作业", notes = "")
@@ -43,9 +48,13 @@ public class SubmissionController extends BaseController{
             if (!submissionService.insert(submission))
                 return new ErrorTip(BizExceptionEnum.COURSE_SUBMISSION_CREATE.getCode(), BizExceptionEnum.COURSE_STUDENT_CREATE.getMessage());
         } else {
-            targetSubmission.setGitUrl(submission.getGitUrl());
+            targetSubmission.setRepo(submission.getRepo());
             targetSubmission.setWorkId(submission.getWorkId());
             targetSubmission.setWorkspaceId(submission.getWorkspaceId());
+            Workspace workspace = workspaceService.selectById(submission.getWorkspaceId());
+            if (workspace == null)
+                return new ErrorTip(BizExceptionEnum.WORKSPACE_NULL.getCode(), BizExceptionEnum.WORKSPACE_NULL.getMessage());
+            targetSubmission.setImage(workspace.getEnvironment());
             submissionService.updateById(targetSubmission);
         }
         return new SuccessTip();

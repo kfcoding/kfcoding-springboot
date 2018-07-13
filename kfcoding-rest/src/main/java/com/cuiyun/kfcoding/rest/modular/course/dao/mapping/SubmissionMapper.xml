@@ -12,17 +12,18 @@
         <result column="user_id" property="userId" />
         <result column="workspace_id" property="workspaceId" />
         <result column="work_id" property="workId" />
-        <result column="git_url" property="gitUrl" />
+        <result column="repo" property="repo" />
+        <result column="image" property="image" />
         <association property="student" javaType="Student" select="com.cuiyun.kfcoding.rest.modular.course.dao.StudentMapper.getBySubmissionId" column="id" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, version, is_del, user_id, workspace_id, work_id, git_url
+        id, create_time, update_time, version, is_del, user_id, workspace_id, work_id, repo, image
     </sql>
 
     <sql id="Column_List">
-        s.id, s.create_time, s.update_time, s.version, s.is_del, s.user_id, s.workspace_id, s.work_id, s.git_url
+        s.id, s.create_time, s.update_time, s.version, s.is_del, s.user_id, s.workspace_id, s.work_id, s.repo, image
     </sql>
 
     <select id="getSubmissionsByWorkId" resultMap="BaseResultMap" >

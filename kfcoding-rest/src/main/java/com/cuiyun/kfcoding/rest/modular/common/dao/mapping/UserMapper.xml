@@ -37,7 +37,7 @@
         WHERE id=#{id}
     </select>
 
-    <select id="getUserByCourseId" resultMap="BaseResultMap">
+    <select id="getUsersByCourseId" resultMap="BaseResultMap">
         SELECT
         <include refid="Column_List" />
         FROM common_user u

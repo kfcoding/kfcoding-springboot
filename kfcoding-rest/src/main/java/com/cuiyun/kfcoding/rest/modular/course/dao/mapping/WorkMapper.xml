@@ -16,6 +16,18 @@
         <collection property="submissions" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Submission" select="com.cuiyun.kfcoding.rest.modular.course.dao.SubmissionMapper.getSubmissionsByWorkId" column="id" />
     </resultMap>
 
+    <resultMap id="ResultMap" type="com.cuiyun.kfcoding.rest.modular.course.model.Work">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
+        <result column="is_del" property="isDel" />
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="status" property="status" />
+        <result column="course_id" property="courseId" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_time, update_time, version, is_del, name, description, status, course_id
@@ -31,12 +43,19 @@
         WHERE w.id = #{id}
     </select>
 
-    <select id="getWorksByUserId" resultMap="BaseResultMap">
+    <select id="getWorksByUserId" resultMap="ResultMap">
         SELECT
         <include refid="Column_List" />
         FROM course_work w
         INNER JOIN course_submission s ON w.id = s.work_id
         WHERE s.user_id = #{id}
+    </select>
+
+    <select id="getWorksByCourseId" resultMap="ResultMap">
+        SELECT
+        <include refid="Column_List" />
+        FROM course_work w
+        WHERE w.course_id = #{id}
     </select>
 
 </mapper>
