@@ -12,6 +12,7 @@ import com.cuiyun.kfcoding.core.util.ToolUtil;
 import com.cuiyun.kfcoding.rest.config.STSConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +28,19 @@ import java.util.Map;
 public class STSUtil {
     private static Logger log = LoggerFactory.getLogger(STSUtil.class);
 
-    private String roleArn;
     private static STSUtil stsUtil;
+
+    @Value("${sts.endpoint}")
+    private String endpoint;
+
+    @Value("${sts.accessKeyId}")
+    private String accessKeyId;
+
+    @Value("${sts.accessKeySecret}")
+    private String accessKeySecret;
+
+    @Value("${sts.roleArn}")
+    private String roleArn;
 
     static {
         try {

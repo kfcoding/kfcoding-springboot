@@ -21,13 +21,22 @@ public class Workspace extends BaseModel<Workspace> {
     private String description;
     @TableField("git_url")
     private String gitUrl;
-    private String environment;
+    private String image;
     private String status;
     @TableField("user_id")
     private String userId;
     @TableField("container_name")
     private String containerName;
     private String release;
+    private String repo;
+
+    public String getRepo() {
+        return repo;
+    }
+
+    public void setRepo(String repo) {
+        this.repo = repo;
+    }
 
     public String getContainerName() {
         return containerName;
@@ -61,12 +70,12 @@ public class Workspace extends BaseModel<Workspace> {
         this.gitUrl = gitUrl;
     }
 
-    public String getEnvironment() {
-        return environment;
+    public String getImage() {
+        return image;
     }
 
-    public void setEnvironment(String environment) {
-        this.environment = environment;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getStatus() {
@@ -100,7 +109,7 @@ public class Workspace extends BaseModel<Workspace> {
         ", title=" + title +
         ", description=" + description +
         ", gitUrl=" + gitUrl +
-        ", environment=" + environment +
+        ", image=" + image +
         ", version=" + getVersion() +
         ", createTime=" + getCreateTime() +
         ", updateTime=" + getUpdateTime() +

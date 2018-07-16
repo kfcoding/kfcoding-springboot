@@ -8,6 +8,7 @@ import com.cuiyun.kfcoding.rest.util.TokenUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

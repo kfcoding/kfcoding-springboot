@@ -7,6 +7,8 @@ import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
 import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEum;
 import com.cuiyun.kfcoding.rest.modular.course.model.Student;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * 
@@ -16,7 +18,7 @@ import com.cuiyun.kfcoding.rest.modular.course.model.Student;
  * @since 2018-06-19
  */
 @TableName("common_user")
-public class User extends BaseModel<User> {
+public class User extends BaseModel<User> implements Serializable{
 
     private static final long serialVersionUID = 1L;
 

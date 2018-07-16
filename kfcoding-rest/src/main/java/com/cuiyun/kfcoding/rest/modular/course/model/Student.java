@@ -18,6 +18,7 @@ public class Student extends BaseModel<Student> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("real_name")
     private String realName;
     @TableField("student_number")
     private String studentNumber;

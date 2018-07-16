@@ -47,26 +47,26 @@ public class AuthController extends BaseController {
 
     @RequestMapping(value = "${jwt.auth-path}", method = RequestMethod.POST)
     @ApiOperation(value = "获取token", notes="")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthPasswordRequest authPasswordRequest) {
+    public ResponseEntity createAuthenticationToken(@RequestBody AuthPasswordRequest authPasswordRequest) {
 
         MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         String userId = null;
-        try {
-            switch (authPasswordRequest.getAuthType()) {
-                case GITHUB:  // 若是github登陆
-                    userId = githubValidator.validate(authPasswordRequest);
-                    break;
-                case PASSWORD: // 若是账号密码登陆
-                    userId = dbValidator.validate(authPasswordRequest);
-                    break;
-            }
-            if (userId == null)
-                throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);
-
-        } catch (Exception e){
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
+//        try {
+        switch (authPasswordRequest.getAuthType()) {
+            case GITHUB:  // 若是github登陆
+                userId = githubValidator.validate(authPasswordRequest);
+                break;
+            case PASSWORD: // 若是账号密码登陆
+                userId = dbValidator.validate(authPasswordRequest);
+                break;
         }
+        if (userId == null)
+            throw new KfCodingException(BizExceptionEnum.AUTH_REQUEST_ERROR);
+
+//        } catch (Exception e){
+//            return (ResponseEntity) ResponseEntity.badRequest();
+//        }
 
         String token = jwtTokenUtil.generateToken(userId, jwtTokenUtil.getRandomKey());
         MAP.put("token", token);

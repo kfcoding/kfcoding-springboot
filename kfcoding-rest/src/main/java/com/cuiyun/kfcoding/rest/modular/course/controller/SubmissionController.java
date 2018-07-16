@@ -54,7 +54,7 @@ public class SubmissionController extends BaseController{
             Workspace workspace = workspaceService.selectById(submission.getWorkspaceId());
             if (workspace == null)
                 return new ErrorTip(BizExceptionEnum.WORKSPACE_NULL.getCode(), BizExceptionEnum.WORKSPACE_NULL.getMessage());
-            targetSubmission.setImage(workspace.getEnvironment());
+            targetSubmission.setImage(workspace.getImage());
             submissionService.updateById(targetSubmission);
         }
         return new SuccessTip();

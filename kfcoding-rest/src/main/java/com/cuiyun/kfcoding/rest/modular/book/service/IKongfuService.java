@@ -1,10 +1,9 @@
 package com.cuiyun.kfcoding.rest.modular.book.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.plugins.pagination.Pagination;
+import com.baomidou.mybatisplus.service.IService;
 import com.cuiyun.kfcoding.rest.modular.book.enums.KongfuStatusEnum;
 import com.cuiyun.kfcoding.rest.modular.book.model.Kongfu;
-import com.baomidou.mybatisplus.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,6 +17,11 @@ import java.util.List;
  * @since 2018-05-19
  */
 public interface IKongfuService extends IService<Kongfu> {
+
+    /**
+     * 根据status查询list
+     */
+    List<Kongfu> findListByStatus(@Param("status") KongfuStatusEnum status);
 
     /**
      * 通过Id查询Kongfu

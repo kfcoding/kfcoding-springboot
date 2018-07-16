@@ -1,8 +1,11 @@
 package com.cuiyun.kfcoding.rest.modular.common.service;
 
+import com.cuiyun.kfcoding.rest.common.constant.cache.Cache;
+import com.cuiyun.kfcoding.rest.common.constant.cache.CacheKey;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.baomidou.mybatisplus.service.IService;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * <p>

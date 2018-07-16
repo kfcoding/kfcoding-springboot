@@ -29,6 +29,13 @@
         k.id, k.title, k.author, k.type, k.brief, k.user_id, k.level, k.surface_image, k.surface_background, k.status, k.priority, k.is_del, k.version, k.update_time
     </sql>
 
+    <select id="findListByStatus" resultMap="BaseResultMap" >
+        SELECT 
+        <include refid="Column_List" />
+        FROM book_kongfu k
+        WHERE k.status = #{status}
+    </select>
+
     <select id="getKongfuById" resultMap="BaseResultMap">
         SELECT
         <include refid="Column_List" />

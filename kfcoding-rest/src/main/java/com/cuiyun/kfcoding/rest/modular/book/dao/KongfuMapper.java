@@ -19,6 +19,11 @@ import java.util.List;
 public interface KongfuMapper extends BaseMapper<Kongfu> {
 
     /**
+     * 根据status查询list
+     */
+    List<Kongfu> findListByStatus(@Param("status") KongfuStatusEnum status);
+
+    /**
      * 根据ID查找功夫
      */
     Kongfu getKongfuById(@Param("id") String id);

@@ -129,7 +129,7 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/findByPage", method = RequestMethod.GET)
     @ApiOperation(value = "课程列表", notes="")
     public SuccessTip findByPage(Page page) {
-        Page<Kongfu> tutorialPage = kongfuService.selectPage(page);
+        Page tutorialPage = kongfuService.selectPage(page);
         MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         if (tutorialPage.getTotal() != 0) {
@@ -145,9 +145,10 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/list", method = RequestMethod.GET)
     @ApiOperation(value = "课程列表", notes="")
     public SuccessTip list(Page page) {
-        EntityWrapper ew = new EntityWrapper<Kongfu>();
-        ew.eq("status", KongfuStatusEnum.PUBLIC);
-        List<Kongfu> list = kongfuService.selectList(ew);
+//        EntityWrapper ew = new EntityWrapper<Kongfu>();
+//        ew.eq("status", KongfuStatusEnum.PUBLIC);
+//        List list = kongfuService.selectList(ew);
+        List list = kongfuService.findListByStatus(KongfuStatusEnum.PUBLIC);
         MAP = new HashMap<>();
         SUCCESSTIP = new SuccessTip();
         MAP.put("kongfus", list);

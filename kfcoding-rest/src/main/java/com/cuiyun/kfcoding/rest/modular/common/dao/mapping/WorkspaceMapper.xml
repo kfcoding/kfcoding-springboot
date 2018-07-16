@@ -17,11 +17,12 @@
         <result column="user_id" property="userId" />
         <result column="container_name" property="containerName" />
         <result column="release" property="release" />
+        <result column="repo" property="repo" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, description, git_url, image, version, create_time, update_time, is_del, status, user_id, container_name, release
+        id, title, description, git_url, image, version, create_time, update_time, is_del, status, user_id, container_name, release,repo
     </sql>
 
     <select id="getWorkById" resultMap="BaseResultMap">

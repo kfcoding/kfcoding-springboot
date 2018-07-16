@@ -24,6 +24,8 @@ public class Work extends BaseModel<Work> {
     private String status;
     @TableField("course_id")
     private String courseId;
+    private String image;
+    private String repo;
     @TableField(exist = false)
     private List<Submission> submissions;
 
@@ -33,6 +35,22 @@ public class Work extends BaseModel<Work> {
 
     public void setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getRepo() {
+        return repo;
+    }
+
+    public void setRepo(String repo) {
+        this.repo = repo;
     }
 
     public String getName() {
