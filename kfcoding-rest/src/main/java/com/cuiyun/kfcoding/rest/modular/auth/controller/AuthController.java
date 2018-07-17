@@ -41,7 +41,7 @@ public class AuthController extends BaseController {
     @Autowired
     private DbValidator dbValidator;
 
-    @Value("${oss.bucketName}")
+    @Value("${kfcoding.oss.bucketName}")
     private String bucketName;
 
 

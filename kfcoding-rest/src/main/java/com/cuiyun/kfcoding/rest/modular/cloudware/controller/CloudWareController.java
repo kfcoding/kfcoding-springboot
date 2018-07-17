@@ -35,13 +35,13 @@ import java.util.Map;
 @Api(description = "cloudware相关接口")
 public class CloudWareController extends BaseController {
 
-    @Value("${cloudware.namespace}")
+    @Value("${kfcoding.cloudware.namespace}")
     private String namespace;
 
-    @Value("${cloudware.websocket.server.addr}")
+    @Value("${kfcoding.websocket.cloudware}")
     private String cloudwareWss;
 
-    @Value("${terminal.websocket.server.addr}")
+    @Value("${kfcoding.websocket.terminal}")
     private String terminalWss;
 
     @ResponseBody

@@ -34,10 +34,10 @@ import java.util.Map;
 @Api(description = "工作空间相关接口")
 public class WorkspaceController extends BaseController {
 
-    @Value("${workspace.deleteUrl}")
+    @Value("${kfcoding.workspace.deleteUrl}")
     private String deleteUrl;
 
-    @Value("${workspace.release}")
+    @Value("${kfcoding.workspace.release}")
     private String workSpaceRelease;
 
     @Autowired

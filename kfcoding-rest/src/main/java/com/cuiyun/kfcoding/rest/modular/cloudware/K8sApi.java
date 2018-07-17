@@ -6,24 +6,27 @@ import io.kubernetes.client.ApiException;
 import io.kubernetes.client.Configuration;
 import io.kubernetes.client.apis.CoreV1Api;
 import io.kubernetes.client.apis.ExtensionsV1beta1Api;
-import io.kubernetes.client.models.*;
+import io.kubernetes.client.models.V1DeleteOptions;
+import io.kubernetes.client.models.V1Pod;
+import io.kubernetes.client.models.V1Service;
+import io.kubernetes.client.models.V1Status;
 import io.kubernetes.client.util.Config;
+
+import java.io.IOException;
 
 public class K8sApi {
     // URL and TOKEN will be deleted in release
-    private final static String URL = "https://120.132.94.141:6443";
-    private final static String TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLWo3cjZrIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI0NmVlN2VmOC00YWFkLTExZTgtYmEwYi01MjU0MDAzMjgyNjUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.Fx4GIjOtOTJA2u4vLsl6mMDcpD5cqW31ErwR-7fvEfN_2oMBiJUSE75V-EAngiZpyxlCyjUahXfq1T2qWJhEWSvdzNOJBbbQSVDAcRgHUC7QT9QIZS0si5rwBBJUCz92k_55BltYI9oa9HEFp3u41BrK73714xWXbdMWhev2YNAWIeGFB0BA2SSTHEByTfaXka5eslTYDg23j8-qs_JmLjQPvxcPXxh_vu89zxkKzDjwpVy-EkcQr5r-ubW03qku7xHfDVMc2MVepZOS-VJbnUcGNGNBvGQtItdeJsUdx18gJ7ABERE-h9FtMvBCnH_Yilg7wJM3_iC9W6ilDHCRPg";
 
     private static K8sApi instance = new K8sApi();
     private CoreV1Api coreV1Api;
     private ExtensionsV1beta1Api extensionsV1beta1Api;
 
     private K8sApi() {
+
         ApiClient client = null;
         try {
-            client = Config.fromToken(URL, TOKEN, false);
-            //client = Config.fromCluster();
-        } catch (Exception e) {
+            client = Config.defaultClient();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Configuration.setDefaultApiClient(client);
