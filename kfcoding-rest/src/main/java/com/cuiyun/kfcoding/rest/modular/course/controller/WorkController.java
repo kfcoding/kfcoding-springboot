@@ -3,6 +3,7 @@ package com.cuiyun.kfcoding.rest.modular.course.controller;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.tips.Tip;
+import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.course.model.Work;
@@ -32,6 +33,7 @@ public class WorkController extends BaseController{
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "创建作业", notes="")
+    @Permission
     public Tip create(@RequestBody Work work){
         work.setCreateTime(new Date());
         if (work.getCourseId() == null)
@@ -44,6 +46,7 @@ public class WorkController extends BaseController{
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT)
     @ApiOperation(value = "修改作业", notes="")
+    @Permission
     public Tip update(@RequestBody Work work){
         Work targetWork = workService.selectById(work.getId());
         if (targetWork == null)

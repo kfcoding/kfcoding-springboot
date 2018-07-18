@@ -12,4 +12,10 @@ public interface Cache {
      * 常量缓存
      */
     String CONSTANT = "CONSTANT";
+
+    /**
+     * 用户
+     */
+    String USER = "USER";
+
 }

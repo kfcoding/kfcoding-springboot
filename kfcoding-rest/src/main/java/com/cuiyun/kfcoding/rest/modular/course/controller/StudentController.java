@@ -3,6 +3,7 @@ package com.cuiyun.kfcoding.rest.modular.course.controller;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.tips.Tip;
+import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEum;
@@ -54,6 +55,7 @@ public class StudentController extends BaseController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "学生认证", notes = "")
+    @Permission
     public Tip create(@RequestBody Student student) {
         User user = getUser();
         if (user.getStudent() != null) {
@@ -92,6 +94,7 @@ public class StudentController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/current/submissions", method = RequestMethod.GET)
     @ApiOperation(value = "学生提交的所有作业", notes = "")
+    @Permission
     public Tip currentBubmissions(@RequestBody Student student) {
         User user = getUser();
         List<Work> works = workService.getWorksByUserId(user.getId());
@@ -105,6 +108,7 @@ public class StudentController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     @ApiOperation(value = "学生加入的所有课程", notes = "")
+    @Permission
     public Tip current() {
         User user = getUser();
         List<Course> courses = courseService.getCoursesByUserId(user.getId());

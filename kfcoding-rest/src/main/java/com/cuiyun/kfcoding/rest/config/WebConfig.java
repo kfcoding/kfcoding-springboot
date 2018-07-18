@@ -1,16 +1,15 @@
 package com.cuiyun.kfcoding.rest.config;
 
-import com.cuiyun.kfcoding.rest.config.properties.RestProperties;
-import com.cuiyun.kfcoding.rest.modular.auth.filter.AuthFilter;
 import com.cuiyun.kfcoding.rest.modular.auth.security.DataSecurityAction;
 import com.cuiyun.kfcoding.rest.modular.auth.security.impl.Base64SecurityAction;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+//import com.cuiyun.kfcoding.rest.modular.auth.filter.AuthFilter;
 
 /**
  * web配置
@@ -21,11 +20,11 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class WebConfig {
 
-    @Bean
-    @ConditionalOnProperty(prefix = RestProperties.REST_PREFIX, name = "auth-open", havingValue = "true", matchIfMissing = true)
-    public AuthFilter jwtAuthenticationTokenFilter() {
-        return new AuthFilter();
-    }
+//    @Bean
+//    @ConditionalOnProperty(prefix = RestProperties.REST_PREFIX, name = "auth-open", havingValue = "true", matchIfMissing = true)
+//    public AuthFilter jwtAuthenticationTokenFilter() {
+//        return new AuthFilter();
+//    }
 
     @Bean
     public DataSecurityAction dataSecurityAction() {

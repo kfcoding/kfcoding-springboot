@@ -35,6 +35,7 @@
         FROM common_workspace w
         INNER JOIN course_submission s ON w.id=s.workspace_id
         WHERE s.id = #{id}
+        AND w.is_del = 0
     </select>
 
     <select id="getWorkspacesByUserId" resultMap="BaseResultMap">
@@ -44,6 +45,7 @@
         LEFT JOIN course_submission s ON  s.workspace_id = w.id
         WHERE w.id NOT IN (SELECT s.workspace_id FROM course_submission s WHERE s.user_id = #{user_id})
         AND w.user_id = #{user_id}
+        AND w.is_del = 0
     </select>
 
 </mapper>

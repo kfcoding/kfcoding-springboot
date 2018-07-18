@@ -24,20 +24,20 @@ import java.io.Serializable;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Override
-    @Cacheable(value = Cache.CONSTANT, key = "'" + CacheKey.USER + "' + #id")
+    @Cacheable(value = Cache.USER, key = "'" + CacheKey.USER + "' + #id")
     public User getUserById(String id) {
         return this.baseMapper.getUserById(id);
     }
 
     @Override
-    @CacheEvict(value = Cache.CONSTANT, key = "'" + CacheKey.USER + "' + #p0.id")
+    @CacheEvict(value = Cache.USER, key = "'" + CacheKey.USER + "' + #p0.id")
     public boolean updateById(User entity) {
         return super.updateById(entity);
     }
 
 
     @Override
-    @CacheEvict(value = Cache.CONSTANT, key="'" + CacheKey.USER + "' + #id")
+    @CacheEvict(value = Cache.USER, key="'" + CacheKey.USER + "' + #id")
     public boolean deleteById(Serializable id) {
         return super.deleteById(id);
     }

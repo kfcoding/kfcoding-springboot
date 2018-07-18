@@ -5,6 +5,7 @@ import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.controller.WorkspaceController;
@@ -56,6 +57,7 @@ public class SubmissionController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "做作业", notes = "")
     @Transactional
+    @Permission
     public Tip create(@RequestBody Submission submission) throws UnsupportedEncodingException {
         User user = getUser();
         submission.setCreateTime(new Date());
@@ -96,6 +98,7 @@ public class SubmissionController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/submit",method = RequestMethod.GET)
     @ApiOperation(value = "提交作业", notes = "根据workspaceId提交")
+    @Permission
     public Tip sumbit(@RequestParam("workspace_id") String workspaceId) {
         Submission submission = submissionService.selectOne(new EntityWrapper<Submission>().eq("workspace_id", workspaceId));
         if (submission == null)

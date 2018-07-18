@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
-import com.cuiyun.kfcoding.core.util.MD5Util;
 import com.cuiyun.kfcoding.core.util.ToolUtil;
+import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.controller.dto.AuthPasswordRequest;
 import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
@@ -68,6 +68,7 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
+    @Permission
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
     public SuccessTip current(){
@@ -82,6 +83,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/current", method = RequestMethod.POST)
     @ApiOperation(value = "修改用户信息", notes="修改用户信息")
+    @Permission
     public SuccessTip getUserInfoById(@RequestBody User user){
         User targetUser = userService.selectById(user.getId());
         // 检验账号是否重复
@@ -106,6 +108,7 @@ public class UserController extends BaseController {
 
 
     @ResponseBody
+    @Permission
     @RequestMapping(path = "/current/kongfu", method = RequestMethod.GET)
     @ApiOperation(value = "用户功夫列表", notes="列出该用户创建的所有功夫")
     public SuccessTip currentKongfu(){
@@ -123,6 +126,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(path = "/current/courses", method = RequestMethod.GET)
     @ApiOperation(value = "用户课程列表", notes="列出该用户创建的所有课程")
+    @Permission
     public SuccessTip currentCourse(){
         User user = getUser();
         EntityWrapper ew = new EntityWrapper<Kongfu>();
@@ -163,7 +167,7 @@ public class UserController extends BaseController {
 
         // 密码加密
         String password = user.getPassword();
-        user.setPassword(MD5Util.encrypt(password));
+//        user.setPassword(MD5Util.encrypt(password));
 
         if (user.getName() == null){
             user.setName(user.getEmail());

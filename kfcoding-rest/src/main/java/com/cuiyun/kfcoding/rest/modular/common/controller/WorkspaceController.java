@@ -10,6 +10,7 @@ import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.core.support.http.HttpKit;
 import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
+import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
@@ -24,10 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @program: kfcoding
@@ -63,6 +61,7 @@ public class WorkspaceController extends BaseController {
     @BussinessLog(value = "创建工作空间")
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "工作空间", notes = "创建工作空间")
+    @Permission
     public Tip create(@RequestBody Workspace workspace) throws UnsupportedEncodingException {
         Workspace targetWorkspace = createWorkSpace(workspace);
         if (targetWorkspace != null) {
@@ -101,13 +100,16 @@ public class WorkspaceController extends BaseController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
+    @Permission
     @ApiOperation(value = "获取workspace", notes = "获取当前用户的所有workspace")
     public SuccessTip getWorkspaces() {
         User user = getUser();
-        List workspaces = workspaceService.getWorkspacesByUserId(user.getId());
         SUCCESSTIP = new SuccessTip();
         MAP = new HashMap<>();
+
+        List workspaces = workspaceService.getWorkspacesByUserId(user.getId());
         MAP.put("workspaces", workspaces);
+
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }
@@ -159,6 +161,7 @@ public class WorkspaceController extends BaseController {
     @BussinessLog(value = "删除工作空间")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除工作空间", notes = "删除工作空间")
+    @Permission
     public SuccessTip delete(@PathVariable String id) throws UnsupportedEncodingException {
         if (!workspaceService.deleteById(id))
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_DELETE);

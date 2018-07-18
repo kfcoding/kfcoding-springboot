@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
+import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
@@ -52,6 +53,7 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     @ApiOperation(value = "创建课程", notes="")
     @Transactional
+    @Permission
     public SuccessTip create(@RequestBody Kongfu kongfu){
         User user = getUser();
         kongfu.setAuthor(user.getName());
@@ -76,6 +78,7 @@ public class KongfuController extends BaseController {
     @RequestMapping(path = "/{id}", method = RequestMethod.POST)
     @ApiOperation(value = "修改课程", notes="")
     @Transactional
+    @Permission
     public SuccessTip update(@RequestBody Kongfu kongfu){
         User user = getUser();
         kongfu.setAuthor(user.getName());
@@ -190,6 +193,7 @@ public class KongfuController extends BaseController {
     @BussinessLog(value = "删除课程")
     @RequestMapping(path = "/delete", method = RequestMethod.GET)
     @ApiOperation(value = "课程Id", notes="根据Id删除课程")
+    @Permission
     public SuccessTip deleteById(@RequestParam String id) {
         if (kongfuService.deleteById(id)){
             return SUCCESSTIP;
