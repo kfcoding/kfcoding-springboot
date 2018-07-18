@@ -69,6 +69,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     WORKSPACE_CREATE_ERROR(801, "创建异常"),
     WORKSPACE_NULL(802, "工作空间不存在"),
     WORKSPACE_DELETE(803, "删除失败"),
+    WORKSPACE_SERVER(804, "workspace API异常"),
     /**
      * course模块异常
      */
@@ -84,6 +85,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     COURSE_STUDENT_CREATE(1007, "学生创建异常"),
     COURSE_STUDENT_NULL(1008, "学生不存在"),
     COURSE_SUBMISSION_CREATE(1009, "作业提交异常"),
+    COURSE_SUBMISSION_NULL(1009, "提交不存在"),
     COURSE_WORK_NULL(1010, "作业不存在"),
 
     ;

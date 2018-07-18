@@ -69,6 +69,8 @@ public class KongfuController extends BaseController {
         }
     }
 
+
+
     @ResponseBody
     @BussinessLog(value = "修改课程")
     @RequestMapping(path = "/{id}", method = RequestMethod.POST)

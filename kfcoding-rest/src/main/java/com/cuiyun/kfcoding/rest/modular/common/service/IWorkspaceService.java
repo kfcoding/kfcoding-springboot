@@ -1,9 +1,10 @@
 package com.cuiyun.kfcoding.rest.modular.common.service;
 
-import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import com.baomidou.mybatisplus.service.IService;
-import com.cuiyun.kfcoding.rest.modular.course.model.Work;
+import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,7 +17,8 @@ import org.apache.ibatis.annotations.Param;
 public interface IWorkspaceService extends IService<Workspace> {
 
     /**
-     *  根据Id查找作业
+     * 根据用户Id获取工作空间（去除submission）
      */
-    Work getWorkById(@Param("id") String id);
+    List<Workspace> getWorkspacesByUserId(@Param("user_id") String userId);
+
 }

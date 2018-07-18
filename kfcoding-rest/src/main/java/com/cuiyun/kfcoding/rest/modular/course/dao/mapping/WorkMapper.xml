@@ -13,6 +13,8 @@
         <result column="description" property="description" />
         <result column="status" property="status" />
         <result column="course_id" property="courseId" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
         <collection property="submissions" ofType="com.cuiyun.kfcoding.rest.modular.course.model.Submission" select="com.cuiyun.kfcoding.rest.modular.course.dao.SubmissionMapper.getSubmissionsByWorkId" column="id" />
     </resultMap>
 
@@ -28,14 +30,16 @@
         <result column="course_id" property="courseId" />
         <result column="image" property="image" />
         <result column="repo" property="repo" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, version, is_del, name, description, status, course_id, image, repo
+        id, create_time, update_time, version, is_del, name, description, status, course_id, image, repo, start_time, end_time
     </sql>
     <sql id="Column_List">
-        w.id, w.create_time, w.update_time, w.version, w.is_del, w.name, w.description, w.status, w.course_id, w.image, w.repo
+        w.id, w.create_time, w.update_time, w.version, w.is_del, w.name, w.description, w.status, w.course_id, w.image, w.repo,w.start_time, w.end_time
     </sql>
     
     <select id="getWorkById" resultMap="BaseResultMap">

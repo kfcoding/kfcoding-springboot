@@ -45,4 +45,5 @@ public class KongfuServiceImpl extends ServiceImpl<KongfuMapper, Kongfu> impleme
     public Page<Kongfu> getKongfuByTag(Page<Kongfu> page, @Param("id") String id, @Param("status")KongfuStatusEnum status) {
         return page.setRecords(this.baseMapper.getKongfuByTag(page, id, status));
     }
+
 }

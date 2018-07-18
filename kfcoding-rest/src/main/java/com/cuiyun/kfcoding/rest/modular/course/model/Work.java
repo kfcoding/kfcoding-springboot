@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,11 +27,31 @@ public class Work extends BaseModel<Work> {
     private String courseId;
     private String image;
     private String repo;
+    @TableField("start_time")
+    private Date startTime;
+    @TableField("end_time")
+    private Date endTime;
     @TableField(exist = false)
     private List<Submission> submissions;
 
     public List<Submission> getSubmissions() {
         return submissions;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public void setSubmissions(List<Submission> submissions) {

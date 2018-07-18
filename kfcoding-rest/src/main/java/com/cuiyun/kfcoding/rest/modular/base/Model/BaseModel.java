@@ -41,6 +41,10 @@ public abstract class BaseModel<T extends Model> extends Model<T>{
         return this.id;
     }
 
+    public String[] getIgnoreProperties(){
+        return new String[]{"id", "version", "startTime", "updateTime", "isDel"};
+    }
+
     public String getId() {
         return id;
     }

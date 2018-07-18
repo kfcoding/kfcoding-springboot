@@ -25,11 +25,25 @@
         id, title, description, git_url, image, version, create_time, update_time, is_del, status, user_id, container_name, release,repo
     </sql>
 
-    <select id="getWorkById" resultMap="BaseResultMap">
+    <sql id="Column_List">
+        w.id, w.title, w.description, w.git_url, w.image, w.version, w.create_time, w.update_time, w.is_del, w.status, w.user_id, w.container_name, w.release, w.repo
+    </sql>
+
+    <select id="getSubmissionsBySubmissionId" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List" />
-        FROM course_work w
-        WHERE w.id = #{id}
+        <include refid="Column_List" />
+        FROM common_workspace w
+        INNER JOIN course_submission s ON w.id=s.workspace_id
+        WHERE s.id = #{id}
+    </select>
+
+    <select id="getWorkspacesByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+        FROM common_workspace w
+        LEFT JOIN course_submission s ON  s.workspace_id = w.id
+        WHERE w.id NOT IN (SELECT s.workspace_id FROM course_submission s WHERE s.user_id = #{user_id})
+        AND w.user_id = #{user_id}
     </select>
 
 </mapper>

@@ -48,8 +48,13 @@ public class WorkController extends BaseController{
         Work targetWork = workService.selectById(work.getId());
         if (targetWork == null)
             return new ErrorTip(BizExceptionEnum.COURSE_WORK_NULL.getCode(), BizExceptionEnum.COURSE_WORK_NULL.getMessage());
+//        BeanUtil.copyProperties();
         targetWork.setName(work.getName());
         targetWork.setDescription(work.getDescription());
+        targetWork.setStartTime(work.getStartTime());
+        targetWork.setEndTime(work.getEndTime());
+        targetWork.setRepo(work.getRepo());
+        targetWork.setImage(work.getImage());
         if (!workService.updateById(targetWork))
             return new ErrorTip(BizExceptionEnum.COURSE_WORK_UPDATE.getCode(), BizExceptionEnum.COURSE_WORK_UPDATE.getMessage());
         return new SuccessTip();

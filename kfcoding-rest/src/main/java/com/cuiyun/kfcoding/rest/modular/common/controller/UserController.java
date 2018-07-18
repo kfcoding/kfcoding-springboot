@@ -81,11 +81,11 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @RequestMapping(path = "/current", method = RequestMethod.POST)
-    @ApiOperation(value = "用户类", notes="修改用户信息")
+    @ApiOperation(value = "修改用户信息", notes="修改用户信息")
     public SuccessTip getUserInfoById(@RequestBody User user){
-        User oldUser = userService.selectById(user.getId());
+        User targetUser = userService.selectById(user.getId());
         // 检验账号是否重复
-        if (!oldUser.getAccount().equals(user.getAccount())){
+        if (!targetUser.getAccount().equals(user.getAccount())){
             EntityWrapper ew = new EntityWrapper();
             ew.eq("account", user.getAccount());
             if (userService.selectOne(ew) != null){
@@ -93,14 +93,13 @@ public class UserController extends BaseController {
             }
         }
         // 修改数据
-        String[] ingoreProperties = {"id", "version", "startTime", "updateTime", "isDel"};
-        BeanUtil.copyProperties(user, oldUser, ingoreProperties);
-        if (!userService.updateById(oldUser)) {
+        BeanUtil.copyProperties(user, targetUser, user.getIgnoreProperties());
+        if (!userService.updateById(targetUser)) {
             throw new KfCodingException(BizExceptionEnum.USER_ERROR);
         }
         SUCCESSTIP = new SuccessTip();
         MAP = new HashMap<>();
-        MAP.put("user", oldUser);
+        MAP.put("user", targetUser);
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
     }

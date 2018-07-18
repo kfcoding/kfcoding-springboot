@@ -1,11 +1,12 @@
 package com.cuiyun.kfcoding.rest.modular.common.service.impl;
 
-import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
-import com.cuiyun.kfcoding.rest.modular.common.dao.WorkspaceMapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.cuiyun.kfcoding.rest.modular.common.dao.WorkspaceMapper;
+import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import com.cuiyun.kfcoding.rest.modular.common.service.IWorkspaceService;
-import com.cuiyun.kfcoding.rest.modular.course.model.Work;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,8 +20,8 @@ import org.springframework.stereotype.Service;
 public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace> implements IWorkspaceService {
 
     @Override
-    public Work getWorkById(String id) {
-        return this.baseMapper.getWorkById(id);
+    public List<Workspace> getWorkspacesByUserId(String userId) {
+        return this.baseMapper.getWorkspacesByUserId(userId);
     }
 
 }

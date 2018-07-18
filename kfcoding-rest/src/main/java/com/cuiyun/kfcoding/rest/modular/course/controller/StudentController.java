@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -94,6 +95,8 @@ public class StudentController extends BaseController {
     public Tip currentBubmissions(@RequestBody Student student) {
         User user = getUser();
         List<Work> works = workService.getWorksByUserId(user.getId());
+        MAP = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
         MAP.put("works", works);
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;
@@ -105,6 +108,8 @@ public class StudentController extends BaseController {
     public Tip current() {
         User user = getUser();
         List<Course> courses = courseService.getCoursesByUserId(user.getId());
+        MAP = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
         MAP.put("courses", courses);
         SUCCESSTIP.setResult(MAP);
         return SUCCESSTIP;

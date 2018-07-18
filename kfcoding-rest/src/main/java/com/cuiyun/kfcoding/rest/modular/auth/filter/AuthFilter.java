@@ -45,7 +45,7 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         //跳过验证
-        if (!restProperties.isAuthOpen()){
+        if (!restProperties.isAuthOpen()) {
             return;
         }
 
@@ -56,8 +56,10 @@ public class AuthFilter extends OncePerRequestFilter {
                 (request.getServletPath().startsWith("/cloudware")) ||
                 (request.getServletPath().startsWith("/druid")) ||
                 (request.getServletPath().startsWith("/kongfu") && request.getMethod().equals("GET")) ||
-                (request.getServletPath().startsWith("/workspaces") && request.getMethod().equals("GET") &&  !request.getServletPath().equals("/workspaces"))
+                (request.getServletPath().startsWith("/workspaces") && request.getMethod().equals("GET") && !request.getServletPath().equals("/workspaces"))
                 || (request.getServletPath().startsWith("/swagger"))
+                || (request.getServletPath().startsWith("/test"))
+                || (request.getServletPath().equals("/submissions/submit"))
                 ) {
             chain.doFilter(request, response);
             return;
