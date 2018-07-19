@@ -4,6 +4,7 @@ import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
+import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.auth.controller.dto.AuthPasswordRequest;
 import com.cuiyun.kfcoding.rest.modular.auth.util.JwtTokenUtil;
@@ -85,6 +86,7 @@ public class AuthController extends BaseController {
 
     @RequestMapping(value = "/auth/sts/{kongfuid}", method = RequestMethod.GET)
     @ApiOperation(value = "获取sts临时身份", notes="")
+    @Permission
     public ResponseEntity<?> getSts(@PathVariable String kongfuid) throws ClientException {
         StringBuffer sb = new StringBuffer();
         sb.append(bucketName).append("/").append(kongfuid).append("/*");

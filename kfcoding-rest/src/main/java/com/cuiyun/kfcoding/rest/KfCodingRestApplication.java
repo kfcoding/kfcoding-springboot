@@ -11,6 +11,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  **/
 @SpringBootApplication(scanBasePackages = "com.cuiyun.kfcoding")
 public class KfCodingRestApplication {
+
+//    // 设置时区
+//    @PostConstruct
+//    void started() {
+//        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+//    }
+
     public static void main(String[] args) {
         SpringApplication.run(KfCodingRestApplication.class, args);
 

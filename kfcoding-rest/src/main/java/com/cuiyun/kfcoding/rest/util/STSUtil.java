@@ -9,11 +9,9 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.cuiyun.kfcoding.core.util.ToolUtil;
-import com.cuiyun.kfcoding.rest.config.properties.StsProperties;
+import com.cuiyun.kfcoding.rest.config.STSConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,19 +29,6 @@ public class STSUtil {
 
     private static STSUtil stsUtil;
 
-    @Autowired
-    private StsProperties stsProperties;
-
-    @Value("${sts.endpoint}")
-    private String endpoint;
-
-    @Value("${sts.accessKeyId}")
-    private String accessKeyId;
-
-    @Value("${sts.accessKeySecret}")
-    private String accessKeySecret;
-
-    @Value("${sts.roleArn}")
     private String roleArn;
 
     static {
@@ -57,12 +42,11 @@ public class STSUtil {
     private static DefaultAcsClient client;
 
     public STSUtil() throws ClientException {
-        System.err.println(stsProperties.getEndpoint());
-        DefaultProfile.addEndpoint("", "", "Sts", stsProperties.getEndpoint());
-        IClientProfile profile = DefaultProfile.getProfile("", stsProperties.getAccessKeyId(), stsProperties.getAccessKeySecret());
+        DefaultProfile.addEndpoint("", "", "Sts", STSConfig.getValue("endpoint"));
+        IClientProfile profile = DefaultProfile.getProfile("", STSConfig.getValue("accessKeyId"), STSConfig.getValue("accessKeySecret"));
         DefaultAcsClient client = new DefaultAcsClient(profile);
         setClient(client);
-        setRoleArn(stsProperties.getRoleArn());
+        setRoleArn(STSConfig.getValue("roleArn"));
     }
 
     /**

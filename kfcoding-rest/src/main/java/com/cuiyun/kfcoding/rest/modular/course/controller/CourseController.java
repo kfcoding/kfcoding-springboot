@@ -87,12 +87,18 @@ public class CourseController extends BaseController{
     @ResponseBody
     @RequestMapping(path = "/join",method = RequestMethod.GET)
     @ApiOperation(value = "加入课程", notes="")
+    @Permission
     public Tip join(@RequestParam String code){
         User user = getUser();
         Course course= courseService.selectOne(new EntityWrapper<Course>().eq("code", code));
         if (course == null)
             return new ErrorTip(BizExceptionEnum.COURSE_NULL.getCode(), BizExceptionEnum.COURSE_NULL.getMessage());
-        CourseToUser courseToUser = new CourseToUser();
+
+        CourseToUser courseToUser = courseToUserService.selectOne(new EntityWrapper<CourseToUser>().eq("user_id",user.getId()).eq("course_id", course.getId()));
+        if (courseToUser != null) {
+            return new ErrorTip(BizExceptionEnum.COURSE_JOIN.getCode(), BizExceptionEnum.COURSE_JOIN.getMessage());
+        }
+        courseToUser = new CourseToUser();
         courseToUser.setUserId(user.getId());
         courseToUser.setCourseId(course.getId());
         courseToUserService.insert(courseToUser);

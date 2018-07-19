@@ -39,16 +39,16 @@ import java.util.*;
 @Api(description = "工作空间相关接口")
 public class WorkspaceController extends BaseController {
 
-    @Value("${workspace.deleteUrl}")
+    @Value("${kfcoding.workspace.deleteUrl}")
     private String deleteUrl;
 
-    @Value("${workspace.createUrl}")
+    @Value("${kfcoding.workspace.createUrl}")
     private String createUrl;
 
-    @Value("${workspace.release}")
+    @Value("${kfcoding.workspace.release}")
     private String workSpaceRelease;
 
-    @Value("${workspace.startUrl}")
+    @Value("${kfcoding.workspace.startUrl}")
     private String startUrl;
 
     @Autowired
