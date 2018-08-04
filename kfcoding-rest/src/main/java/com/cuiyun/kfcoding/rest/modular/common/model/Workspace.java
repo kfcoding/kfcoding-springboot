@@ -29,6 +29,15 @@ public class Workspace extends BaseModel<Workspace> {
     private String containerName;
     private String release;
     private String repo;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getRepo() {
         return repo;

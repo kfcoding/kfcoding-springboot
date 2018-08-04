@@ -6,7 +6,7 @@ import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
  * 验证的凭据
  *
  * @author maple
- * @date 2017-08-27 13:27
+ * @date 2018-08-27 13:27
  */
 public interface Credence {
 

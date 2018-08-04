@@ -13,7 +13,7 @@ import java.util.Map;
  * </p>
  *
  * @author stylefeng
- * @since 2017-07-11
+ * @since 2018-07-11
  */
 public interface DictMapper extends BaseMapper<Dict> {
 

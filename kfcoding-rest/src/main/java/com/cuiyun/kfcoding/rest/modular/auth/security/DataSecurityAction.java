@@ -9,7 +9,7 @@ package com.cuiyun.kfcoding.rest.modular.auth.security;
  * </pre>
  *
  * @author maple
- * @date 2017-09-18 20:41
+ * @date 2018-09-18 20:41
  */
 public interface DataSecurityAction {
 
@@ -17,7 +17,7 @@ public interface DataSecurityAction {
      * 执行数据的保护措施
      *
      * @author maple
-     * @Date 2017/9/18 20:42
+     * @Date 2018/9/18 20:42
      */
     String doAction(String beProtected);
 
@@ -25,7 +25,7 @@ public interface DataSecurityAction {
      * 解除保护
      *
      * @author maple
-     * @Date 2017/9/18 20:45
+     * @Date 2018/9/18 20:45
      */
     String unlock(String securityCode);
 }

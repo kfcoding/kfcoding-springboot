@@ -4,7 +4,7 @@ package com.cuiyun.kfcoding.rest.modular.auth.converter;
  * 基础的传输bean
  *
  * @author maple
- * @date 2017-08-25 15:52
+ * @date 2018-08-25 15:52
  */
 public class BaseTransferEntity {
 

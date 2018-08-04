@@ -4,7 +4,7 @@ package com.cuiyun.kfcoding.rest.common;
  * 测试用的
  *
  * @author maple
- * @date 2017-08-25 16:47
+ * @date 2018-08-25 16:47
  */
 public class SimpleObject {
 

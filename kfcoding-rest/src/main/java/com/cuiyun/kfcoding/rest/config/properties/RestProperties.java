@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * 项目相关配置
  *
  * @author maple
- * @date 2017年10月23日16:44:15
+ * @date 2018年10月23日16:44:15
  */
 @Configuration
 @ConfigurationProperties(prefix = RestProperties.REST_PREFIX)

@@ -24,7 +24,7 @@
 // * 对客户端请求的jwt token验证过滤器
 // *
 // * @author maple
-// * @Date 2017/8/24 14:04
+// * @Date 2018/8/24 14:04
 // */
 //@CrossOrigin(origins = "*", maxAge = 3600)
 //public class AuthFilter extends OncePerRequestFilter {

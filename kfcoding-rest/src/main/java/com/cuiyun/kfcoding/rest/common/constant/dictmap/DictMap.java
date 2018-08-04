@@ -6,7 +6,7 @@ import com.cuiyun.kfcoding.rest.common.constant.dictmap.base.AbstractDictMap;
  * 字典map
  *
  * @author maple
- * @date 2017-05-06 15:43
+ * @date 2018-05-06 15:43
  */
 public class DictMap extends AbstractDictMap {
 

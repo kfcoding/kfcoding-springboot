@@ -4,7 +4,7 @@ package com.cuiyun.kfcoding.rest.common.constant.state;
  * 日志类型
  *
  * @author maple
- * @Date 2017年1月22日 下午12:14:59
+ * @Date 2018年1月22日 下午12:14:59
  */
 public enum LogType {
 

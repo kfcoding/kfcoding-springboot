@@ -110,7 +110,7 @@ public class BaseController {
      * 返回前台文件流
      *
      * @author maple
-     * @date 2017年2月28日 下午2:53:19
+     * @date 2018年2月28日 下午2:53:19
      */
     protected ResponseEntity<byte[]> renderFile(String fileName, String filePath) {
         byte[] bytes = FileUtil.toByteArray(filePath);
@@ -121,7 +121,7 @@ public class BaseController {
      * 返回前台文件流
      *
      * @author maple
-     * @date 2017年2月28日 下午2:53:19
+     * @date 2018年2月28日 下午2:53:19
      */
     protected ResponseEntity<byte[]> renderFile(String fileName, byte[] fileBytes) {
         String dfileName = null;

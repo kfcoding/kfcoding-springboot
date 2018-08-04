@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author stylefeng
- * @since 2017-07-11
+ * @since 2018-07-11
  */
 @TableName("sys_dict")
 public class Dict extends Model<Dict> {

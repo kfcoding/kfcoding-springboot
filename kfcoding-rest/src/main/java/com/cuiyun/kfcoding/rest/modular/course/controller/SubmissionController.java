@@ -9,6 +9,7 @@ import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
 import com.cuiyun.kfcoding.rest.modular.common.controller.WorkspaceController;
+import com.cuiyun.kfcoding.rest.modular.common.enums.WorkspaceTypeEnum;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import com.cuiyun.kfcoding.rest.modular.common.service.IWorkspaceService;
@@ -78,6 +79,7 @@ public class SubmissionController extends BaseController {
 //            workspace.setRepo(work.getRepo());
             workspace.setImage(work.getImage());
             workspace.setTitle(work.getName());
+            workspace.setType(WorkspaceTypeEnum.WORKSPACE.getValue());
             Workspace targetWorkspace = workspaceController.createWorkSpace(workspace);
             if (targetWorkspace == null)
                 throw new KfCodingException(BizExceptionEnum.WORKSPACE_CREATE_ERROR);

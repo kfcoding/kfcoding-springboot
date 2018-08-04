@@ -2,13 +2,14 @@ package com.cuiyun.kfcoding.rest.modular.common.controller;
 
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
 import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
-import com.cuiyun.kfcoding.core.support.http.HttpKit;
 import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
 import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
@@ -22,10 +23,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @program: kfcoding
@@ -81,15 +86,17 @@ public class WorkspaceController extends BaseController {
 
         Map params = new HashMap();
         params.put("image", workspace.getImage());
-        Map<String, String> header = new HashMap<String, String>();
+        params.put("type", workspace.getType());
 //        HttpResult httpResult = HttpKit.postResult(createUrl, JSON.toJSONString(params), header);
 //        String result = httpResult.getResult();
 //        String url
         System.err.println(JSON.toJSONString(params));
         String result = HttpRequest.post(createUrl).header(Header.CONTENT_TYPE, "application/json").body(JSON.toJSONString(params)).execute().body();
         Map resultMap = JSON.parseObject(result);
-        if (resultMap.containsKey("error"))
+        if (resultMap.containsKey("error")){
+            System.out.println(resultMap.get("error"));
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_SERVER);
+        }
         workspace.setContainerName((String) resultMap.get("data"));
         if (workspaceService.insert(workspace)) {
             return workspace;
@@ -97,6 +104,7 @@ public class WorkspaceController extends BaseController {
             return null;
         }
     }
+
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
@@ -120,15 +128,16 @@ public class WorkspaceController extends BaseController {
     public Tip start(@PathVariable String id) {
         Workspace workspace = workspaceService.selectById(id);
         if (workspace != null) {
-            Map params = new HashMap();
-            params.put("name", workspace.getContainerName());
-            String result = HttpRequest.post(startUrl).body(JSON.toJSONString(params)).execute().body();
+//            Map params = new HashMap();
+//            params.put("name", workspace.getContainerName());
+            String url = this.startUrl + workspace.getContainerName() + "/" + workspace.getType();
+            String result = HttpRequest.get(url).execute().body();
             Map resultMap = (Map) JSON.parse(result);
             if (resultMap.containsKey("error"))
                 return new ErrorTip(BizExceptionEnum.WORKSPACE_SERVER.getCode(), BizExceptionEnum.WORKSPACE_SERVER.getMessage());
-            StringBuffer sb = new StringBuffer();
-            sb.append("http://").append(workspace.getContainerName()).append(".workspace.cloudwarehub.com");
-            MAP.put("socketAddr", sb.toString());
+//            StringBuffer sb = new StringBuffer();
+//            sb.append("http://").append(workspace.getContainerName()).append(".workspace.cloudwarehub.com");
+            MAP.put("socketAddr", (String) resultMap.get("url"));
             SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
@@ -162,12 +171,21 @@ public class WorkspaceController extends BaseController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除工作空间", notes = "删除工作空间")
     @Permission
+    @Transactional
     public SuccessTip delete(@PathVariable String id) throws UnsupportedEncodingException {
+        Workspace workspace = workspaceService.selectById(id);
+        if (workspace == null)
+            throw new KfCodingException(BizExceptionEnum.WORKSPACE_NULL);
         if (!workspaceService.deleteById(id))
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_DELETE);
-        Map<String, String> param = new HashMap<String, String>();
-        param.put("name", id);
-        HttpKit.post(deleteUrl, param);
+//        Map<String, String> param = new HashMap<String, String>();
+//        param.put("name", id);
+//        HttpKit.post(deleteUrl, param);
+        String url = this.deleteUrl + workspace.getContainerName() + "/" + workspace.getType();
+        HttpResponse httpResponse =  HttpRequest.delete(url).execute();
+        if (httpResponse.getStatus() != HttpStatus.HTTP_OK) {
+            throw new KfCodingException(BizExceptionEnum.WORKSPACE_DELETE);
+        }
         SUCCESSTIP = new SuccessTip();
         return SUCCESSTIP;
     }

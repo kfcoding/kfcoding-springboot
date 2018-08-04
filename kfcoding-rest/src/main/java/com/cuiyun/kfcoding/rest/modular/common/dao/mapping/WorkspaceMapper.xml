@@ -18,15 +18,16 @@
         <result column="container_name" property="containerName" />
         <result column="release" property="release" />
         <result column="repo" property="repo" />
+        <result column="type" property="type" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, description, git_url, image, version, create_time, update_time, is_del, status, user_id, container_name, release,repo
+        id, title, description, git_url, image, version, create_time, update_time, is_del, status, user_id, container_name, release,repo, 'type'
     </sql>
 
     <sql id="Column_List">
-        w.id, w.title, w.description, w.git_url, w.image, w.version, w.create_time, w.update_time, w.is_del, w.status, w.user_id, w.container_name, w.release, w.repo
+        w.id, w.title, w.description, w.git_url, w.image, w.version, w.create_time, w.update_time, w.is_del, w.status, w.user_id, w.container_name, w.release, w.repo, w.type
     </sql>
 
     <select id="getSubmissionsBySubmissionId" resultMap="BaseResultMap">

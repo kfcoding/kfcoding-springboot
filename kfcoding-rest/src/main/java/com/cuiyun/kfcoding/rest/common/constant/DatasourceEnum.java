@@ -5,7 +5,7 @@ package com.cuiyun.kfcoding.rest.common.constant;
  * 多数据源的枚举
  *
  * @author maple
- * @date 2017年3月5日 上午10:15:02
+ * @date 2018年3月5日 上午10:15:02
  */
 public interface DatasourceEnum {
 

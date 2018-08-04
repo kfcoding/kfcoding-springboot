@@ -12,7 +12,7 @@ import java.util.Map;
  * 组合字符串生产者
  *
  * @author maple
- * @date 2017-04-27 16:42
+ * @date 2018-04-27 16:42
  */
 public class MutiStrFactory {
 
@@ -45,7 +45,7 @@ public class MutiStrFactory {
      * 解析一个组合字符串(例如:  "1:启用;2:禁用;3:冻结"  这样的字符串)
      *
      * @author maple
-     * @Date 2017/4/27 16:44
+     * @Date 2018/4/27 16:44
      */
     public static List<Map<String,String>> parseKeyValue(String mutiString){
         if(ToolUtil.isEmpty(mutiString)){
@@ -68,7 +68,7 @@ public class MutiStrFactory {
      * 解析id:key:value这样类型的字符串
      * 
      * @author maple
-     * @Date 2017/4/28 11:06
+     * @Date 2018/4/28 11:06
      */
     public static List<Map<String,String>> parseIdKeyValue(String mutiString){
         if(ToolUtil.isEmpty(mutiString)){

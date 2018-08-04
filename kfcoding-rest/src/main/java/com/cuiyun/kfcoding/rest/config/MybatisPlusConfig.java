@@ -5,11 +5,9 @@ import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.baomidou.mybatisplus.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import com.cuiyun.kfcoding.core.datasource.DruidProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * MybatisPlus配置
  *
  * @author maple
- * @Date 2017年8月23日12:51:41
+ * @Date 2018年8月23日12:51:41
  */
 @Configuration
 @MapperScan(basePackages = {"com.cuiyun.kfcoding.rest.modular.*.dao", "com.cuiyun.kfcoding.rest.common.persistence.dao"})

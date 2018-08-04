@@ -10,7 +10,7 @@ import java.util.List;
  * jwt相关配置
  *
  * @author maple
- * @date 2017-08-23 9:23
+ * @date 2018-08-23 9:23
  */
 @Configuration
 @ConfigurationProperties(prefix = JwtProperties.JWT_PREFIX)

@@ -4,7 +4,7 @@ package com.cuiyun.kfcoding.rest.common.constant.cache;
  * 缓存标识前缀集合,常用在ConstantFactory类中
  *
  * @author maple
- * @date 2017-04-25 9:37
+ * @date 2018-04-25 9:37
  */
 public interface CacheKey {
 
@@ -15,4 +15,5 @@ public interface CacheKey {
 
     String USER = "user_";
 
+    String EMAIL = "emial_";
 }

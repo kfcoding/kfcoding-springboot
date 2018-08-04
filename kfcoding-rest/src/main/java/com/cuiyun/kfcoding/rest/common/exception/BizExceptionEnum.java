@@ -57,6 +57,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      */
     BOOK_ERROR(501, "没有课程"),
     BOOK_CREAT_ERROR(502, "创建课程失败"),
+    BOOK_UPDATE(503, "课程修改失败"),
 
     /**
      * cloudware模块异常

@@ -4,7 +4,7 @@ package com.cuiyun.kfcoding.rest.common.constant.cache;
  * 所有缓存名称的集合
  *
  * @author maple
- * @date 2017-04-24 21:56
+ * @date 2018-04-24 21:56
  */
 public interface Cache {
 
@@ -17,5 +17,13 @@ public interface Cache {
      * 用户
      */
     String USER = "USER";
+
+    /**
+     * 用户
+     */
+    String EMAIL = "EMAIL";
+
+
+
 
 }

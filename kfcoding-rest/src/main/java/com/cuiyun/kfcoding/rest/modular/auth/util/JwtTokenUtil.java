@@ -24,7 +24,7 @@ import java.util.Map;
  * </pre>
  *
  * @author maple
- * @Date 2017/8/25 10:59
+ * @Date 2018/8/25 10:59
  */
 @Component
 public class JwtTokenUtil {

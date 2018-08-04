@@ -6,7 +6,7 @@ import java.util.List;
  * 常量生产工厂的接口
  *
  * @author maple
- * @date 2017-06-14 21:12
+ * @date 2018-06-14 21:12
  */
 public interface IConstantFactory {
 
@@ -14,7 +14,7 @@ public interface IConstantFactory {
      * 根据用户id获取用户名称
      *
      * @author maple
-     * @Date 2017/5/9 23:41
+     * @Date 2018/5/9 23:41
      */
     String getUserNameById(Integer userId);
 
@@ -22,7 +22,7 @@ public interface IConstantFactory {
      * 根据用户id获取用户账号
      *
      * @author maple
-     * @date 2017年5月16日21:55:371
+     * @date 2018年5月16日21:55:371
      */
     String getUserAccountById(Integer userId);
 

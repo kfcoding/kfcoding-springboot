@@ -41,6 +41,7 @@ public abstract class BaseModel<T extends Model> extends Model<T>{
         return this.id;
     }
 
+    @JSONField(serialize = false)
     public String[] getIgnoreProperties(){
         return new String[]{"id", "version", "startTime", "updateTime", "isDel"};
     }

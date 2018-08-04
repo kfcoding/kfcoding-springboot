@@ -6,7 +6,7 @@ import java.util.HashMap;
  * 字典映射抽象类
  *
  * @author maple
- * @date 2017-05-06 14:58
+ * @date 2018-05-06 14:58
  */
 public abstract class AbstractDictMap {
 
@@ -23,7 +23,7 @@ public abstract class AbstractDictMap {
      * 初始化字段英文名称和中文名称对应的字典
      *
      * @author maple
-     * @Date 2017/5/9 19:39
+     * @Date 2018/5/9 19:39
      */
     public abstract void init();
 
@@ -31,7 +31,7 @@ public abstract class AbstractDictMap {
      * 初始化需要被包装的字段(例如:性别为1:男,2:女,需要被包装为汉字)
      *
      * @author maple
-     * @Date 2017/5/9 19:35
+     * @Date 2018/5/9 19:35
      */
     protected abstract void initBeWrapped();
 

@@ -8,7 +8,7 @@ import com.cuiyun.kfcoding.rest.modular.auth.enums.AuthTypeEnum;
  * 认证的请求dto
  *
  * @author maple
- * @Date 2017/8/24 14:00
+ * @Date 2018/8/24 14:00
  */
 public class AuthPasswordRequest implements Credence {
 

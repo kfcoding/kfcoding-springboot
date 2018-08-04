@@ -4,7 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
-import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEum;
+import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEnum;
 import com.cuiyun.kfcoding.rest.modular.course.model.Student;
 
 import java.io.Serializable;
@@ -64,7 +64,7 @@ public class User extends BaseModel<User> implements Serializable{
     /**
      * 角色
      */
-    private RoleEum role;
+    private RoleEnum role;
 
     @TableField(exist = false)
     private Student student;
@@ -77,11 +77,11 @@ public class User extends BaseModel<User> implements Serializable{
         this.student = student;
     }
 
-    public RoleEum getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(RoleEum role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
 

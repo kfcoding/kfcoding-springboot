@@ -7,7 +7,7 @@ import org.springframework.util.Base64Utils;
  * 对数据进行base64编码的方式
  *
  * @author maple
- * @date 2017-09-18 20:43
+ * @date 2018-09-18 20:43
  */
 public class Base64SecurityAction implements DataSecurityAction {
 

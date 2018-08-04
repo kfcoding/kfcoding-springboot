@@ -28,23 +28,6 @@ public class RedisConfig {
     @Value("${spring.redis.timeout}")
     private int timeout;
 
-    // 自定义缓存key生成策略
-//    @Bean
-//    public KeyGenerator keyGenerator() {
-//        return new KeyGenerator(){
-//            @Override
-//            public Object generate(Object target, java.lang.reflect.Method method, Object... params) {
-//                StringBuffer sb = new StringBuffer();
-//                sb.append(target.getClass().getName());
-//                sb.append(method.getName());
-//                for(Object obj:params){
-//                    sb.append(obj.toString());
-//                }
-//                return sb.toString();
-//            }
-//        };
-//    }
-
     //缓存管理器
     @Bean
     public CacheManager cacheManager(@SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
@@ -53,13 +36,7 @@ public class RedisConfig {
         cacheManager.setDefaultExpiration(30 * 60);
         return cacheManager;
     }
-//    @Bean
-//    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory){
-//        StringRedisTemplate template = new StringRedisTemplate(factory);
-//        setSerializer(template);//设置序列化工具
-//        template.afterPropertiesSet();
-//        return template;
-//    }
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();

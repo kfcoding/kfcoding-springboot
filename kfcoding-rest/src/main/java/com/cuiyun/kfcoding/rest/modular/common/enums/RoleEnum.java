@@ -10,13 +10,13 @@ import java.io.Serializable;
  * @author: maple
  * @create: 2018-07-12 15:12
  **/
-public enum RoleEum implements IEnum{
+public enum RoleEnum implements IEnum{
     NORMAL("normal"),
     TEACHER("teacher"),
     STUDENT("student")
     ;
 
-    RoleEum(String value) {
+    RoleEnum(String value) {
         this.value = value;
     }
 

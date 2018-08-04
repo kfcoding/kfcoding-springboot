@@ -1,5 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.book.model;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cuiyun.kfcoding.rest.modular.base.Model.BaseModel;
@@ -35,6 +36,14 @@ public class Kongfu extends BaseModel<Kongfu> {
     private Integer priority;
     @TableField(exist=false)
     private List<Tag> tags = new ArrayList<>();
+
+    @Override
+    public String[] getIgnoreProperties() {
+        String[] properties = super.getIgnoreProperties();
+        String[] addProperties = {"userId", "tags"};
+        ArrayUtil.append(properties, addProperties);
+        return properties;
+    }
 
     public String getTitle() {
         return title;

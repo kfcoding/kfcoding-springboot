@@ -15,7 +15,7 @@ import org.springframework.web.filter.CorsFilter;
  * web配置
  *
  * @author maple
- * @date 2017-08-23 15:48
+ * @date 2018-08-23 15:48
  */
 @Configuration
 public class WebConfig {

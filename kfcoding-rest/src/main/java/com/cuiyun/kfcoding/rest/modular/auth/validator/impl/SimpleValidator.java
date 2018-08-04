@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * 直接验证账号密码是不是admin
  *
  * @author maple
- * @date 2017-08-23 12:34
+ * @date 2018-08-23 12:34
  */
 @Service
 public class SimpleValidator implements IReqValidator {

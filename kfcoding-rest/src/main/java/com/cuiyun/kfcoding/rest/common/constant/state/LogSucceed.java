@@ -4,7 +4,7 @@ package com.cuiyun.kfcoding.rest.common.constant.state;
  * 业务是否成功的日志记录
  *
  * @author maple
- * @Date 2017年1月22日 下午12:14:59
+ * @Date 2018年1月22日 下午12:14:59
  */
 public enum LogSucceed {
 

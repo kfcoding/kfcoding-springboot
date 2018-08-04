@@ -26,7 +26,7 @@ import java.util.HashMap;
  * 请求验证的
  *
  * @author maple
- * @Date 2017/8/24 14:22
+ * @Date 2018/8/24 14:22
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

@@ -4,7 +4,7 @@ package com.cuiyun.kfcoding.rest.common.constant.dictmap.base;
  * 系统相关的字典
  *
  * @author maple
- * @date 2017-05-06 15:48
+ * @date 2018-05-06 15:48
  */
 public class SystemDict extends AbstractDictMap {
 

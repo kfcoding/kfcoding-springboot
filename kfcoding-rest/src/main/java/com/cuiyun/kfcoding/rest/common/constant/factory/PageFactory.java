@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * BootStrap Table默认的分页参数创建
  *
  * @author maple
- * @date 2017-04-05 22:25
+ * @date 2018-04-05 22:25
  */
 public class PageFactory<T> {
 

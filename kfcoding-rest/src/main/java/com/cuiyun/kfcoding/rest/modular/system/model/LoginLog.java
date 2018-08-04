@@ -14,7 +14,7 @@ import java.util.Date;
  * </p>
  *
  * @author stylefeng
- * @since 2017-07-11
+ * @since 2018-07-11
  */
 @TableName("sys_login_log")
 public class LoginLog extends Model<LoginLog> {

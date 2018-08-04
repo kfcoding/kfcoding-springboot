@@ -6,7 +6,7 @@ import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
-import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEum;
+import com.cuiyun.kfcoding.rest.modular.common.enums.RoleEnum;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.service.IUserService;
 import com.cuiyun.kfcoding.rest.modular.course.model.Course;
@@ -71,7 +71,7 @@ public class StudentController extends BaseController {
                 return new ErrorTip(BizExceptionEnum.COURSE_STUDENT_CREATE.getCode(), BizExceptionEnum.COURSE_STUDENT_CREATE.getMessage());
         }
 
-        user.setRole(RoleEum.STUDENT);
+        user.setRole(RoleEnum.STUDENT);
         userService.updateById(user);
         return new SuccessTip();
     }

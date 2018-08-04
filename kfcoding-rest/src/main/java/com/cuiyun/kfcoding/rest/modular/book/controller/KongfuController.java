@@ -1,8 +1,11 @@
 package com.cuiyun.kfcoding.rest.modular.book.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cuiyun.kfcoding.core.base.tips.ErrorTip;
 import com.cuiyun.kfcoding.core.base.tips.SuccessTip;
+import com.cuiyun.kfcoding.core.base.tips.Tip;
 import com.cuiyun.kfcoding.core.exception.KfCodingException;
 import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
 import com.cuiyun.kfcoding.rest.common.annotion.Permission;
@@ -79,11 +82,7 @@ public class KongfuController extends BaseController {
     @ApiOperation(value = "修改课程", notes="")
     @Transactional
     @Permission
-    public SuccessTip update(@RequestBody Kongfu kongfu){
-        User user = getUser();
-        kongfu.setAuthor(user.getName());
-        kongfu.setUserId(user.getId());
-
+    public Tip update(@RequestBody Kongfu kongfu){
         // 删除这个课程和tag的对应关系
         EntityWrapper ew = new EntityWrapper<>();
         ew.eq("kongfu_id", kongfu.getId());
@@ -91,7 +90,12 @@ public class KongfuController extends BaseController {
 
         // 添加这个课程和tag的对应关系
         List<Tag> tags = kongfu.getTags();
-        kongfuService.updateById(kongfu);
+
+        Kongfu targetKongfu = kongfuService.getKongfuById(kongfu.getId());
+        BeanUtil.copyProperties(kongfu, targetKongfu, kongfu.getIgnoreProperties());
+        if (!kongfuService.updateById(targetKongfu)){
+            return new ErrorTip(BizExceptionEnum.BOOK_UPDATE.getCode(), BizExceptionEnum.BOOK_UPDATE.getMessage());
+        }
         List<KongfuToTag> kongfuToTags = setKongfuToTag(tags, kongfu.getId());
         boolean flag = kongfuToTagService.insertBatch(kongfuToTags);
         MAP = new HashMap<>();

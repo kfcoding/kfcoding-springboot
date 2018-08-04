@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 认证的响应结果
  *
  * @author maple
- * @Date 2017/8/24 13:58
+ * @Date 2018/8/24 13:58
  */
 public class AuthResponse implements Serializable {
 
