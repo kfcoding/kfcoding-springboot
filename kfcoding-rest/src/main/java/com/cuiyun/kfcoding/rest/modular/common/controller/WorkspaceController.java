@@ -1,5 +1,6 @@
 package com.cuiyun.kfcoding.rest.modular.common.controller;
 
+import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
@@ -14,6 +15,7 @@ import com.cuiyun.kfcoding.rest.common.annotion.BussinessLog;
 import com.cuiyun.kfcoding.rest.common.annotion.Permission;
 import com.cuiyun.kfcoding.rest.common.exception.BizExceptionEnum;
 import com.cuiyun.kfcoding.rest.modular.base.controller.BaseController;
+import com.cuiyun.kfcoding.rest.modular.common.enums.WorkspaceTypeEnum;
 import com.cuiyun.kfcoding.rest.modular.common.model.User;
 import com.cuiyun.kfcoding.rest.modular.common.model.Workspace;
 import com.cuiyun.kfcoding.rest.modular.common.service.IWorkspaceService;
@@ -23,6 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,11 +59,15 @@ public class WorkspaceController extends BaseController {
     @Value("${kfcoding.workspace.startUrl}")
     private String startUrl;
 
+    @Value("${kfcoding.workspace.keepUrl}}")
+    private String keepUrl;
+
     @Autowired
     IWorkspaceService workspaceService;
 
     @Autowired
     ISubmissionService submissionService;
+
 
     @ResponseBody
     @BussinessLog(value = "创建工作空间")
@@ -78,6 +85,18 @@ public class WorkspaceController extends BaseController {
         }
     }
 
+    private HttpRequest initHttp(String url , HttpMethod method) {
+        String encoding = Base64Encoder.encode("admin:admin");
+        if (method == HttpMethod.POST) {
+            return HttpRequest.post(url).header(Header.CONTENT_TYPE, "application/json").header("Authorization", "Basic " + encoding);
+        } else if (method == HttpMethod.GET) {
+            return HttpRequest.get(url).header(Header.CONTENT_TYPE, "application/json").header("Authorization", "Basic " + encoding);
+        } else if (method == HttpMethod.DELETE) {
+            return HttpRequest.delete(url).header(Header.CONTENT_TYPE, "application/json").header("Authorization", "Basic " + encoding);
+        }
+        return null;
+    }
+
     public Workspace createWorkSpace(Workspace workspace) throws UnsupportedEncodingException {
         User user = getUser();
         workspace.setUserId(user.getId());
@@ -91,18 +110,25 @@ public class WorkspaceController extends BaseController {
 //        String result = httpResult.getResult();
 //        String url
         System.err.println(JSON.toJSONString(params));
-        String result = HttpRequest.post(createUrl).header(Header.CONTENT_TYPE, "application/json").body(JSON.toJSONString(params)).execute().body();
+        String result = this.initHttp(createUrl, HttpMethod.POST).body(JSON.toJSONString(params)).execute().body();
         Map resultMap = JSON.parseObject(result);
         if (resultMap.containsKey("error")){
             System.out.println(resultMap.get("error"));
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_SERVER);
         }
-        workspace.setContainerName((String) resultMap.get("data"));
-        if (workspaceService.insert(workspace)) {
-            return workspace;
+
+        // 若类型是ternimal不插入数据库
+        if (workspace.getType().equals(WorkspaceTypeEnum.TERMINAL.getValue())){
+            Map data = (Map) resultMap.get("data");
+            workspace.setContainerName((String) data.get("name"));
+            workspace.setWsaddr((String) data.get("url"));
         } else {
-            return null;
+            workspace.setContainerName((String) resultMap.get("data"));
+            if (!workspaceService.insert(workspace)) {
+                throw new KfCodingException(BizExceptionEnum.WORKSPACE_CREATE_ERROR);
+            }
         }
+        return workspace;
     }
 
 
@@ -131,19 +157,21 @@ public class WorkspaceController extends BaseController {
 //            Map params = new HashMap();
 //            params.put("name", workspace.getContainerName());
             String url = this.startUrl + workspace.getContainerName() + "/" + workspace.getType();
-            String result = HttpRequest.get(url).execute().body();
+            String result = initHttp(url, HttpMethod.GET).execute().body();
             Map resultMap = (Map) JSON.parse(result);
             if (resultMap.containsKey("error"))
                 return new ErrorTip(BizExceptionEnum.WORKSPACE_SERVER.getCode(), BizExceptionEnum.WORKSPACE_SERVER.getMessage());
 //            StringBuffer sb = new StringBuffer();
 //            sb.append("http://").append(workspace.getContainerName()).append(".workspace.cloudwarehub.com");
-            MAP.put("socketAddr", (String) resultMap.get("url"));
+            workspace.setWsaddr(resultMap.get("data"));
+            MAP.put("workspace", workspace);
             SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_NULL);
         }
     }
+
     @ResponseBody
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "工作空间", notes = "获取工作空间")
@@ -182,12 +210,25 @@ public class WorkspaceController extends BaseController {
 //        param.put("name", id);
 //        HttpKit.post(deleteUrl, param);
         String url = this.deleteUrl + workspace.getContainerName() + "/" + workspace.getType();
-        HttpResponse httpResponse =  HttpRequest.delete(url).execute();
+        HttpResponse httpResponse =  initHttp(url, HttpMethod.DELETE).execute();
         if (httpResponse.getStatus() != HttpStatus.HTTP_OK) {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_DELETE);
         }
         SUCCESSTIP = new SuccessTip();
         return SUCCESSTIP;
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/keep", method = RequestMethod.DELETE)
+    @ApiOperation(value = "心跳", notes = "")
+    @Permission
+    public Tip keep(@RequestParam String containerName , @RequestParam String type) {
+        String url = this.keepUrl + containerName + "/" + type;
+        String result = initHttp(url, HttpMethod.GET).execute().body();
+        Map resultMap = (Map) JSON.parse(result);
+        if (resultMap.containsKey("error"))
+            return new ErrorTip(BizExceptionEnum.WORKSPACE_SERVER.getCode(), BizExceptionEnum.WORKSPACE_SERVER.getMessage());
+        return new SuccessTip();
     }
 
 }

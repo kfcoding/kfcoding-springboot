@@ -30,6 +30,16 @@ public class Workspace extends BaseModel<Workspace> {
     private String release;
     private String repo;
     private String type;
+    @TableField(exist = false)
+    private Object wsaddr;
+
+    public Object getWsaddr() {
+        return wsaddr;
+    }
+
+    public void setWsaddr(Object wsaddr) {
+        this.wsaddr = wsaddr;
+    }
 
     public String getType() {
         return type;
