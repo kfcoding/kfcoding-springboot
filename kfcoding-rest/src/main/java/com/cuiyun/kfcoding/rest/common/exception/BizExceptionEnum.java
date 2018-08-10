@@ -71,6 +71,7 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     WORKSPACE_NULL(802, "工作空间不存在"),
     WORKSPACE_DELETE(803, "删除失败"),
     WORKSPACE_SERVER(804, "workspace API异常"),
+    WORKSPACE_TYPE(804, "workspace Type类型不正确"),
     /**
      * course模块异常
      */

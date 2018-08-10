@@ -59,7 +59,7 @@ public class WorkspaceController extends BaseController {
     @Value("${kfcoding.workspace.startUrl}")
     private String startUrl;
 
-    @Value("${kfcoding.workspace.keepUrl}}")
+    @Value("${kfcoding.workspace.keepUrl}")
     private String keepUrl;
 
     @Autowired
@@ -77,12 +77,40 @@ public class WorkspaceController extends BaseController {
     public Tip create(@RequestBody Workspace workspace) throws UnsupportedEncodingException {
         Workspace targetWorkspace = createWorkSpace(workspace);
         if (targetWorkspace != null) {
+            MAP = new HashMap<>();
             MAP.put("workspace", targetWorkspace);
             SUCCESSTIP.setResult(MAP);
             return SUCCESSTIP;
         } else {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_CREATE_ERROR);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/terminal" ,method = RequestMethod.POST)
+    @ApiOperation(value = "创建terminal工作空间工作空间", notes = "创建terminal工作空间")
+    public Tip createTerminal(@RequestBody Workspace workspace) throws UnsupportedEncodingException {
+        Map params = new HashMap();
+        params.put("image", workspace.getImage());
+        params.put("type", workspace.getType());
+
+        String result = this.initHttp(createUrl, HttpMethod.POST).body(JSON.toJSONString(params)).execute().body();
+        Map resultMap = JSON.parseObject(result);
+        if (resultMap.containsKey("error")){
+            System.out.println(resultMap.get("error"));
+            throw new KfCodingException(BizExceptionEnum.WORKSPACE_SERVER);
+        }
+        // 若类型是ternimal不插入数据库
+        if (workspace.getType().equals(WorkspaceTypeEnum.TERMINAL.getValue())) {
+            Map data = (Map) resultMap.get("data");
+            workspace.setContainerName((String) data.get("name"));
+            workspace.setWsaddr((String) data.get("url"));
+        } else
+            throw new KfCodingException(BizExceptionEnum.WORKSPACE_TYPE);
+        MAP = new HashMap<>();
+        MAP.put("workspace", workspace);
+        SUCCESSTIP.setResult(MAP);
+        return SUCCESSTIP;
     }
 
     private HttpRequest initHttp(String url , HttpMethod method) {
@@ -98,10 +126,6 @@ public class WorkspaceController extends BaseController {
     }
 
     public Workspace createWorkSpace(Workspace workspace) throws UnsupportedEncodingException {
-        User user = getUser();
-        workspace.setUserId(user.getId());
-        workspace.setCreateTime(new Date());
-        workspace.setRelease(workSpaceRelease);
 
         Map params = new HashMap();
         params.put("image", workspace.getImage());
@@ -119,10 +143,12 @@ public class WorkspaceController extends BaseController {
 
         // 若类型是ternimal不插入数据库
         if (workspace.getType().equals(WorkspaceTypeEnum.TERMINAL.getValue())){
-            Map data = (Map) resultMap.get("data");
-            workspace.setContainerName((String) data.get("name"));
-            workspace.setWsaddr((String) data.get("url"));
+            throw new KfCodingException(BizExceptionEnum.WORKSPACE_TYPE);
         } else {
+            User user = getUser();
+            workspace.setUserId(user.getId());
+            workspace.setCreateTime(new Date());
+            workspace.setRelease(workSpaceRelease);
             workspace.setContainerName((String) resultMap.get("data"));
             if (!workspaceService.insert(workspace)) {
                 throw new KfCodingException(BizExceptionEnum.WORKSPACE_CREATE_ERROR);
@@ -152,6 +178,7 @@ public class WorkspaceController extends BaseController {
     @RequestMapping(path = "/{id}/start", method = RequestMethod.GET)
     @ApiOperation(value = "开启工作空间", notes = "开启工作空间")
     public Tip start(@PathVariable String id) {
+        MAP = new HashMap<>();
         Workspace workspace = workspaceService.selectById(id);
         if (workspace != null) {
 //            Map params = new HashMap();
@@ -164,22 +191,6 @@ public class WorkspaceController extends BaseController {
 //            StringBuffer sb = new StringBuffer();
 //            sb.append("http://").append(workspace.getContainerName()).append(".workspace.cloudwarehub.com");
             workspace.setWsaddr(resultMap.get("data"));
-            MAP.put("workspace", workspace);
-            SUCCESSTIP.setResult(MAP);
-            return SUCCESSTIP;
-        } else {
-            throw new KfCodingException(BizExceptionEnum.WORKSPACE_NULL);
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    @ApiOperation(value = "工作空间", notes = "获取工作空间")
-    public SuccessTip create(@PathVariable String id) {
-        Workspace workspace = workspaceService.selectById(id);
-        MAP = new HashMap<>();
-        SUCCESSTIP = new SuccessTip();
-        if (workspace != null) {
             Submission submission = submissionService.selectOne(new EntityWrapper<Submission>().eq("workspace_id", id));
             if (submission != null){
                 MAP.put("submission", submission);
@@ -191,8 +202,6 @@ public class WorkspaceController extends BaseController {
             throw new KfCodingException(BizExceptionEnum.WORKSPACE_NULL);
         }
     }
-
-
 
     @ResponseBody
     @BussinessLog(value = "删除工作空间")
@@ -219,7 +228,7 @@ public class WorkspaceController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(path = "/keep", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/keep", method = RequestMethod.GET)
     @ApiOperation(value = "心跳", notes = "")
     @Permission
     public Tip keep(@RequestParam String containerName , @RequestParam String type) {
@@ -229,6 +238,26 @@ public class WorkspaceController extends BaseController {
         if (resultMap.containsKey("error"))
             return new ErrorTip(BizExceptionEnum.WORKSPACE_SERVER.getCode(), BizExceptionEnum.WORKSPACE_SERVER.getMessage());
         return new SuccessTip();
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "工作空间", notes = "获取工作空间")
+    public SuccessTip create(@PathVariable String id) {
+        Workspace workspace = workspaceService.selectById(id);
+        MAP = new HashMap<>();
+        SUCCESSTIP = new SuccessTip();
+        if (workspace != null) {
+            Submission submission = submissionService.selectOne(new EntityWrapper<Submission>().eq("workspace_id", id));
+            if (submission != null){
+                MAP.put("submission", submission);
+            }
+            MAP.put("workspace", workspace);
+            SUCCESSTIP.setResult(MAP);
+            return SUCCESSTIP;
+        } else {
+            throw new KfCodingException(BizExceptionEnum.WORKSPACE_NULL);
+        }
     }
 
 }
